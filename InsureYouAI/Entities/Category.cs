@@ -4,6 +4,6 @@
     {
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public IList<Article> Articles { get; set; }
+        public virtual IList<Article> Articles { get; set; }
     }
 }

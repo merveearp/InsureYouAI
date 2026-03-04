@@ -1,0 +1,54 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Kategori Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0 fw-bold text-primary">
+                📂 Kategori Güncelleme Sayfası
+            </h5>
+        </div>
+
+        <form method="post">
+            <input type="hidden" asp-for="CategoryId"/>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    Kategori Adı
+                </label>
+
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-tag"></i>
+                    </span>
+                    <input type="text"
+                           asp-for="CategoryName"
+                           class="form-control"
+                           placeholder="Örn: Sağlık Sigortası"
+                           required />
+                </div>
+
+                <small class="text-muted">
+                    Kategori adını açık ve anlaşılır şekilde giriniz.
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-start gap-2">
+                <a href="/Admin/Category/CategoryList"
+                   class="btn btn-outline-danger">
+                    Vazgeç
+                </a>
+
+                <button class="btn btn-outline-success px-4">
+                    Güncelle
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
