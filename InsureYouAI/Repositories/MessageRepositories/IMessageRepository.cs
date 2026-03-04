@@ -5,5 +5,7 @@ namespace InsureYouAI.Repositories.MessageRepositories
 {
     public interface IMessageRepository :IRepository<Message>
     {
+        Task GetReadMessage(int id);
+      
     }
 }

@@ -35,9 +35,9 @@ namespace InsureYouAI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var value = _repository.GetByIdAsync(id);
+            var value = await _repository.GetByIdAsync(id);
             return View(value);
         }
 

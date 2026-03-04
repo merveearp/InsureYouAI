@@ -5,7 +5,7 @@ namespace InsureYouAI.Repositories.GenericRepository
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        private readonly InsureContext _context;
+        protected readonly InsureContext _context;
 
         public GenericRepository(InsureContext context)
         {

@@ -1,0 +1,59 @@
+﻿@model AboutItem
+
+@{
+    ViewData["Title"] = "Hakkımda Maddesi Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0 fw-bold text-primary">
+                ✏️ Hakkımda Maddesi Güncelle
+            </h5>
+        </div>
+
+        <form method="post">
+
+            <input type="hidden" asp-for="AboutItemId" />
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    Hakkımda Maddesi
+                </label>
+
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        <i class="bi bi-check-circle"></i>
+                    </span>
+
+                    <input type="text"
+                           asp-for="Detail"
+                           class="form-control"
+                           placeholder="Örn: 10+ Yıllık Yazılım Deneyimi"
+                           required />
+                </div>
+
+                <small class="text-muted">
+                    Hakkımda bölümünde listelenecek kısa bilgiyi güncelleyebilirsiniz.
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-start gap-2">
+
+                <a href="/Admin/AboutItem/AboutItemList"
+                   class="btn btn-outline-danger">
+                    Vazgeç
+                </a>
+
+                <button class="btn btn-outline-success px-4">
+                    Güncelle
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
