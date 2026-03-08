@@ -15,7 +15,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
             _repository = repository;
         }
 
-        public async Task<IActionResult> testimonialList()
+        public async Task<IActionResult> TestimonialList()
         {
             var values = await _repository.GetAllAsync();
             return View(values);
@@ -31,13 +31,13 @@ namespace InsureYouAI.Areas.Admin.Controllers
         public async Task<IActionResult> Create(Testimonial testimonial)
         {
             await _repository.CreateAsync(testimonial);
-            return RedirectToAction("testimonialList");
+            return RedirectToAction("TestimonialList");
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var value = _repository.GetByIdAsync(id);
+            var value = await _repository.GetByIdAsync(id);
             return View(value);
         }
 
@@ -46,13 +46,13 @@ namespace InsureYouAI.Areas.Admin.Controllers
         {
 
             await _repository.UpdateAsync(testimonial);
-            return RedirectToAction("testimonialList");
+            return RedirectToAction("TestimonialList");
 
         }
         public async Task<IActionResult> Delete(int id)
         {
             await _repository.DeleteAsync(id);
-            return RedirectToAction("testimonialList");
+            return RedirectToAction("TestimonialList");
         }
     }
 }

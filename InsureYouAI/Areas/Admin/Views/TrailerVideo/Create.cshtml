@@ -1,0 +1,68 @@
+﻿@model TrailerVideo
+
+@{
+    ViewData["Title"] = "Yeni Tanıtım Videosu";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body">
+
+        <h5 class="fw-bold text-primary mb-4">
+            🎬 Yeni Tanıtım Videosu Ekle
+        </h5>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <label class="form-label">Başlık</label>
+                <input type="text" asp-for="Title" class="form-control" placeholder="Video başlığını giriniz..." />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Kapak Görseli Url</label>
+                <input type="text" asp-for="CoverImageUrl" class="form-control" id="imageInput" placeholder="/images/cover2.webp" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Görsel Önizleme</label>
+                <div>
+                    <img id="imagePreview"
+                         src=""
+                         style="width:260px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #ddd;display:none;" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Video Url</label>
+                <input type="text" asp-for="VideoUrl" class="form-control" placeholder="https://www.youtube.com/watch?v=..." />
+            </div>
+
+            <button class="btn btn-primary">
+                Ekle
+            </button>
+
+            <a href="/Admin/TrailerVideo/TrailerVideoList" class="btn btn-outline-secondary">
+                Geri Dön
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("imagePreview");
+
+    input.addEventListener("input", function () {
+        const url = this.value;
+
+        if (url) {
+            preview.src = url;
+            preview.style.display = "block";
+        } else {
+            preview.style.display = "none";
+        }
+    });
+</script>

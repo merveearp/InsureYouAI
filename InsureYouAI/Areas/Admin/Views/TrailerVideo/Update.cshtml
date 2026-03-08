@@ -1,0 +1,77 @@
+﻿@model TrailerVideo
+
+@{
+    ViewData["Title"] = "Tanıtım Güncelle";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow-sm border-0 rounded-3">
+    <div class="card-body">
+
+        <h5 class="fw-bold text-warning mb-4">
+            🎬 Tanıtım Videosu Güncelle
+        </h5>
+
+        <form method="post">
+
+            <input type="hidden" asp-for="TrailerVideoId" />
+
+            <div class="mb-3">
+                <label class="form-label">Başlık</label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Kapak Görseli Url</label>
+                <input type="text"
+                       asp-for="CoverImageUrl"
+                       class="form-control"
+                       id="imageInput" />
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">Görsel Önizleme</label>
+
+                <div>
+                    <img id="imagePreview"
+                         src="@Model.CoverImageUrl"
+                         style="width:260px;height:150px;object-fit:cover;border-radius:8px;border:1px solid #ddd;" />
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Video Url</label>
+                <input type="text" asp-for="VideoUrl" class="form-control" />
+            </div>
+
+            <button class="btn btn-warning">
+                Güncelle
+            </button>
+
+            <a href="/Admin/TrailerVideo/TrailerVideoList" class="btn btn-outline-secondary">
+                Geri Dön
+            </a>
+
+        </form>
+
+    </div>
+</div>
+
+<script>
+
+    const input = document.getElementById("imageInput");
+    const preview = document.getElementById("imagePreview");
+
+    input.addEventListener("input", function () {
+
+        const url = this.value;
+
+        if (url) {
+            preview.src = url;
+        }
+
+    });
+
+</script>

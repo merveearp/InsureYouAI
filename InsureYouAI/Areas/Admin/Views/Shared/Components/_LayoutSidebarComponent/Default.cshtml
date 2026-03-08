@@ -1,8 +1,4 @@
-﻿
-@*
-   _LayoutSidebarComponent
-*@
-
+﻿@* _LayoutSidebarComponent *@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
@@ -15,16 +11,93 @@
             <i class="bi bi-list"></i>
         </div>
     </div>
+
     <ul class="metismenu" id="menu">
+
+        <li>
+            <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank">
+                <div class="parent-icon"><i class="bi bi-house-door-fill"></i></div>
+                <div class="menu-title">Siteye Git</div>
+            </a>
+        </li>
+
+        <li>
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <div class="parent-icon"><i class="bi bi-speedometer2"></i></div>
+                <div class="menu-title">Dashboard</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="" asp-action="">
+                <div class="parent-icon"><i class="bi-chat-dots"></i></div>
+                <div class="menu-title">AI CHAT</div>
+            </a>
+        </li>
         <li>
             <a asp-area="Admin" asp-controller="Category" asp-action="CategoryList">
-                <div class="parent-icon">
-                    <i class="bi bi-tags-fill"></i>
-                </div>
+                <div class="parent-icon"><i class="bi bi-tags-fill"></i></div>
                 <div class="menu-title">Kategoriler</div>
             </a>
         </li>
-       
+        <li>
+            <a asp-area="Admin" asp-controller="Service" asp-action="ServiceList">
+                <div class="parent-icon"><i class="bi bi-briefcase-fill"></i></div>
+                <div class="menu-title">Hizmetler</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Plan" asp-action="PlanList">
+                <div class="parent-icon"><i class="bi bi-calendar-check-fill"></i></div>
+                <div class="menu-title">Planlar</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="PricingPlan" asp-action="PricingPlanList">
+                <div class="parent-icon"><i class="bi bi-currency-dollar"></i></div>
+                <div class="menu-title">Fiyat Planları</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Slider" asp-action="SliderList">
+                <div class="parent-icon"><i class="bi bi-sliders"></i></div>
+                <div class="menu-title">Slider</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="TrailerVideo" asp-action="TrailerVideoList">
+                <div class="parent-icon"><i class="bi bi-play-circle-fill"></i></div>
+                <div class="menu-title">Tanıtım Video</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Testimonial" asp-action="TestimonialList">
+                <div class="parent-icon"><i class="bi bi-chat-dots-fill"></i></div>
+                <div class="menu-title">Referanslar</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Contact" asp-action="ContactList">
+                <div class="parent-icon"><i class="bi bi-envelope-fill"></i></div>
+                <div class="menu-title">İletişim</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Message" asp-action="MessageList">
+                <div class="parent-icon"><i class="bi bi-chat-fill"></i></div>
+                <div class="menu-title">Mesajlar</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="Article" asp-action="ArticleList">
+                <div class="parent-icon"><i class="bi bi-file-text-fill"></i></div>
+                <div class="menu-title">Makaleler</div>
+            </a>
+        </li>
+        <li>
+            <a asp-area="Admin" asp-controller="About" asp-action="AboutList">
+                <div class="parent-icon"><i class="bi bi-info-circle-fill"></i></div>
+                <div class="menu-title">Hakkımızda</div>
+            </a>
+        </li>
     </ul>
-
 </aside>
