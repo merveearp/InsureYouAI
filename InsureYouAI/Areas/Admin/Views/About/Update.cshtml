@@ -109,42 +109,37 @@
 
     </div>
 </div>
-
 <script>
-           document.getElementById("generateAI").addEventListener("click", function () {
+
+    document.getElementById("generateAI").onclick = function () {
 
         const btn = this;
-        btn.innerText = "Oluşturuluyor...";
+
+        btn.innerText = "AI içerik hazırlanıyor...";
         btn.disabled = true;
 
-        fetch("/Admin/About/GenerateAbout")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Sunucu hatası");
-                }
-                return response.json();
-            })
+        fetch('/Admin/About/GenerateAbout')
+            .then(res => res.json())
             .then(data => {
 
-                document.querySelector("[name='Title']").value = data.title;
-                document.querySelector("[name='Description']").value = data.description;
+                document.getElementById("Title").value = data.title;
+                document.getElementById("Description").value = data.description;
 
-                btn.innerText = "✨ AI ile Güncelle";
+                btn.innerText = "🔄 Tekrar Üret";
                 btn.disabled = false;
 
             })
-            .catch(error => {
+            .catch(() => {
 
-                console.error(error);
-
-                btn.innerText = "✨ AI ile Güncelle";
+                btn.innerText = "✨ AI ile İçerik Üret";
                 btn.disabled = false;
 
                 alert("AI içerik oluşturulamadı.");
 
             });
 
-    });
+    };
+
 </script>
 
 <script>

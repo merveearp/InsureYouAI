@@ -60,11 +60,15 @@ namespace InsureYouAI.Areas.Admin.Controllers
             await _repository.DeleteAsync(id);
             return RedirectToAction("AboutList");
         }
+        [HttpGet]
         public async Task<IActionResult> GenerateAbout()
         {
-            var aiResult = await _geminiService.CreateAboutText();
-            return Json(aiResult);
+            
+            var result = await _geminiService.CreateAboutText();
+            return Json(result);
+            
         }
+
 
     }
 }

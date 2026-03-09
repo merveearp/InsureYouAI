@@ -1,6 +1,7 @@
 ﻿using InsureYouAI.DTOs.GeminiDtos;
 using System.Text;
 using System.Text.Json;
+using System.Linq;
 
 namespace InsureYouAI.Services.GeminiServices
 {
@@ -19,23 +20,30 @@ namespace InsureYouAI.Services.GeminiServices
         {
             var apiKey = _configuration["Gemini:GeminiKey"];
 
-            var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={apiKey}";
+            var model = "gemini-1.5-flash";
 
-            var prompt = @"
-Bir sigorta danışmanlık şirketi için profesyonel bir 'Hakkımızda' içeriği oluştur.
+            var url = $"https://generativelanguage.googleapis.com/v1/models/{model}:generateContent?key={apiKey}";
 
-Kurallar:
-- Kurumsal ve güven veren bir dil kullan
-- Açıklama minimum 300 kelime olsun
-- Başlık minimum 3 kelime olsun
+            var prompt = @"Sen profesyonel bir sigorta sektörü içerik yazarı ve SEO uzmanısın.
 
-SADECE aşağıdaki JSON formatında cevap ver.
+                Bir sigorta danışmanlık platformu için kurumsal içerik üret.
 
-{
-  ""title"": ""string"",
-  ""description"": ""string""
-}";
+                Kurallar:
+                - Başlık SADECE başlık olsun
+                - Başlıkta 'Hakkımızda' kelimesi geçmesin
+                - Başlık maksimum 6 kelime olsun
+                - Açıklama 120-150 kelime arasında olsun
+                - Kurumsal ve güven veren dil kullan
+                - Sigorta danışmanlığı, müşteri güveni ve uzmanlık vurgulansın
+                - SEO uyumlu yaz
 
+                SADECE JSON döndür.
+                Markdown kullanma.
+
+                {
+                ""title"":""string"",
+                ""description"":""string""
+                }";
             var requestBody = new
             {
                 contents = new[]
@@ -51,18 +59,16 @@ SADECE aşağıdaki JSON formatında cevap ver.
             };
 
             var json = JsonSerializer.Serialize(requestBody);
-
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(url, content);
+            var responseString = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Gemini API Hatası: {error}");
+                Console.WriteLine(responseString);
+                throw new Exception(responseString);
             }
-
-            var responseString = await response.Content.ReadAsStringAsync();
 
             var jsonResponse = JsonDocument.Parse(responseString);
 
@@ -74,18 +80,9 @@ SADECE aşağıdaki JSON formatında cevap ver.
                 .GetProperty("text")
                 .GetString();
 
-            aiText = aiText
-                .Replace("```json", "")
-                .Replace("```", "")
-                .Trim();
-
-            if (string.IsNullOrWhiteSpace(aiText))
-            {
-                throw new Exception("Gemini boş cevap döndürdü.");
-            }
+            aiText = aiText.Replace("```json", "").Replace("```", "").Trim();
 
             var result = JsonSerializer.Deserialize<GeminiAboutDto>(aiText);
-
             return result;
         }
     }
