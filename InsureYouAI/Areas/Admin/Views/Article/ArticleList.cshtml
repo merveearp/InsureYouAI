@@ -27,7 +27,6 @@
                         <th>Kapak</th>
                         <th>Başlık</th>
                         <th>Kategori</th>
-                        <th>İçerik</th>
                         <th>Tarih</th>
                         <th style="width:220px">İşlemler</th>
                     </tr>
@@ -54,14 +53,9 @@
                                 </td>
 
                                 <td>
-                                    @item.Category?.CategoryName
+                                    @item.Category.CategoryName
                                 </td>
 
-                                <td>
-                                    @(item.Content.Length > 80
-                                                                ? item.Content.Substring(0, 80) + "..." 
-                                                                                        : item.Content)
-                                </td>
 
                                 <td>
                                     @item.CreatedDate.ToString("dd.MM.yyyy")

@@ -1,8 +1,72 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "AI ile Makale Oluştur";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Open AI ile Yapay Zeka Destekli Makale Oluştur</h1>
+<div class="card shadow-sm border-0 rounded-3">
 
+    <div class="card-body">
+
+        <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-robot fs-4 me-2 text-primary"></i>
+            <h5 class="mb-0">Yapay Zeka ile Makale Oluştur</h5>
+        </div>
+
+        <p class="text-muted">
+            Makale konusu, kısa açıklama veya anahtar kelimeleri girerek yapay zekadan makale oluşturabilirsiniz.
+        </p>
+
+        <form method="post">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">
+                    Makale Konusu / Anahtar Kelimeler
+                </label>
+
+                <textarea name="prompt"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Örnek: Yurtdışı sigorta..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-stars me-1"></i>
+                AI ile Makale Oluştur
+            </button>
+
+        </form>
+
+        @if (ViewBag.article != null)
+        {
+            <hr />
+
+            <div class="mt-4">
+                <h5 class="mb-3">
+                    <i class="bi bi-file-earmark-text me-1 text-success"></i>
+                    Oluşturulan Makale
+                </h5>
+                <div class="d-flex justify-content-end mb-2">
+                    <button class="btn btn-outline-primary btn-sm" id="copyArticleBtn">
+                        <i class="bi bi-clipboard me-1"></i> Kopyala
+                    </button>
+                </div>
+                <div id ="articleDiv" class="p-3 border rounded bg-light">
+                    @Html.Raw(ViewBag.article.ToString())
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var btn = document.getElementById("copyArticleBtn");
+        var article = document.getElementById("articleDiv");
+
+        btn.addEventListener("click", function() {
+            navigator.clipboard.writeText(article.innerText);
+            alert("Makale kopyalandı!"); 
+        });
+    });
+</script>

@@ -1,6 +1,8 @@
-﻿using InsureYouAI.Entities;
+﻿using InsureYouAI.DTOs.OpenAIDtos;
+using InsureYouAI.Entities;
 using InsureYouAI.Repositories.ArticleRepositories;
 using InsureYouAI.Repositories.CategoryRepositories;
+using InsureYouAI.Services.OpenAIServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,12 +14,14 @@ namespace InsureYouAI.Areas.Admin.Controllers
     {
         private readonly IArticleRepository _repository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IOpenAIService _openAIService;
 
 
-        public ArticleController(IArticleRepository repository, ICategoryRepository categoryRepository)
+        public ArticleController(IArticleRepository repository, ICategoryRepository categoryRepository, IOpenAIService openAIService)
         {
             _repository = repository;
             _categoryRepository = categoryRepository;
+            _openAIService = openAIService;
         }
 
         private async Task GetCategories()
@@ -38,8 +42,9 @@ namespace InsureYouAI.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await GetCategories();
             return View();
         }
 
@@ -47,8 +52,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
         public async Task<IActionResult> Create(Article article)
         {
             await GetCategories();
-            await _repository.CreateAsync(article);
             article.CreatedDate = DateTime.Now;
+            await _repository.CreateAsync(article);
             return RedirectToAction("ArticleList");
         }
 
@@ -64,9 +69,21 @@ namespace InsureYouAI.Areas.Admin.Controllers
         public async Task<IActionResult> Update(Article article)
         {
             await GetCategories();
-            await _repository.UpdateAsync(article);
-            return RedirectToAction("ArticleList");
 
+           
+            var existing = await _repository.GetByIdAsync(article.ArticleId);
+
+            if (existing == null) return NotFound();
+
+          
+            existing.Title = article.Title;
+            existing.Content = article.Content;
+            existing.CategoryId = article.CategoryId;
+            existing.MainCoverImageUrl = article.MainCoverImageUrl;
+            existing.CoverImageUrl = article.CoverImageUrl;
+
+            await _repository.UpdateAsync(existing);
+            return RedirectToAction("ArticleList");
         }
         public async Task<IActionResult> Delete(int id)
         {
@@ -83,47 +100,12 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateArticleWithOpenAI(string prompt)
         {
-            var apiKey = "";
-            using var client = new HttpClient();
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
-            var requesData = new
-            {
-                model = "gbt-3.5-turbo",
-                messages = new[]
-                {
-                    new {role ="system",content ="Sen bir sigorta şirketi için çalışna ,içerik yazarlığı yapan bir yapayzekasın.Kullanıcının verdiği özet ve anahtar kelimelere göre sigortacılık sektörüyle ilgili makale üret .En az 1000 karakter olsun"},
-                    new {role="user",content=prompt}
-                },
-                temperature = 0.7
+            var article = await _openAIService.CreateArticleWithAI(prompt);
 
-            };
-            var response = await client.PostAsJsonAsync("https://api.openai.com/v1/chat/completions", requesData);
+            ViewBag.article = article;
 
-            if(response.IsSuccessStatusCode)
-            {
-                var result = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
-                var content = result.choices[0].message.content;
-                ViewBag.article = content;
-            }
-            else
-            {
-                ViewBag.article = "Bir HATA oluştu:"+response.StatusCode;
-            }
             return View();
         }
-        public class OpenAIResponse
-        {
-            public List<Choice> choices { get; set; }
-
-        }
-        public class Choice
-        {
-            public Message message { get; set; }
-        }
-        public class Message
-        {
-            public string role { get; set; }
-            public string content { get; set; }
-        }
+       
     }
 }

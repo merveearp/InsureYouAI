@@ -2,6 +2,7 @@
 using InsureYouAI.Entities;
 
 using InsureYouAI.Repositories.AboutRepositories;
+using InsureYouAI.Services.GeminiServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.Areas.Admin.Controllers
@@ -12,10 +13,12 @@ namespace InsureYouAI.Areas.Admin.Controllers
     {
 
         private readonly IAboutRepository _repository;
+        private readonly IGeminiService _geminiService;
 
-        public AboutController(IAboutRepository repository)
+        public AboutController(IAboutRepository repository, IGeminiService geminiService)
         {
             _repository = repository;
+            _geminiService = geminiService;
         }
 
         public async Task<IActionResult> AboutList()
@@ -57,6 +60,12 @@ namespace InsureYouAI.Areas.Admin.Controllers
             await _repository.DeleteAsync(id);
             return RedirectToAction("AboutList");
         }
+        public async Task<IActionResult> GenerateAbout()
+        {
+            var aiResult = await _geminiService.CreateAboutText();
+            return Json(aiResult);
+        }
+
     }
 }
 

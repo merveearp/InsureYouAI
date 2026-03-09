@@ -13,6 +13,10 @@
             </h5>
         </div>
 
+        <button type="button" id="generateAI" class="btn btn-primary">
+            ✨ AI ile Hakkımızda Oluştur
+        </button>
+
         <form method="post">
 
             <div class="mb-3">
@@ -98,6 +102,45 @@
 
     </div>
 </div>
+
+<script>
+       document.getElementById("generateAI").addEventListener("click", function () {
+
+        const btn = this;
+
+        btn.innerText = "Oluşturuluyor...";
+        btn.disabled = true;
+
+        fetch('@Url.Action("GenerateAbout", "About", new { area = "Admin" })')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Sunucu hatası");
+                }
+                return response.json();
+            })
+            .then(data => {
+
+                document.querySelector("[name='Title']").value = data.title;
+                document.querySelector("[name='Description']").value = data.description;
+
+                btn.innerText = "✨ AI ile Hakkımızda Oluştur";
+                btn.disabled = false;
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                btn.innerText = "✨ AI ile Hakkımızda Oluştur";
+                btn.disabled = false;
+
+                alert("AI içerik oluşturulamadı.");
+
+            });
+
+    });
+</script>
+
 <script>
 
     const imageInput = document.getElementById("imageUrlInput");
