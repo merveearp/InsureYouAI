@@ -5,5 +5,6 @@ namespace InsureYouAI.Services.GeminiServices
     public interface IGeminiService
     {
         Task<GeminiAboutDto> CreateAboutText();
+        Task<GeminiAboutItemDto> CreateAboutItem();
     }
 }

@@ -1,0 +1,99 @@
+﻿@model List<Slider>
+
+<style>
+    .slider-desc {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        background: #ffffff;
+        padding: 18px 22px;
+        border-radius: 10px;
+        font-size: 16px;
+        line-height: 1.7;
+        color: #222 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        margin-top: 15px;
+    }
+
+    .slider-image img {
+        width: 100%;
+        max-height: 420px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+</style>
+
+<section id="parallax" class="slider-area fix p-relative">
+
+    <div class="slider-shape ss-one layer" data-depth="0.10">
+        <img src="~/insureyou/img/bg/slider_shape01.png">
+    </div>
+
+    <div class="slider-active" style="background:#fff; padding:80px 0;">
+
+        @foreach (var item in Model)
+        {
+            <div class="single-slider">
+
+                <div class="container">
+
+                    <div class="row align-items-center">
+
+                      
+                        <div class="col-lg-6">
+
+                            <div class="slider-content">
+
+                                <h5>
+                                    Hoş Geldiniz <span>InsureYouAI</span>
+                                </h5>
+
+                                <h2>
+                                    @item.Title
+                                </h2>
+
+                                <p class="slider-desc">
+                                    @item.Description
+                                </p>
+
+                                <div class="slider-btn mt-30">
+
+                                    <a href="/Contact/Index"
+                                       class="btn ss-btn mr-15">
+                                        Hemen Teklif Al
+                                    </a>
+
+                                    <a href="/About/Index"
+                                       class="btn ss-btn">
+                                        Daha Fazla Bilgi
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                       
+                        <div class="col-lg-6">
+
+                            <div class="slider-image">
+
+                                <img src="@item.ImageUrl" alt="Sigorta">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>

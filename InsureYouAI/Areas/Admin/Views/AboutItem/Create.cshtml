@@ -14,6 +14,10 @@
             </h5>
         </div>
 
+        <button type="button" id="generateAI" class="btn btn-primary">
+            ✨ AI İçerik Oluştur
+        </button>
+
         <form method="post">
 
             <div class="mb-3">
@@ -55,3 +59,37 @@
 
     </div>
 </div>
+
+                        
+<script>
+
+    document.getElementById("generateAI").onclick = function () {
+
+        const btn = this;
+
+        btn.innerText = "AI içerik hazırlanıyor...";
+        btn.disabled = true;
+
+        fetch('/Admin/AboutItem/GenerateAboutItem')
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("Detail").value = data.detail;
+               
+
+                btn.innerText = "🔄 Tekrar Oluştur";
+                btn.disabled = false;
+
+            })
+            .catch(() => {
+
+                btn.innerText = "✨ AI İçerik Oluştur";
+                btn.disabled = false;
+
+                alert("AI içerik oluşturulamadı.");
+
+            });
+
+    };
+
+ </script>

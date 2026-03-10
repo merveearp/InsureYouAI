@@ -1,0 +1,140 @@
+﻿@model List<About>
+
+<style>
+
+    .about-area {
+        background: #f8fafc;
+        position: relative;
+    }
+
+    /* RESİM ALANI */
+
+    .s-about-img {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
+        /* RESİM */
+
+        .s-about-img img {
+            width: 100%;
+            max-width: 650px; /* büyüttük */
+            border-radius: 30px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.18);
+            transition: 0.4s;
+        }
+
+            /* hover efekti */
+
+            .s-about-img img:hover {
+                transform: scale(1.05);
+            }
+
+        /* BULUT / GRADIENT */
+
+        .s-about-img::before {
+            content: "";
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            background: linear-gradient(135deg,#0d6efd,#60a5fa);
+            border-radius: 60% 40% 50% 50%;
+            top: -70px;
+            left: -70px;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+    /* BAŞLIK */
+
+    .about-title h3 {
+        font-size: 42px;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1.2;
+    }
+
+    /* PARAGRAF */
+
+    .about-content p {
+        font-size: 17px;
+        line-height: 1.9;
+        color: #475569;
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+
+    /* içerik alanı */
+
+    .about-content {
+        padding-left: 40px;
+    }
+
+    /* responsive */
+
+  (max - width:991px) {
+
+        .about-content {
+            padding-left: 0;
+            margin-top: 40px;
+        }
+
+        .s-about-img img {
+            max-width: 100%;
+        }
+    }
+
+</style>
+
+
+<section class="about-area about-p pt-120 pb-120">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            @foreach (var item in Model)
+            {
+
+            
+                <div class="col-lg-6">
+
+                    <div class="s-about-img" data-aos="fade-up" data-aos-duration="1000">
+
+                        <img src="@item.ImageUrl" alt="Sigorta">
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="about-content">
+
+                        <div class="about-title pb-25">
+
+                            <h3 data-aos="fade-up" data-aos-duration="1000">
+                                @item.Title
+                            </h3>
+
+                        </div>
+
+                        <p data-aos="fade-up" data-aos-duration="1000">
+                            @item.Description
+                        </p>
+
+                        @await Component.InvokeAsync("_UIHomeAboutItemComponent")
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</section>

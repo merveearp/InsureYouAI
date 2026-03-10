@@ -12,6 +12,10 @@
             <h5 class="mb-0 fw-bold text-primary">
                 ✏️ Hakkımda Maddesi Güncelle
             </h5>
+
+            <button type="button" id="generateAI" class="btn btn-primary">
+                ✨ AI İçerik Güncelle
+            </button>
         </div>
 
         <form method="post">
@@ -57,3 +61,37 @@
 
     </div>
 </div>
+
+
+<script>
+
+    document.getElementById("generateAI").onclick = function () {
+
+        const btn = this;
+
+        btn.innerText = "AI içerik hazırlanıyor...";
+        btn.disabled = true;
+
+        fetch('/Admin/AboutItem/GenerateAboutItem')
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("Detail").value = data.detail;
+
+
+                btn.innerText = "🔄 Tekrar Oluştur";
+                btn.disabled = false;
+
+            })
+            .catch(() => {
+
+                btn.innerText = "✨ AI İçerik Oluştur";
+                btn.disabled = false;
+
+                alert("AI içerik oluşturulamadı.");
+
+            });
+
+    };
+
+</script>

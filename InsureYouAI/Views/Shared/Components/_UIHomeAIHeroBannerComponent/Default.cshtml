@@ -1,0 +1,117 @@
+﻿
+@*
+    _UIHomeAIHeroBannerComponent
+*@<style>
+
+      .ai-hero-banner {
+          background-image: url('/images/insurekapak.jpeg');
+          background-size: cover;
+          background-position: center;
+          height: 420px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: white;
+          position: relative;
+      }
+
+          /* canlı gradient overlay */
+
+          .ai-hero-banner::before {
+              content: "";
+              position: absolute;
+              inset: 0;
+              background: linear-gradient( 135deg, rgba(13,110,253,0.75), rgba(0,0,0,0.65) );
+          }
+
+          /* içerik üstte kalsın */
+
+          .ai-hero-banner .container {
+              position: relative;
+              z-index: 2;
+          }
+
+          /* başlık */
+
+          .ai-hero-banner h1 {
+              font-size: 46px;
+              font-weight: 700;
+              margin-bottom: 15px;
+              letter-spacing: 1px;
+          }
+
+          /* açıklama */
+
+          .ai-hero-banner p {
+              font-size: 19px;
+              max-width: 700px;
+              margin: auto;
+              margin-bottom: 30px;
+              opacity: 0.95;
+          }
+
+      /* buton alanı */
+
+      .ai-tools {
+          margin-top: 10px;
+      }
+
+      /* buton */
+
+      .ai-btn {
+          background: rgba(255,255,255,0.15);
+          backdrop-filter: blur(8px);
+          padding: 14px 28px;
+          border-radius: 35px;
+          color: white;
+          margin: 6px;
+          display: inline-block;
+          text-decoration: none;
+          font-weight: 600;
+          border: 1px solid rgba(255,255,255,0.35);
+          transition: all .35s ease;
+      }
+
+          /* hover */
+
+          .ai-btn:hover {
+              background: white;
+              color: #0d6efd;
+              transform: translateY(-3px);
+              box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+          }
+
+</style>
+
+
+<section class="ai-hero-banner">
+
+    <div class="container">
+
+        <h1> AI Sigorta Zeka Merkezi</h1>
+
+        <p>
+            Sigorta süreçlerinizi yapay zeka destekli analiz araçları ile
+            daha hızlı, daha güvenilir ve daha akıllı yönetin.
+        </p>
+
+        <div class="ai-tools">
+
+            <a href="/InsuranceAdvisor" class="ai-btn">
+                💡 AI Sigorta Danışmanı
+            </a>
+
+            <a href="/ClaimAnalysis" class="ai-btn">
+                🛡️ AI Hasar Analizi
+            </a>
+
+            <a href="/PolicyReader" class="ai-btn">
+                📄 AI Poliçe Okuyucu
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

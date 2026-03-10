@@ -1,8 +1,101 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Anasayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+<!-- slider-area -->
+@await Component.InvokeAsync("_UIHomeSliderComponent")
+<!-- slider-area-end -->
+
+<!-- AI HERO BANNER -->
+@await Component.InvokeAsync("_UIHomeAIHeroBannerComponent")
+             <!-- about-area -->
+@await Component.InvokeAsync("_UIHomeAboutComponent")
+            <!-- about-area-end -->
+
+             <!-- service-area -->
+            <section class="service-details pb-60 p-relative fix">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="services-box01 mb-30" data-aos="fade-left">
+                                    <div class="number">01</div>
+                                    <h5>Insurance Police</h5>
+                                    <p>Nullam egestas eros et nulla tempus, vel tempor neque scelerisque. Morbi eleifend convallis turpis, ac scelerisque.</p>
+                                      <a href="#" class="mt-15 hover-underline-animation">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="services-box01 mb-30" data-aos="fade-up" data-aos-duration="1000">
+                                    <div class="number">02</div>
+                                    <h5>Direct Payment</h5>
+                                    <p>Nullam egestas eros et nulla tempus, vel tempor neque scelerisque. Morbi eleifend convallis turpis, ac scelerisque.</p>
+                                    <a href="#" class="mt-15 hover-underline-animation">Learn More</a>
+                            </div>
+                        </div>
+                        
+					<div class="col-lg-4 col-md-12 col-sm-12">
+                            <div class="services-box01 mb-30" data-aos="fade-right">
+                                    <div class="number">03</div>
+                                    <h5>24x7 Support</h5>
+                                    <p>Nullam egestas eros et nulla tempus, vel tempor neque scelerisque. Morbi eleifend convallis turpis, ac scelerisque.</p>
+                                     <a href="#" class="mt-15 hover-underline-animation">Learn More</a>
+                            </div>
+                        </div>
+                     
+                    </div>
+                </div>
+            </section>
+            <!-- service-details2-area-end -->
+             <!-- video-area -->
+ @await Component.InvokeAsync("_UIHomeVideoComponent")
+            <!-- video-area-end -->
+
+
+              <!-- services-five-area -->
+ @await Component.InvokeAsync("_UIHomeServiceComponent")
+           <!-- services-three-area -->
+
+
+             <!-- counter-area -->
+@await Component.InvokeAsync("_UIHomeCounterComponent")
+            <!-- counter-area-end -->	
+
+
+             <!-- skill-area -->
+
+ @await Component.InvokeAsync("_UIHomeSkillComponent")
+        
+            <!-- skill-area-end -->
+
+            <!-- pricing-area -->
+ @await Component.InvokeAsync("_UIHomePricingAreaComponent")
+
+            <!-- pricing-area-end -->
+           
+            <!-- testimonial-area -->
+@await Component.InvokeAsync("_UIHomeTestimonialComponent")
+            <!-- testimonial-area-end -->
+
+             <!-- gallery-area -->   
+@await Component.InvokeAsync("_UIHomeGalleryComponent")
+
+
+            <!-- gallery-area-end -->
+
+              <!-- blog-area -->
+@await Component.InvokeAsync("_UIHomeBlogComponent")
+
+            <!-- blog-area-end -->
+            
+            <!-- contact-area -->
+@await Component.InvokeAsync("_UIHomeContactComponent")
+
+            <!-- contact-area-end -->
+
+              <!-- newslater-area -->
+@await Component.InvokeAsync("_UIHomeNewslaterComponent")
+          
+            <!-- newslater-aread-end -->
