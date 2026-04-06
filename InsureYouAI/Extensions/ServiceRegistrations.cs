@@ -10,6 +10,7 @@ using InsureYouAI.Repositories.ServiceRepositories;
 using InsureYouAI.Repositories.SliderRepositories;
 using InsureYouAI.Repositories.TestimonialRepositories;
 using InsureYouAI.Repositories.TrailerVideoRepositories;
+using InsureYouAI.Services.AntropicClaudeServices;
 using InsureYouAI.Services.GeminiServices;
 using InsureYouAI.Services.OpenAIServices;
 
@@ -33,6 +34,7 @@ namespace InsureYouAI.Extensions
             services.AddScoped<ITrailerVideoRepository, TrailerVideoRepository>();
             services.AddScoped<IOpenAIService, OpenAIService>();
             services.AddHttpClient<IGeminiService, GeminiService>();
+            services.AddHttpClient<IClaudeService , ClaudeService>();
         }
     }
 }

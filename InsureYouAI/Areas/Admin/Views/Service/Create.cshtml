@@ -13,6 +13,11 @@
             </h5>
         </div>
 
+        
+        <button type="button" id="generateAI" class="btn btn-primary">
+            ✨ AI ile Hizmet İçeriği Oluştur
+        </button>
+
         <form method="post">
 
             <div class="mb-3">
@@ -50,9 +55,16 @@
 
                     <input type="text"
                            asp-for="IconUrl"
+                           id="iconUrlInput"
                            class="form-control"
                            placeholder="Örn: bi bi-shield-check"
                            required />
+                </div>
+
+                <div class="mt-3">
+                    <i id="iconPreview"
+                       class="bi bi-star"
+                       style="font-size:30px;"></i>
                 </div>
 
                 <small class="text-muted">
@@ -129,25 +141,66 @@
 
 <script>
 
+
     const imageInput = document.getElementById("imageUrlInput");
-    const preview = document.getElementById("imagePreview");
+    const imagePreview = document.getElementById("imagePreview");
 
     const defaultUrl = "/images/default-image.jpg";
 
-    preview.src = defaultUrl;
-    preview.style.display = "block";
+    imagePreview.src = defaultUrl;
+    imagePreview.style.display = "block";
 
     imageInput.addEventListener("input", function () {
-
         const url = this.value;
-
-        if (url.length > 0) {
-            preview.src = url;
-        }
-        else {
-            preview.src = defaultUrl;
-        }
-
+        imagePreview.src = url.length > 0 ? url : defaultUrl;
     });
+
+
+    const iconInput = document.getElementById("iconUrlInput");
+    const iconPreview = document.getElementById("iconPreview");
+
+    iconInput.addEventListener("input", function () {
+        const iconClass = this.value;
+        if (iconClass.length > 0) {
+            iconPreview.className = iconClass;
+        }
+    });
+
+</script>
+
+<script>
+
+    document.getElementById("generateAI").onclick = function () {
+
+        const btn = this;
+
+        btn.innerText = "AI içerik hazırlanıyor...";
+        btn.disabled = true;
+
+        fetch('/Admin/Service/CreateClaudeServiceText')
+            .then(response => response.json())
+
+                .then(data => {
+
+                document.getElementById("Title").value = data.title;
+                document.getElementById("Description").value = data.description;
+                document.getElementById("iconUrlInput").value = data.icon;
+
+                document.getElementById("iconPreview").className = data.icon;
+
+                btn.innerText = "🔄 Tekrar Oluştur";
+                btn.disabled = false;
+
+            })
+            .catch(() => {
+
+                btn.innerText = "✨ AI İçerik Oluştur";
+                btn.disabled = false;
+
+                alert("AI içerik oluşturulamadı.");
+
+            });
+
+    };
 
 </script>

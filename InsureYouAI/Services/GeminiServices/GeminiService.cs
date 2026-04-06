@@ -20,7 +20,7 @@ namespace InsureYouAI.Services.GeminiServices
         {
             var apiKey = _configuration["Gemini:GeminiKey"];
 
-            var model = "gemini-2.5-pro";
+            var model = "gemini-2.5-flash";
 
             var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
 
@@ -97,7 +97,7 @@ namespace InsureYouAI.Services.GeminiServices
         {
             var apiKey = _configuration["Gemini:GeminiKey"];
 
-            var model = "gemini-2.5-pro";
+            var model = "gemini-2.5-flash";
 
             var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
 

@@ -1,5 +1,6 @@
 ﻿using InsureYouAI.Entities;
 using InsureYouAI.Repositories.ServiceRepositories;
+using InsureYouAI.Services.AntropicClaudeServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.Areas.Admin.Controllers
@@ -9,10 +10,12 @@ namespace InsureYouAI.Areas.Admin.Controllers
     public class ServiceController : Controller
     {
         private readonly IServiceRepository _repository;
+        private readonly IClaudeService _claudeService;
 
-        public ServiceController(IServiceRepository repository)
+        public ServiceController(IServiceRepository repository, IClaudeService claudeService)
         {
             _repository = repository;
+            _claudeService = claudeService;
         }
 
         public async Task<IActionResult> ServiceList()
@@ -53,6 +56,13 @@ namespace InsureYouAI.Areas.Admin.Controllers
         {
             await _repository.DeleteAsync(id);
             return RedirectToAction("ServiceList");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateClaudeServiceText()
+        {
+            var result = await _claudeService.CreateServiceText();
+            return Json(result);
         }
     }
 }

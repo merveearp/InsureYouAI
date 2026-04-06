@@ -64,6 +64,9 @@ namespace InsureYouAI.Services.OpenAIServices
                 throw new Exception("OpenAI API hatası: " + response.StatusCode);
             }
 
+            //var jsonString = await response.Content.ReadAsStringAsync();
+            //var result = JsonSerializer.Deserialize<OpenAIResponse>(jsonString);               // ----> readfromjsonasync
+
             var result = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
 
             return result.choices[0].message.content;
