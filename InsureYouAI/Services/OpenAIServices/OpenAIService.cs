@@ -24,6 +24,96 @@ namespace InsureYouAI.Services.OpenAIServices
             url = "https://api.openai.com/v1/chat/completions";
        }
 
+        public async Task<AIAnalysisDto> AnalyzeDamageAsync(IFormFile image)
+        {
+           if(image == null || image.Length==0)
+            {
+                throw new Exception("Lütfen geçerli resim ekleyiniz");
+            }
+
+            using var ms = new MemoryStream();
+            await image.CopyToAsync(ms);
+
+            var imageBytes = ms.ToArray();
+
+            var base64Image = Convert.ToBase64String(imageBytes);
+            var requestBody = new
+            {
+                model = "gpt-4o-mini",
+                temperature = 0.3,
+                messages = new object[]
+                {
+                        new
+                        {
+                            role = "system",
+                            content = @"Sen profesyonel bir sigorta eksperisin.
+                Araç hasarlarını analiz ederken teknik, objektif ve kurumsal bir dil kullanırsın.
+                Cevapların kısa ama açıklayıcı ve güven verici olmalıdır."
+                        },
+                        new
+                        {
+            role = "user",
+            content = new object[]
+            {
+                new {
+                    type = "text",
+                    text = @"Bu bir araç hasar fotoğrafıdır.
+
+                Detaylı bir eksper incelemesi yap.
+
+                Kurallar:
+                - Teknik ve kurumsal dil kullan
+                - Hasarı analiz et
+                - Kısa ama profesyonel rapor yaz
+                - description alanı 3-5 cümlelik mini eksper raporu olsun
+
+                Cevabı SADECE aşağıdaki JSON formatında ver:
+
+                {
+                  ""damageType"": ""(ör: Çizik, Göçük, Kırık)"",
+                  ""severity"": ""(Düşük / Orta / Yüksek)"",
+                  ""description"": ""(Profesyonel eksper raporu yaz)"",
+                  ""insuranceStatus"": ""(Karşılanır / Belirsiz / Kapsam dışı)"",
+                  ""recommendation"": ""(Kullanıcıya öneri)""
+                }"
+                                },
+                                new {
+                                    type = "image_url",
+                                    image_url = new {
+                                        url = $"data:image/jpeg;base64,{base64Image}"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                            };
+            var json = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("AI HATASI: " + response.StatusCode);
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+
+            var jsonDoc = JsonDocument.Parse(jsonString);
+
+            var aiText = jsonDoc
+                 .RootElement
+                 .GetProperty("choices")[0]
+                 .GetProperty("message")
+                 .GetProperty("content")
+                 .GetString();
+
+            aiText = aiText.Replace("```json", "")
+                           .Replace("```", "")
+                           .Trim();
+
+            var result = JsonSerializer.Deserialize<AIAnalysisDto>(aiText);
+
+            return result;
+        }
 
         public async Task<string> CreateArticleWithAI(string prompt)
         {
@@ -33,6 +123,7 @@ namespace InsureYouAI.Services.OpenAIServices
                 model = "gpt-3.5-turbo",
                 messages = new[]
                  {
+
                     new
                     {
                         role = "system",
@@ -65,10 +156,8 @@ namespace InsureYouAI.Services.OpenAIServices
                 throw new Exception("OpenAI API hatası: " + response.StatusCode);
             }
 
-            //var jsonString = await response.Content.ReadAsStringAsync();
-            //var result = JsonSerializer.Deserialize<OpenAIResponse>(jsonString);               // ----> readfromjsonasync
-
-            var result = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<OpenAIResponse>(jsonString);             
 
             return result.choices[0].message.content;
 
@@ -119,10 +208,8 @@ namespace InsureYouAI.Services.OpenAIServices
                 .GetProperty("content")
                 .GetString();
 
-            return new AIMessageDto
-            {
-                Message = aiText
-            };
+            var result = JsonSerializer.Deserialize<AIMessageDto>(aiText);
+            return result;
         }
     }
 }
