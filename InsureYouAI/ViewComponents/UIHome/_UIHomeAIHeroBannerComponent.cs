@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InsureYouAI.Services.OpenAIServices;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.ViewComponents.UIHome
 {

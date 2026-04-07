@@ -116,12 +116,12 @@ namespace InsureYouAI.Services.AntropicClaudeServices
                  .GetProperty("text")
                  .GetString();
 
-                    if (string.IsNullOrEmpty(text))
-                        throw new Exception("Claude response boş geldi");
+            if (string.IsNullOrEmpty(text))
+                throw new Exception("Claude response boş geldi");
 
-                    text = text.Replace("```json", "")
-                               .Replace("```", "")
-                               .Trim();
+            text = text.Replace("```json", "")
+                       .Replace("```", "")
+                       .Trim();
 
 
             if (text.StartsWith("\""))

@@ -1,7 +1,10 @@
-﻿namespace InsureYouAI.Services.OpenAIServices
+﻿using InsureYouAI.DTOs.OpenAIDtos;
+
+namespace InsureYouAI.Services.OpenAIServices
 {
     public interface IOpenAIService
     {
         Task<string> CreateArticleWithAI(string prompt);
+        Task<AIMessageDto> GenerateInsuranceConsultationAsync(string userMessage);
     }
 }
