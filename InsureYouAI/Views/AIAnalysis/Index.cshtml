@@ -1,7 +1,233 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "AI Hasar Analizi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+.hero {
+    background: linear-gradient(135deg, #0d6efd, #4dabf7);
+    color: white;
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+}
 
+.steps {
+    display: flex;
+    justify-content: space-between;
+}
+
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 3px solid #ccc;
+    transition: 0.3s;
+}
+
+.step.active {
+    border-color: #0d6efd;
+    font-weight: bold;
+}
+
+.upload-box {
+    border: 2px dashed #0d6efd;
+    border-radius: 12px;
+    padding: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-box:hover {
+    background: #f0f6ff;
+}
+
+#previewArea img {
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.result-card {
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+}
+
+.low { background: #28a745; }
+.medium { background: #ffc107; color:black;}
+.high { background: #dc3545; }
+</style>
+
+<div class="container mt-4">
+
+
+    <div class="hero">
+        <h1>🛡️ AI Hasar Analizi</h1>
+        <p>Fotoğraf yükleyin, yapay zeka hasarı analiz etsin</p>
+    </div>
+
+    <div class="steps mt-4">
+        <div class="step active" id="step1">1. Yükle</div>
+        <div class="step" id="step2">2. Analiz</div>
+        <div class="step" id="step3">3. Rapor</div>
+    </div>
+
+    <div class="card p-4 mt-3 shadow-lg">
+
+        <div class="mt-3 p-3 bg-light rounded">
+            <h6>📌 Hasar Seviyesi Açıklaması</h6>
+            <ul class="mb-0">
+                <li><span class="badge bg-success">Düşük</span> → Kozmetik hasar</li>
+                <li><span class="badge bg-warning text-dark">Orta</span> → Onarım gerekli</li>
+                <li><span class="badge bg-danger">Yüksek</span> → Güvenlik riski</li>
+            </ul>
+        </div>
+
+
+        <div id="uploadSection">
+            <div class="upload-box text-center mt-3" onclick="document.getElementById('imageInput').click()">
+                <i class="bi bi-cloud-upload fs-1 text-primary"></i>
+                <p class="mt-2">Fotoğrafı buraya bırak veya tıkla</p>
+            </div>
+            <input type="file" id="imageInput" hidden />
+            <div id="previewArea" class="text-center mt-3"></div>
+        </div>
+
+
+        <button class="btn btn-primary w-100 mt-3" onclick="analyzeImage()">
+            🤖 AI Analiz Başlat
+        </button>
+
+
+        <div id="loadingArea" class="text-center mt-4" style="display:none;">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2">AI tarafından analiz ediliyor...</p>
+        </div>
+
+
+        <div id="resultArea" class="mt-4"></div>
+
+    </div>
+</div>
+
+<script>
+
+document.getElementById("imageInput").addEventListener("change", function () {
+
+    let file = this.files[0];
+    if (!file) return;
+
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+        document.getElementById("previewArea").innerHTML =
+            `<img src="${e.target.result}" />`;
+
+
+        setActiveStep(1);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+function setActiveStep(step) {
+    document.getElementById("step1").classList.remove("active");
+    document.getElementById("step2").classList.remove("active");
+    document.getElementById("step3").classList.remove("active");
+
+    document.getElementById("step" + step).classList.add("active");
+}
+
+function analyzeImage() {
+
+    let file = document.getElementById("imageInput").files[0];
+
+    if (!file) {
+        alert("Lütfen görsel seçiniz");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append("image", file);
+
+
+    setActiveStep(2);
+
+    document.getElementById("loadingArea").style.display = "block";
+    document.getElementById("resultArea").innerHTML = "";
+
+    fetch('/AIAnalysis/OpenAIAnalysis', {
+        method: 'POST',
+        body: formData
+    })
+    .then(async res => {
+
+        if (!res.ok) {
+            let text = await res.text();
+            throw new Error(text);
+        }
+
+        return res.json();
+    })
+    .then(data => {
+
+        document.getElementById("loadingArea").style.display = "none";
+
+
+        setActiveStep(3);
+
+        let severityClass = "low";
+
+        if (data.severity.toLowerCase().includes("orta"))
+            severityClass = "medium";
+
+        if (data.severity.toLowerCase().includes("yüksek"))
+            severityClass = "high";
+
+        let icon = "🟢";
+        if (data.severity.includes("Orta")) icon = "🟡";
+        if (data.severity.includes("Yüksek")) icon = "🔴";
+
+        document.getElementById("resultArea").innerHTML = `
+        <div class="result-card ${severityClass}">
+            
+            <h5>${icon} Hasar Analizi Sonucu</h5>
+
+            <div class="row text-center mt-3">
+                <div class="col-md-4">
+                    <small>Hasar Türü</small>
+                    <h6>${data.damageType}</h6>
+                </div>
+                <div class="col-md-4">
+                    <small>Ciddiyet</small>
+                    <h6>${data.severity}</h6>
+                </div>
+                <div class="col-md-4">
+                    <small>Hasar Oranı</small>
+                    <h6>${data.damageRate}</h6>
+                </div>
+            </div>
+
+            <hr/>
+
+            <p><strong>🔧 Hasarlı Parçalar:</strong> ${data.parts}</p>
+            <p><strong>📄 Sigorta Durumu:</strong> ${data.insuranceStatus}</p>
+
+            <hr/>
+
+            <p>${data.description}</p>
+
+            <div class="mt-3 p-2 bg-light rounded text-dark">
+                <strong>📌 Öneri:</strong> ${data.recommendation}
+            </div>
+
+        </div>
+        `;
+    })
+    .catch(err => {
+        document.getElementById("loadingArea").style.display = "none";
+        alert("Hata: " + err.message);
+    });
+}
+
+</script>

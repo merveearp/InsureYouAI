@@ -40,53 +40,68 @@ namespace InsureYouAI.Services.OpenAIServices
             var requestBody = new
             {
                 model = "gpt-4o-mini",
-                temperature = 0.3,
+                temperature = 0.2,
                 messages = new object[]
-                {
-                        new
                         {
-                            role = "system",
-                            content = @"Sen profesyonel bir sigorta eksperisin.
-                Araç hasarlarını analiz ederken teknik, objektif ve kurumsal bir dil kullanırsın.
-                Cevapların kısa ama açıklayıcı ve güven verici olmalıdır."
-                        },
-                        new
-                        {
-            role = "user",
-            content = new object[]
-            {
-                new {
-                    type = "text",
-                    text = @"Bu bir araç hasar fotoğrafıdır.
+                            new
+                            {
+                                role = "system",
+                                content = @"Sen uzman bir oto sigorta eksperisin.
+                    Araç hasarlarını teknik olarak analiz eder, parça bazlı değerlendirme yapar ve yaklaşık maliyet çıkarırsın.
 
-                Detaylı bir eksper incelemesi yap.
+                    Kullandığın dil:
+                    - Kurumsal
+                    - Net
+                    - Güven veren
+                    - Teknik ama anlaşılır
 
-                Kurallar:
-                - Teknik ve kurumsal dil kullan
-                - Hasarı analiz et
-                - Kısa ama profesyonel rapor yaz
-                - description alanı 3-5 cümlelik mini eksper raporu olsun
+                    Her zaman gerçekçi tahminler yap."
+                            },
+                            new
+                            {
+                                role = "user",
+                                content = new object[]
+                                {
+                                    new {
+                                        type = "text",
+                                        text = @"
+                    Bu bir araç hasar fotoğrafıdır.
 
-                Cevabı SADECE aşağıdaki JSON formatında ver:
+                    Detaylı eksper analizi yap.
 
-                {
-                  ""damageType"": ""(ör: Çizik, Göçük, Kırık)"",
-                  ""severity"": ""(Düşük / Orta / Yüksek)"",
-                  ""description"": ""(Profesyonel eksper raporu yaz)"",
-                  ""insuranceStatus"": ""(Karşılanır / Belirsiz / Kapsam dışı)"",
-                  ""recommendation"": ""(Kullanıcıya öneri)""
-                }"
-                                },
-                                new {
-                                    type = "image_url",
-                                    image_url = new {
-                                        url = $"data:image/jpeg;base64,{base64Image}"
+                    İNCELEME KRİTERLERİ:
+                    - Hasar türü (göçük, çizik, kırık vb.)
+                    - Hasarın bulunduğu parça (tampon, far, kaput vb.)
+                    - Hasarın yaygınlığı (% olarak tahmin et)
+                    - Araç güvenliğine etkisi
+                    - Onarım mı değişim mi gerekir
+
+                    EKSTRA:
+                    - Tahmini maliyet aralığı ver (TL)
+                    - Parça bazlı kısa yorum ekle
+
+                    Cevabı SADECE aşağıdaki JSON formatında ver:
+
+                    {
+                      ""damageType"": ""(Hasar türünü detaylı yaz: örn. ön tamponda kırık, kaputta ciddi göçük, far hasarı gibi)"",
+                      ""severity"": ""(Düşük / Orta / Yüksek)"",
+                      ""damageRate"": ""% olarak hasar oranı"",
+                      ""parts"": ""(Hasarlı parçaları virgülle yaz: tampon, kaput, far vb.)"",
+                      ""description"": ""(Minimum 5-6 cümle olacak şekilde detaylı eksper raporu yaz. Hasarın konumu, yaygınlığı, aracın güvenliğine etkisi, sürüş riskleri, onarım süreci ve teknik değerlendirme mutlaka yer alsın.)"",
+                      ""insuranceStatus"": ""(Karşılanır / Belirsiz / Kapsam dışı)"",
+                      ""recommendation"": ""(Aksiyon önerisi)""
+                    }"
+                                    },
+                                    new {
+                                        type = "image_url",
+                                        image_url = new {
+                                            url = $"data:image/jpeg;base64,{base64Image}"
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                            };
+                                };
             var json = JsonSerializer.Serialize(requestBody);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
