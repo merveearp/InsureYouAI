@@ -7,5 +7,6 @@ namespace InsureYouAI.Services.OpenAIServices
         Task<string> CreateArticleWithAI(string prompt);
         Task<AIMessageDto> GenerateInsuranceConsultationAsync(string userMessage);
         Task<AIAnalysisDto> AnalyzeDamageAsync(IFormFile image);
+        Task<AIPolicyDto> AnalyzePolicyAsync(IFormFile file);
     }
 }

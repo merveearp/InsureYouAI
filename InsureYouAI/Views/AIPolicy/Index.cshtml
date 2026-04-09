@@ -1,8 +1,175 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "AI Poliçe Tarama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container mt-5">
 
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">📄 AI Poliçe Tarama</h2>
+        <p class="text-muted">Poliçenizi yükleyin, saniyeler içinde analiz edelim</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0 p-4">
+
+                <div class="upload-box text-center mb-3" onclick="document.getElementById('fileInput').click()">
+                    <i class="bi bi-file-earmark-arrow-up display-5 text-primary"></i>
+                    <h5 class="mt-2">PDF Yükle</h5>
+                    <p class="text-muted small">Tıklayın veya dosyayı sürükleyin</p>
+                </div>
+
+                <input type="file" id="fileInput" hidden accept=".pdf" />
+
+                <div id="fileName" class="text-center text-muted mb-3"></div>
+
+                <button class="btn btn-primary w-100 fw-bold" onclick="analyzePolicy()">
+                    🛡️ Poliçeyi Analiz Et
+                </button>
+
+
+                <div id="loadingArea" class="text-center mt-4" style="display:none;">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">AI analiz ediyor...</p>
+                </div>
+
+                <div id="resultArea" class="mt-4"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .upload-box {
+        border: 2px dashed #0d6efd;
+        border-radius: 15px;
+        padding: 40px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .upload-box:hover {
+            background: #f0f6ff;
+            transform: scale(1.02);
+        }
+
+    .result-card {
+        border-radius: 15px;
+        padding: 25px;
+        background: #f8f9fa;
+    }
+
+    .result-title {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .result-section {
+        margin-bottom: 15px;
+    }
+</style>
+
+<script>
+
+
+    document.getElementById("fileInput").addEventListener("change", function () {
+        let file = this.files[0];
+        if (!file) return;
+
+        document.getElementById("fileName").innerText = "📎 " + file.name;
+    });
+
+
+    function analyzePolicy() {
+
+        let file = document.getElementById("fileInput").files[0];
+
+        if (!file) {
+            alert("Lütfen PDF seçiniz");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("file", file);
+
+        document.getElementById("loadingArea").style.display = "block";
+        document.getElementById("resultArea").innerHTML = "";
+
+        fetch('/AIPolicy/OpenAIAnalyzePolicy', {
+            method: 'POST',
+            body: formData
+        })
+        .then(async res => {
+            if (!res.ok) {
+                let text = await res.text();
+                throw new Error(text);
+            }
+            return res.json();
+        })
+        .then(data => {
+
+            document.getElementById("loadingArea").style.display = "none";
+
+            let isRisk = (data.isRisky || "").toLowerCase();
+            let riskColor = isRisk.includes("evet") ? "danger" : "success";
+            let riskIcon = isRisk.includes("evet") ? "🔴 Riskli" : "🟢 Güvenli";
+
+            let riskText = "";
+
+            if ((data.isRisky || "").toLowerCase().includes("evet")) {
+                riskText = "⚠️ Bu poliçe riskli olarak değerlendirildi";
+            } else {
+                riskText = "✅ Bu poliçe düşük riskli olarak değerlendirildi";
+            }
+
+            document.getElementById("resultArea").innerHTML = `
+            <div class="result-card shadow">
+
+                <h5 class="mb-3">${riskIcon}</h5>
+                <hr/>
+
+                <div class="result-section">
+                    <div class="result-title">📄 Poliçe Türü</div>
+                    <div>${data.policyType}</div>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-title">🛡️ Kapsam</div>
+                    <div>${data.coverage}</div>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-title">❌ Kapsam Dışı</div>
+                    <div>${data.notCovered}</div>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-title">⚠️ Uyarılar</div>
+                    <div>${data.keyWarnings}</div>
+                </div>
+
+                <div class="result-section">
+                    <div class="result-title">🧠 Özet</div>
+                    <div>${data.summary}</div>
+                </div>
+
+                <div class="alert alert-${riskColor} mt-3 text-center">
+                    <strong>${data.isRisky}</strong>
+                </div>
+
+                 <div class="alert alert-${riskColor} mt-3 text-center">
+                    <strong>${riskText}</strong>
+                </div>
+
+            </div>
+            `;
+        })
+        .catch(err => {
+            document.getElementById("loadingArea").style.display = "none";
+            alert("Hata: " + err.message);
+        });
+    }
+</script>

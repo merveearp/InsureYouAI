@@ -1,8 +1,10 @@
 ﻿using InsureYouAI.DTOs;
 using InsureYouAI.DTOs.OpenAIDtos;
+using Microsoft.Build.Tasks;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using UglyToad.PdfPig;
 using static System.Net.WebRequestMethods;
 
 namespace InsureYouAI.Services.OpenAIServices
@@ -128,6 +130,95 @@ namespace InsureYouAI.Services.OpenAIServices
             var result = JsonSerializer.Deserialize<AIAnalysisDto>(aiText);
 
             return result;
+        }
+
+        public async Task<AIPolicyDto> AnalyzePolicyAsync(IFormFile file)
+        {
+           if(file ==null || file.Length==0)
+            {
+                throw new Exception("İçerik tanımlanamıyor.Lütfen geçerli bir PDF yükleyiniz!");
+            }
+
+            string policyText = "";
+
+            using (var stream = file.OpenReadStream())
+            using (var pdf = PdfDocument.Open(stream))
+            {
+                foreach (var page in pdf.GetPages())
+                {
+                    policyText += page.Text + "\n";
+                }
+            }
+
+            if (policyText.Length > 12000)
+                policyText = policyText.Substring(0, 12000);
+
+            var requestBody = new
+            {
+                model = "gpt-4o-mini",
+                temperature = 0.2,
+                messages = new object[]
+            {
+                            new
+                            {
+                                role = "system",
+                                content = @"Sen profesyonel bir sigorta poliçe tarama asistanısın.
+
+            Karmaşık poliçe metinlerini sadeleştirir ve kullanıcıya anlaşılır şekilde sunarsın.
+
+            - Hukuki dili basitleştir
+            - Gereksiz detay verme
+            - Önemli riskleri özellikle belirt
+            - Anlaşıllır kurumsal dilde cevap ver
+            -Neden sonuç ilişkisi kur soru yanıtı verirken 
+            "
+                            },
+                            new
+                            {
+                                role = "user",
+                                content = $@"
+            Aşağıdaki sigorta poliçesini analiz et:
+
+            {policyText}
+
+            Cevabı SADECE JSON formatında ver:
+
+            {{
+              ""policyType"": """",
+              ""coverage"": """",
+              ""notCovered"": """",
+              ""keyWarnings"": """",
+              ""summary"": ""Bütün poliçeyi tara genel bir özet çıkar yaklaşık 10 - 12 cümle aralığında olsun ."",
+              ""isRisky"": ""Riskli mi neden riskli sorulara yanıt verirken neden ilişkisini kur.""
+            }}"
+                            }
+            }
+            };
+
+            var json = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("AI HATASI: " + response.StatusCode);
+            var responseString = await response.Content.ReadAsStringAsync();
+            var jsonDoc = JsonDocument.Parse(responseString);
+
+            var aiText = jsonDoc
+                .RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+
+
+            aiText = aiText.Replace("```json", "")
+               .Replace("```", "")
+                       .Trim();
+
+            var result = JsonSerializer.Deserialize<AIPolicyDto>(aiText);
+            return result;
+
         }
 
         public async Task<string> CreateArticleWithAI(string prompt)
