@@ -270,22 +270,38 @@ namespace InsureYouAI.Services.OpenAIServices
 
         }
 
-        public async Task<AIMessageDto> GenerateInsuranceConsultationAsync(string userMessage)
+        public async Task<string> GenerateInsuranceConsultationAsync(string userMessage)
         {
             var requestBody = new
             {
                 model = "gpt-4o-mini",
                 messages = new[]
                 {
-            new
-            {
-                role = "system",
-                content = @"Sen profesyonel bir sigorta danışmanısın.
-                Kullanıcıyla sohbet eder gibi konuş.
-                Sorular sorarak ihtiyacını anlamaya çalış.
-                Kısa ve doğal cevap ver."
+                new
+                {
+                    role = "system",
+                    content = @"
+                Sen deneyimli ve profesyonel bir sigorta danışmanısın.
 
-            },
+                Amacın, kullanıcıların ihtiyaçlarını doğru analiz ederek onlara en uygun sigorta çözümlerini önermektir.
+
+                Davranış kuralları:
+                - Kullanıcıyla samimi ama kurumsal bir dilde iletişim kur
+                - Kısa, net ve anlaşılır cevaplar ver
+                - Gerekirse kullanıcıya yönlendirici sorular sorarak ihtiyacını netleştir
+                - Teknik terimleri sade ve anlaşılır şekilde açıkla
+                - Güven veren ve profesyonel bir üslup kullan
+
+                Kapsam:
+                - Sadece sigorta ile ilgili konularda yardımcı ol (araç, sağlık, konut, seyahat vb.)
+                - Sigorta dışı sorular sorulursa kibar ve profesyonel bir şekilde şu şekilde yönlendir:
+                  'Bu konuda yardımcı olamıyorum. Size sigorta çözümleri hakkında destek verebilirim.'
+
+                Ek hedef:
+                - Kullanıcının ihtiyacını anlamadan doğrudan ürün önerme
+                - Önce analiz et, sonra öneride bulun
+                "
+                },
             new
             {
                 role = "user",
@@ -314,8 +330,8 @@ namespace InsureYouAI.Services.OpenAIServices
                 .GetProperty("content")
                 .GetString();
 
-            var result = JsonSerializer.Deserialize<AIMessageDto>(aiText);
-            return result;
+           
+            return aiText;
         }
     }
 }

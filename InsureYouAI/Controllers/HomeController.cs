@@ -22,7 +22,7 @@ namespace InsureYouAI.Controllers
         public async Task<IActionResult> GetConsultation(string message)
         {
             var result = await _aiService.GenerateInsuranceConsultationAsync(message);
-            return Json(result);
+            return Json(new { message = result });
         }
 
 
