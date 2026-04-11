@@ -55,54 +55,60 @@
                             <div class="col-12 col-xl-4 order-xl-2">
                                 <div class="card-body p-4 p-sm-5">
                                     <h5 class="card-title">Kayıt Ol</h5>
-                                    <form class="form-body">
-                      
+                                    <form class="form-body" method="post">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                                         <div class="row g-3">
                                             <div class="col-12 ">
+
                                                 <label for="Name" class="form-label">İsim</label>
                                                 <div class="ms-auto position-relative">
                                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-circle"></i></div>
-                                                    <input type="text" asp-for="Name" class="form-control radius-30 ps-5" id="inputName" placeholder="İsim">
+                                                    <input type="text" asp-for="Name" class="form-control radius-30 ps-5" id="inputName" placeholder="İsim" />
+                                                    <span asp-validation-for="Name" class="text-danger"></span>
+
                                                 </div>
                                             </div>
                                             <div class="col-12 ">
                                                 <label for="Surname" class="form-label">Soyisim</label>
                                                 <div class="ms-auto position-relative">
                                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-circle"></i></div>
-                                                    <input type="text"asp-for="Surname" class="form-control radius-30 ps-5" id="inputName" placeholder="Soyisim">
+                                                    <input type="text" asp-for="Surname" class="form-control radius-30 ps-5" id="inputName" placeholder="Soyisim"/>
+                                                    <span asp-validation-for="Surname" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-12 ">
-                                                <label for="UserName" class="form-label">Kullanıcı Adı</label>
-                                                <div class="ms-auto position-relative">
-                                                    <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-person-circle"></i></div>
-                                                    <input type="text" asp-for="UserName" class="form-control radius-30 ps-5" id="inputName" placeholder="Kullanıcı Adı">
-                                                    </div>
-                                                </div>
                                             <div class="col-12">
                                                 <label for="Email" class="form-label">Email</label>
                                                 <div class="ms-auto position-relative">
                                                     <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-envelope-fill"></i></div>
-                                                    <input type="email" asp-for="Email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Email">
+                                                    <input type="email" asp-for="Email" class="form-control radius-30 ps-5" id="inputEmailAddress" placeholder="Email" />
+                                                  
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <label for="inputChoosePassword" class="form-label">Şifrenizi Giriniz</label>
-                                                <div class="ms-auto position-relative">
-                                                    <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-lock-fill"></i></div>
-                                                    <input type="password" asp-for="Password" class="form-control radius-30 ps-5" id="inputChoosePassword" placeholder="Password">
+                                            <div class="ms-auto position-relative">
+                                                <div class="position-absolute top-50 translate-middle-y search-icon px-3">
+                                                    <i class="bi bi-lock-fill"></i>
                                                 </div>
+
+                                                <input type="password" asp-for="Password" class="form-control radius-30 ps-5 pe-5" id="passwordInput" placeholder="Password" />
+
+                                                <div class="position-absolute top-50 end-0 translate-middle-y px-3" style="cursor:pointer;" onclick="togglePassword()">
+                                                    <i id="eyeIcon" class="bi bi-eye"></i>
+                                                </div>
+
+                                                <span asp-validation-for="Password" class="text-danger"></span>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                                                    <input class="form-check-input" asp-for="AcceptTerms" type="checkbox" id="flexSwitchCheckChecked"/>
                                                     <label class="form-check-label" for="flexSwitchCheckChecked">Kullanım Şartlarını Okudum & Kabul Ediyorum</label>
+                                                    <span asp-validation-for="AcceptTerms" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             
                                             <div class="col-12">
                                                 <div class="d-grid">
-                                                    <button type="submit" class="btn btn-primary radius-30">Kayıt Ol </button>
+                                                    <button type="submit" class="btn btn-primary radius-30">Kayıt Ol</button>
                                                 </div>
                                             </div>
                                            
@@ -128,6 +134,22 @@
     <script src="/snacked/ltr/assets/js/bootstrap.bundle.min.js"></script>
     <script src="/snacked/ltr/assets/js/jquery.min.js"></script>
     <script src="/snacked/ltr/assets/js/pace.min.js"></script>
+    <script>
+        function togglePassword() {
+        var input = document.getElementById("passwordInput");
+        var icon = document.getElementById("eyeIcon");
+
+        if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+        } else {
+        input.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+        }
+        }
+    </script>
 
 
 </body>

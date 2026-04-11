@@ -1,4 +1,5 @@
 using InsureYouAI.Context;
+using InsureYouAI.Describer;
 using InsureYouAI.Entities;
 using InsureYouAI.Extensions;
 using Microsoft.AspNetCore.Components.Routing;
@@ -30,6 +31,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
         options.Lockout.MaxFailedAccessAttempts = 3;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
     })
+    .AddErrorDescriber<CustomIdentityErrorDescriber>()
     .AddEntityFrameworkStores<InsureContext>()
     .AddDefaultTokenProviders();
 
