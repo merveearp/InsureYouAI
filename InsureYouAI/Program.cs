@@ -12,9 +12,10 @@ builder.Services.AddHttpClient();
 builder.Services.AddRepositoriesExt();
 builder.Services.AddDbContext<InsureContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    .UseLazyLoadingProxies();
-    
+    options
+    .UseLazyLoadingProxies()
+    .UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+
     
 });
 

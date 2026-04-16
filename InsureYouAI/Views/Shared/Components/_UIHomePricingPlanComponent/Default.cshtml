@@ -1,62 +1,45 @@
-﻿
+﻿@model List<PricingPlan>
 @*
     _UIHomePricingPlanComponent
 *@
 
+
 <div class="col-lg-6 col-md-12">
     <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="pricing-box pricing-box2 mb-60" data-aos="fade-left" data-aos-duration="1000">
-                <div class="pricing-head">
-                    <h3>Premium</h3>
-                    <div class="price-count">
-                        <h2>$29.99 <strong>/Month</strong></h2>
+        @foreach(var item in Model)
+        {
+            <div class="col-lg-6 col-md-6">
+                <div class="pricing-box pricing-box2 mb-60" data-aos="fade-left" data-aos-duration="1000">
+                    
+                    <div class="pricing-head">
+                        <h3>@item.Title</h3>
+                        <div class="price-count">
+                            <h2>@item.Price<strong>/Month</strong></h2>
+                        </div>
+                        <hr>
                     </div>
-                    <hr>
-                </div>
 
-                <div class="pricing-body mt-20 mb-30 text-left">
-                    <ul>
-                        <li>In eu gravida libero</li>
-                        <li>Praesent bibendum</li>
-                        <li>Vivamus preti ultricies </li>
-                        <li>Non eleifend</li>
-                        <li>Auctor leo id</li>
-                    </ul>
-                </div>
+                    <div class="pricing-body mt-20 mb-30 text-left">
+                        <ul>
+                            @if (item.PricingPlanItems != null && item.PricingPlanItems.Any())
+                            {
+                                foreach (var planItem in item.PricingPlanItems)
+                                {
+                                    <li>@planItem.Title</li>
+                                }
+                            }
+                            else
+                            {
+                                <li>Özellik bulunmamaktadır</li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="pricing-btn">
+                        <a href="contact.html" class="btn ss-btn">Join Now</a>
+                    </div>
 
-
-                <div class="pricing-btn">
-                    <a href="contact.html" class="btn ss-btn">Join Now</a>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <div class="pricing-box pricing-box2 active mb-60" data-aos="fade-left" data-aos-duration="1400">
-                <div class="pricing-head">
-                    <h3>Standard</h3>
-                    <div class="price-count">
-                        <h2>$39.99 <strong>/Month</strong></h2>
-                    </div>
-                    <hr>
-                </div>
-
-                <div class="pricing-body mt-20 mb-30 text-left">
-                    <ul>
-                        <li>In eu gravida libero</li>
-                        <li>Praesent bibendum</li>
-                        <li>Vivamus preti ultricies </li>
-                        <li>Non eleifend</li>
-                        <li>Auctor leo id</li>
-                    </ul>
-                </div>
-
-
-                <div class="pricing-btn">
-                    <a href="contact.html" class="btn ss-btn">Join Now</a>
-                </div>
-            </div>
-
-        </div>
+        }
     </div>
 </div>

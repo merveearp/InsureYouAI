@@ -5,94 +5,152 @@
     int count = 0;
 }
 
+<style>
+    .clickable-row {
+        cursor: pointer;
+        transition: 0.2s;
+    }
 
-<div class="card shadow-sm border-0 rounded-3">
+    .clickable-row:hover {
+        background-color: #f5f7fa;
+        transform: scale(1.01);
+    }
+</style>
+
+<div class="card shadow border-0 rounded-4">
     <div class="card-body">
 
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0 fw-bold text-primary">
-                📂 Plan Listesi
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold text-dark mb-0">
+                📊 Sigorta Plan Yönetimi
             </h5>
 
-            <a href="/Admin/AboutItem/Create" class="btn btn-outline-primary">
-                + Yeni Sigorta Planı Ekle
+            <a href="/Admin/PricingPlan/Create" class="btn btn-primary rounded-pill px-4">
+                + Yeni Plan
             </a>
         </div>
 
 
-
         <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-light">
+            <table class="table align-middle table-hover">
+
+                <thead class="bg-light">
                     <tr>
-                        <th style="width:60px">#</th>
-                        <th>Plan İçeriği</th>
-                        <th>Plan Açıklaması </th>
-                        <th>Fiyatlandırma </th>
-                        <th>Anasayfa Durumu </th>
-                        <th style="width:200px">İşlemler</th>
-
-
+                        <th>#</th>
+                        <th>Plan Adı</th>
+                        <th>Fiyat</th>
+                        <th>Durum</th>
+                        <th class="text-end">İşlemler</th>
                     </tr>
                 </thead>
+
                 <tbody>
-                    @if(Model != null && Model.Any())
+                    @if (Model != null && Model.Any())
                     {
-                    @foreach (var item in Model)
-                    {
-                        count++;
-                        <tr>
-                            <td>@count</td>
-                            <td class="fw-semibold">@item.Title</td>
-                            <td class="fw-semibold">@item.Description</td>
-                            <td class="fw-semibold">@item.Price</td>
-                           
-                                @if (item.IsFeature== true)
-                                {
-                                <td class="fw-semibold">Aktif</td>
-                                }else
-                                {
-                                <td class="fw-semibold">Pasif </td>
-                                }
-                           
-                            <td>
-                                <a href="/Admin/PricingPlan/Update/@item.PricingPlanId"
-                                   class="btn btn-sm btn-outline-success me-2">
-                                    <i class="bi bi-pencil-square"></i> Güncelle
-                                </a>
+                        @foreach (var item in Model)
+                        {
+                            count++;
+                            <tr class="clickable-row"
+                                data-url="/Admin/PricingPlan/GetPlan/@item.PricingPlanId">
 
-                                <a href="/Admin/PricingPlan/Delete/@item.PricingPlanId"
-                                   class="btn btn-sm btn-outline-danger"
-                                   onclick="return confirm('Bu pricingplan silmek istediğinize emin misiniz?')">
-                                    <i class="bi bi-trash"></i> Sil
-                                </a>
-                               
-                            </td>
+       
+                                <td class="text-muted">@count</td>
 
-                        </tr>
+
+                                <td>
+                                    <span class="fw-semibold text-dark">
+                                        @item.Title
+                                    </span>
+                                </td>
+
+
+                                <td>
+                                    <span class="badge bg-success-subtle text-success fw-semibold px-3 py-2">
+                                        @item.Price ₺
+                                    </span>
+                                </td>
+
+
+                                <td>
+                                    @if (item.IsFeature)
+                                    {
+                                        <span class="badge bg-primary px-3 py-2">
+                                            🌟 Öne Çıkan
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary px-3 py-2">
+                                            Pasif
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a href="/Admin/PricingPlan/Update/@item.PricingPlanId"
+                                           class="btn btn-sm btn-light border me-2 rounded-pill">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    <a href="/Admin/PricingPlan/Delete/@item.PricingPlanId"
+                                           class="btn btn-sm btn-light border text-danger rounded-pill"
+                                           onclick="return confirm('Bu planı silmek istediğinize emin misiniz?')">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+
+                                </td>
+
+                            </tr>
                         }
-                    }else
+                    }
+                    else
                     {
-
                         <tr>
-                            <td colspan="7" class="text-center text-muted py-4">
-                                <i class="bi bi-info-circle fs-4"></i>
-                                <p class="mt-2 mb-2">Henüz sigorta paket içeriği bulunmamaktadır.</p>
+                            <td colspan="5" class="text-center py-5">
 
-                                <a href="/Admin/Article/Create"
-                                   class="btn btn-primary btn-sm">
-                                    İlk paketi Ekle
-                                </a>
+                                <div class="text-muted">
+                                    <i class="bi bi-folder-x fs-1"></i>
+                                    <p class="mt-3 mb-3">Henüz sigorta planı eklenmemiş</p>
+
+                                    <a href="/Admin/PricingPlan/Create"
+                                           class="btn btn-primary rounded-pill px-4">
+                                        İlk Planı Oluştur
+                                    </a>
+                                </div>
+
                             </td>
                         </tr>
                     }
                 </tbody>
+
             </table>
         </div>
 
     </div>
 </div>
 
+<script>
+
+    document.addEventListener("DOMContentLoaded",function(){
+
+    const rows = document.querySelectorAll(".clickable-row");
+
+    rows.forEach(function(row){
+
+        row.addEventListener("click",function(e){
+            if(e.target.closest("a")) return;
+
+            const url = row.getAttribute("data-url");
+
+            if(url){
+                window.location.href = url;
+            }
+        });
+    });
 
 
+    });
+
+</script>

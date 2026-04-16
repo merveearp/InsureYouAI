@@ -10,7 +10,7 @@ namespace InsureYouAI.DTOs.ClaudeDtos
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
-        [JsonPropertyName("icon")]
+        [JsonPropertyName("iconUrl")]
         public string IconUrl { get; set; }
     }
 }

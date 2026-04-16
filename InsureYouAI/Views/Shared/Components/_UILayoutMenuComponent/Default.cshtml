@@ -6,22 +6,20 @@
 <div class="offcanvas-menu">
     <span class="menu-close"><i class="fas fa-times"></i></span>
     <form role="search" method="get" id="searchform" class="searchform" action="http://wordpress.zcube.in/xconsulta/">
-        <input type="text" name="s" id="search" placeholder="Search" />
+        <input type="text" name="s" id="search" placeholder="Aranacak kelimeyi giriniz..." />
         <button><i class="fa fa-search"></i></button>
     </form>
 
 
     <div id="cssmenu3" class="menu-one-page-menu-container">
         <ul class="menu">
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a asp-controller="Home" asp-action="Index"> Home</a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a asp-controller="Home" asp-action="Index"> Anasayfa</a></li>
             <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="about.html">About Us</a></li>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="services.html">Services</a></li>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="pricing.html">Pricing </a></li>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="team.html">Team </a></li>
-
-
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="services.html">Hizmetlerimiz</a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="pricing.html">Paketlerimiz </a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="team.html">Yorumlar </a></li>
             <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="blog.html">Blog</a></li>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="contact.html">Contact</a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="contact.html">İletişim</a></li>
 
             <li class="menu-item menu-item-type-custom menu-item-object-custom"><a asp-controller="AIAnalysis" asp-action="Index">AI Hasar Analizi</a></li>
             <li class="menu-item menu-item-type-custom menu-item-object-custom"><a asp-controller="AIPolicy" asp-action="Index">AI Poliçe Analizi</a></li>
@@ -30,8 +28,8 @@
 
     <div id="cssmenu2" class="menu-one-page-menu-container">
         <ul id="menu-one-page-menu-12" class="menu">
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#home"><span>+8 12 3456897</span></a></li>
-            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#howitwork"><span>info@example.com</span></a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#home"><span>@ViewBag.Phone</span></a></li>
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="#howitwork"><span>@ViewBag.Mail</span></a></li>
         </ul>
     </div>
 </div>

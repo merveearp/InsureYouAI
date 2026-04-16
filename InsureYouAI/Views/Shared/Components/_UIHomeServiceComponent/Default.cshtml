@@ -1,93 +1,114 @@
-﻿
+﻿@model List<Service>
 @*
     _UIHomeServiceComponent
 *@
 
-<section id="services-05" class="services-05 services-09 pt-240 pb-100 p-relative fix" style=" background-color: #28314b;">
+<style>
+    .service-card {
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .service-img {
+        position: relative;
+        height: 260px; 
+        overflow: hidden;
+        background-color: #1f2740; 
+    }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            transition: 0.4s;
+        }
+
+        .service-img .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+
+    .service-content {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        color: white;
+        z-index: 2;
+    }
+
+        .service-content h5 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .service-content p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .service-content i {
+            font-size: 22px;
+            color: #4dabf7;
+        }
+
+
+    .service-card:hover img {
+        transform: scale(1.1);
+    }
+    .service-content h5 {
+    color: #fff;
+     text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+</style>
+
+
+<section id="services-05" class="pt-120 pb-100" style="background-color: #28314b;">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12 col-md-12">
-                <div class="section-title center-align mb-50 text-center" data-aos="fade-up" data-aos-duration="1000">
-                    <h2>
-                        Insurance Service We Provide You
-                    </h2>
-
-                </div>
-
-            </div>
-            <div class="col-lg-12">
-                <div class="services-active" data-aos="fade-up" data-aos-duration="1000">
-                    <div class="services-box-02">
-                        <div class="services-img">
-                            <img src="~/insureyou/img/bg/services-01.png" alt="icon01">
-                            <div class="services-content2">
-                                <div class="icon"><img src="~/insureyou/img/icon/sve-icon1.png" alt="icon01"></div>
-                                <h4><a href="single-service.html">Health Insurance</a></h4>
-                                <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur.</p>
-                                <a class="link" href="single-service.html"><i class="fal fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="services-box-02">
-                        <div class="services-img">
-                            <img src="~/insureyou/img/bg/services-04.png" alt="icon01">
-                            <div class="services-content2">
-                                <div class="icon"><img src="~/insureyou/img/icon/sve-icon2.png" alt="icon01"></div>
-                                <h4><a href="single-service.html">Home Insurance</a></h4>
-                                <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur.</p>
-                                <a class="link" href="single-service.html"><i class="fal fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="services-box-02">
-                        <div class="services-img">
-                            <img src="~/insureyou/img/bg/services-02.png" alt="icon01">
-                            <div class="services-content2">
-                                <div class="icon"><img src="~/insureyou/img/icon/sve-icon3.png" alt="icon01"></div>
-                                <h4><a href="single-service.html">Business Insurance</a></h4>
-                                <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur.</p>
-                                <a class="link" href="single-service.html"><i class="fal fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="services-box-02">
-                        <div class="services-img">
-                            <img src="~/insureyou/img/bg/services-03.png" alt="icon01">
-                            <div class="services-content2">
-                                <div class="icon"><img src="~/insureyou/img/icon/sve-icon4.png" alt="icon01"></div>
-                                <h4><a href="single-service.html">Vehicle Insurance</a></h4>
-                                <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur.</p>
-                                <a class="link" href="single-service.html"><i class="fal fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="services-box-02">
-                        <div class="services-img">
-                            <img src="~/insureyou/img/bg/services-02.png" alt="icon01">
-                            <div class="services-content2">
-                                <div class="icon"><img src="~/insureyou/img/icon/sve-icon3.png" alt="icon01"></div>
-                                <h4><a href="single-service.html">Business Insurance</a></h4>
-                                <p>Orci varius natoque penatibus et magnis dis parturient montes, nascetur.</p>
-                                <a class="link" href="single-service.html"><i class="fal fa-angle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
 
 
-                </div>
-
-            </div>
-
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-white">
+                Sigorta Çözümlerimizi Keşfedin
+            </h2>
         </div>
-        <div class="row align-items-center">
 
-            <div class="col-md-12 text-center">
-                <div class="text-bg" data-aos="fade-up" data-aos-duration="1000">
-                    <h2>Benefits</h2>
+        <div class="row g-4">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-3 col-md-6">
+
+                    <div class="service-card">
+
+                        <div class="service-img">
+                            <img src="@item.ImageUrl" alt="@item.Title">
+                            
+                            <div class="overlay"></div>
+
+                            <div class="service-content">
+                                <h5>@item.Title</h5>
+                                <p>@item.Description</p>
+                                <i class="@item.IconUrl"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
-            </div>
+            }
+
         </div>
 
 
+      <div class="col-md-12 text-center"> 
+          <div class="text-bg" data-aos="fade-up" data-aos-duration="1000">
+              <h2> Ayrıcalıklarımız</h2>
+              </div>
+              </div>
     </div>
 </section>

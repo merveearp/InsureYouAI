@@ -2,7 +2,7 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div>
-            <img src="~/snacked/ltr/assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
+            <img src="~/images/head.png" class="logo-icon" alt="logo icon">
         </div>
         <div>
             <h4 class="logo-text">Snacked</h4>
@@ -15,7 +15,7 @@
     <ul class="metismenu" id="menu">
 
         <li>
-            <a asp-area="" asp-controller="Home" asp-action="Index" target="_blank">
+            <a asp-area="" asp-controller="Home" asp-action="Index">
                 <div class="parent-icon"><i class="bi bi-house-door-fill"></i></div>
                 <div class="menu-title">Siteye Git</div>
             </a>
@@ -78,18 +78,33 @@
                 <div class="menu-title">Slider</div>
             </a>
         </li>
-        <li>
-            <a asp-area="Admin" asp-controller="TrailerVideo" asp-action="TrailerVideoList">
-                <div class="parent-icon"><i class="bi bi-play-circle-fill"></i></div>
-                <div class="menu-title">Tanıtım Video</div>
-            </a>
-        </li>
+       
+            <li>
+                <a asp-area="Admin" asp-controller="Article" asp-action="ArticleList">
+                    <div class="parent-icon"><i class="bi bi-file-text-fill"></i></div>
+                    <div class="menu-title">Makaleler</div>
+                </a>
+            </li>
+
+            <li>
+                <a asp-area="Admin" asp-controller="Feature" asp-action="FeatureList">
+                    <div class="parent-icon"><i class="bi bi-patch-check-fill"></i></div>
+                    <div class="menu-title">Neden Biz?</div>
+                </a>
+            </li>
         <li>
             <a asp-area="Admin" asp-controller="Testimonial" asp-action="TestimonialList">
                 <div class="parent-icon"><i class="bi bi-chat-dots-fill"></i></div>
                 <div class="menu-title">Referanslar</div>
             </a>
         </li>
+            <li>
+                <a asp-area="Admin" asp-controller="TrailerVideo" asp-action="TrailerVideoList">
+                    <div class="parent-icon"><i class="bi bi-play-circle-fill"></i></div>
+                    <div class="menu-title">Tanıtım Video</div>
+                </a>
+            </li>
+
         <li>
             <a asp-area="Admin" asp-controller="Contact" asp-action="ContactList">
                 <div class="parent-icon"><i class="bi bi-envelope-fill"></i></div>
@@ -102,12 +117,7 @@
                 <div class="menu-title">Mesajlar</div>
             </a>
         </li>
-        <li>
-            <a asp-area="Admin" asp-controller="Article" asp-action="ArticleList">
-                <div class="parent-icon"><i class="bi bi-file-text-fill"></i></div>
-                <div class="menu-title">Makaleler</div>
-            </a>
-        </li>
+       
        
     </ul>
 </aside>

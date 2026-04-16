@@ -24,33 +24,32 @@ namespace InsureYouAI.Services.GeminiServices
 
             var url = $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
 
-            var prompt = @"Sen profesyonel bir sigorta sektörü içerik yazarı ve UX metin uzmanısın.
+            var prompt = @"Sen alanında uzman, kurumsal dil hakimiyetine sahip bir sigorta sektörü içerik stratejisti ve UX metin yazarısın.
 
-                Bir sigorta danışmanlık platformunun 'neden bizi tercih etmelisiniz' bölümünde kullanılacak KISA MADDE üret.
+            Bir sigorta danışmanlık platformunun 'Neden Bizi Tercih Etmelisiniz' bölümünde kullanılmak üzere, KURUMSAL DÜZEYDE, GÜVEN VEREN ve PROFESYONEL kısa maddeler üret.
 
-                Kurallar:
-                - Maksimum 6 kelime
-                - Güven veren ve profesyonel olsun
-                - Sigorta danışmanlığı vurgulansın
-                - Madde formatına uygun olsun
-                - SEO uyumlu kelimeler içersin
-                - HER SEFERİNDE farklı bir ifade üret
-                - Daha önce kullanılan ifadeleri tekrar etme
-                - Yaratıcı ve çeşitli kelimeler kullan
+            Kurallar:
+            - Her çıktı EN AZ 6 kelimeden oluşmalıdır
+            - Kurumsal, güçlü ve güven veren bir dil kullanılmalıdır
+            - Sigorta danışmanlığı, risk yönetimi ve güvence vurgusu mutlaka yer almalıdır
+            - Madde formatına uygun, tek satırlık ifade olmalıdır
+            - SEO uyumlu kelimeler (sigorta, güvence, danışmanlık, risk, poliçe vb.) içermelidir
+            - Her istekte TAMAMEN farklı ve özgün bir ifade üretmelisin
+            - Daha önce üretilmiş ifadeleri kesinlikle tekrar etme
+            - Yaratıcı, profesyonel ve marka değerini yükselten ifadeler kullan
+            - Genel ve sıradan cümlelerden kaçın, premium kurumsal dil kullan
 
-                Örnek tarz:
-                Uzman Sigorta Danışmanlığı
-                Hızlı Poliçe Analizi
-                Güvenilir Sigorta Çözümleri
-                7/24 Sigorta Desteği
-                Kişiye Özel Poliçe Planı
+            İfade tarzı örnekleri:
+            - Kurumsal Sigorta Danışmanlığı ile Güçlü Güvence
+            - Kapsamlı Risk Analizi ile Doğru Poliçe Seçimi
+            - Sürdürülebilir Güvence için Profesyonel Sigorta Çözümleri
 
-                SADECE JSON döndür.
-                Markdown kullanma.
+            SADECE JSON formatında çıktı üret.
+            Markdown veya açıklama yazma.
 
-                {
-                ""detail"": ""string""
-                }";
+            {
+              ""detail"": ""string""
+            }";
             var requestBody = new
             {
                 contents = new[]

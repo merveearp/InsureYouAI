@@ -210,6 +210,13 @@ namespace InsureYouAI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2");
 
@@ -218,6 +225,10 @@ namespace InsureYouAI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ArticleId");
 
                     b.ToTable("Comments");
                 });
@@ -249,6 +260,27 @@ namespace InsureYouAI.Migrations
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.Feature", b =>
+                {
+                    b.Property<int>("FeatureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeatureId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FeatureId");
+
+                    b.ToTable("Features");
                 });
 
             modelBuilder.Entity("InsureYouAI.Entities.Message", b =>
@@ -319,10 +351,6 @@ namespace InsureYouAI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricingPlanId"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsFeature")
                         .HasColumnType("bit");
 
@@ -336,6 +364,28 @@ namespace InsureYouAI.Migrations
                     b.HasKey("PricingPlanId");
 
                     b.ToTable("PricingPlans");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.PricingPlanItem", b =>
+                {
+                    b.Property<int>("PricingPlanItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PricingPlanItemId"));
+
+                    b.Property<int>("PricingPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PricingPlanItemId");
+
+                    b.HasIndex("PricingPlanId");
+
+                    b.ToTable("PricingPlanItems");
                 });
 
             modelBuilder.Entity("InsureYouAI.Entities.Service", b =>
@@ -590,6 +640,36 @@ namespace InsureYouAI.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("InsureYouAI.Entities.Comment", b =>
+                {
+                    b.HasOne("InsureYouAI.Entities.AppUser", "AppUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InsureYouAI.Entities.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Article");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.PricingPlanItem", b =>
+                {
+                    b.HasOne("InsureYouAI.Entities.PricingPlan", "PricingPlan")
+                        .WithMany("PricingPlanItems")
+                        .HasForeignKey("PricingPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PricingPlan");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -641,9 +721,24 @@ namespace InsureYouAI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("InsureYouAI.Entities.AppUser", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.Article", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("InsureYouAI.Entities.Category", b =>
                 {
                     b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.PricingPlan", b =>
+                {
+                    b.Navigation("PricingPlanItems");
                 });
 #pragma warning restore 612, 618
         }

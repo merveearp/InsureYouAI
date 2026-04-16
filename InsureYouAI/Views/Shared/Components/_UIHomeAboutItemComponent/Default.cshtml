@@ -1,14 +1,56 @@
-﻿
+﻿@model List<AboutItem>
 @*
     _UIHomeAboutItemComponent
 *@
+
+<style>
+
+
+    .about-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .about-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 15px;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+        .about-item .icon {
+            min-width: 40px;
+            height: 40px;
+            background: #4e73df;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: bold;
+            flex-shrink: 0; 
+        }
+
+        .about-item .text {
+            flex: 1;
+            line-height: 1.6;
+        }
+</style>
 <div class="about-content3 mt-30" data-aos="fade-up" data-aos-duration="1200">
     <div class="row">
         <div class="col-md-12">
-            <ul class="green">
-                <li> 24 Month / 24,000km Nationwide Warranty monotone</li>
-                <li> Curabitur dapibus nisl a urna congue, in pharetra urna accumsan.</li>
-                <li> Customer Rewards Program and excellent technology</li>
+            <ul class="about-list">
+                @foreach (var item in Model)
+                {
+                    <li class="about-item">
+
+                        <span class="text">@item.Detail</span>
+                    </li>
+                }
             </ul>
         </div>
     </div>

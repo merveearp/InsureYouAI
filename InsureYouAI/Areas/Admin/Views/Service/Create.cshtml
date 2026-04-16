@@ -185,9 +185,8 @@
 
                 document.getElementById("Title").value = data.title;
                 document.getElementById("Description").value = data.description;
-                document.getElementById("iconUrlInput").value = data.icon;
-
-                document.getElementById("iconPreview").className = data.icon;
+                   document.getElementById("iconUrlInput").value = data.iconUrl;
+                   document.getElementById("iconPreview").className = data.iconUrl;
 
                 btn.innerText = "🔄 Tekrar Oluştur";
                 btn.disabled = false;

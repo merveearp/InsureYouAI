@@ -5,5 +5,9 @@
         public int CommentId { get; set; }
         public string CommentDetail { get; set; }
         public DateTime CommentDate { get; set; }
+        public virtual AppUser AppUser { get; set; }
+        public string AppUserId { get; set; }
+        public int ArticleId { get; set; }
+        public virtual Article Article { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
             var value = await _repository.GetByIdAsync(id);
             return View(value);
         }
-        [HttpGet]
+
         [HttpPost]
         public async Task<IActionResult> Update(TrailerVideo video)
         {

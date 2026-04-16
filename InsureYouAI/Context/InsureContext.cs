@@ -1,7 +1,7 @@
 ﻿using InsureYouAI.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata;
+
 
 namespace InsureYouAI.Context
 {
@@ -20,10 +20,12 @@ namespace InsureYouAI.Context
         public DbSet<Message> Messages { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<PricingPlan> PricingPlans { get; set; }
+        public DbSet<PricingPlanItem> PricingPlanItems { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
         public DbSet<TrailerVideo> TrailerVideos { get; set; }
+        public DbSet<Feature> Features { get; set; }
     }
 }

@@ -8,5 +8,7 @@ namespace InsureYouAI.Entities
         public string Surname { get; set; }
         public string ImageUrl { get; set; }
         public string Description { get; set; }
+        public virtual List<Comment> Comments { get; set; }
+
     }
 }

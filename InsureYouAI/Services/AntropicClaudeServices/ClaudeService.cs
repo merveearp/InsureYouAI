@@ -74,7 +74,7 @@ namespace InsureYouAI.Services.AntropicClaudeServices
                 {
                   ""title"": ""string"",
                   ""description"": ""string"",
-                  ""icon"": ""bi bi-...""
+                  ""iconUrl"": ""bi bi-...""
                 }
 
                 ";
