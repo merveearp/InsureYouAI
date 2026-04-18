@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Blog Sayfası";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- breadcrumb-area -->
+@await Component.InvokeAsync("_UIBlogListBreadCrumbComponent")
+<!-- breadcrumb-area-end -->
+
+<!-- inner-blog -->
+<section class="inner-blog pt-120 pb-120">
+    <div class="container">
+        <div class="row">
+          
+            @await Component.InvokeAsync("_UIBlogListComponent")
+
+            <div class="col-sm-12 col-md-12 col-lg-4">
+                <aside class="sidebar-widget">
+
+                    @await Html.PartialAsync("~/Views/Blog/GetBlog.cshtml")
+                 
+                    @await Component.InvokeAsync("_UIBlogMediaComponent")
+                    @await Component.InvokeAsync("_UIBlogCategoryComponent")
+                    @await Component.InvokeAsync("_UIBlogRecentPostComponent")
+                    @await Component.InvokeAsync("_UIBlogRecentPostComponent")
+                    @await Component.InvokeAsync("_UIBlogTagComponent")
+                   
+                   
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>
+
+@await Html.PartialAsync("~/Views/Home/SubscribeEmail.cshtml")

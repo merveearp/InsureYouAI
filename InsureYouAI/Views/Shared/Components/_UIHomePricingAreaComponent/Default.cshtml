@@ -3,26 +3,35 @@
     _UIHomePricingAreaComponent
 *@
 
-
 <section id="pricing" class="pricing-area pt-70 pb-60 fix p-relative">
     <div class="container">
-        <div class="row justify-content-center align-items-center">
-            @foreach(var item in Model)
-            {
-                  <div class="col-lg-6 col-md-12">
-                <div class="section-title center-align pr-60" data-aos="fade-up" data-aos-duration="1000">
-                    <h2>
-                       @item.Title
-                    </h2>
-                    <p class="pt-30" data-aos="fade-up" data-aos-duration="1200">@item.Description</p>
-                   
+
+
+        @foreach (var item in Model)
+        {
+            <div class="row justify-content-center text-center mb-60">
+                <div class="col-lg-8">
+
+                    <div class="section-title-modern">
+                        <span class="pricing-badge">Sigorta Planları</span>
+
+                        <h2 class="pricing-title">
+                            @item.Title
+                        </h2>
+
+                        <p class="pricing-desc">
+                            @item.Description
+                        </p>
+                    </div>
+
                 </div>
             </div>
+        }
 
-            }
-          
+
+        <div class="row">
             @await Component.InvokeAsync("_UIHomePricingPlanComponent")
-          
         </div>
+
     </div>
 </section>

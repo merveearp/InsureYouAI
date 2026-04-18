@@ -14,7 +14,7 @@
                             <h2> <img src="~/insureyou/img/logo/f_logo.png" alt="img"></h2>
                         </div>
                         <div class="f-contact">
-                            <p>Suspendisse non sem ante. Cras pretium gravida leo a convallis. Nam malesuada interdum metus, sit amet dictum ante congue eu. Maecenas ut maximus enim.</p>
+                            <p>@ViewBag.Info </p>
 
                         </div>
                         <div class="footer-social mt-10">
@@ -27,41 +27,42 @@
                 <div class="col-xl-2 col-lg-2 col-sm-6">
                     <div class="footer-widget mb-30" data-aos="fade-up" data-aos-duration="1400">
                         <div class="f-widget-title">
-                            <h2>Our Links</h2>
+                            <h2>Hızlı Linkler</h2>
                         </div>
                         <div class="footer-link">
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about.html"> About</a></li>
-                                <li><a href="services.html"> Services </a></li>
-                                <li><a href="contact.html"> Contact Us</a></li>
-                                <li><a href="blog.html">Blog </a></li>
+                                <li><a asp-controller="Home" asp-action="Index">Anasayfa</a></li>
+                                <li><a href="about.html"> Hakkımızda</a></li>
+                                <li><a href="services.html"> Hizmetlerimiz </a></li>
+                                <li><a href="contact.html">Bize Yazın</a></li>
+                                <li><a asp-controller="Blog" asp-action="Index">Blog</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-xl-3 col-lg-3 col-sm-6">
                     <div class="footer-widget mb-30" data-aos="fade-up" data-aos-duration="1600">
                         <div class="f-widget-title">
-                            <h2>Contact Us</h2>
+                            <h2>İletişim Bilgileri</h2>
                         </div>
                         <div class="f-contact">
                             <ul>
                                 <li>
                                     <i class="icon fal fa-phone"></i>
-                                    <span>1800-121-3637<br>+91-7052-101-786</span>
+                                    <span>@ViewBag.Phone </span>
                                 </li>
                                 <li>
                                     <i class="icon fal fa-envelope"></i>
                                     <span>
-                                        <a href="mailto:info@example.com">info@example.com</a>
-                                        <br>
-                                        <a href="mailto:help@example.com">help@example.com</a>
+                                        <a href="mailto:info@example.com">@ViewBag.Email</a>
+                                       
                                     </span>
                                 </li>
                                 <li>
                                     <i class="icon fal fa-map-marker-check"></i>
-                                    <span>1247/Plot No. 39, 15th Phase,<br> LHB Colony, Kanpur</span>
+                                    <span>@ViewBag.Address</span>
                                 </li>
 
                             </ul>
@@ -71,35 +72,7 @@
                     </div>
                 </div>
 
-                <div class="col-xl-3 col-lg-3 col-sm-6">
-                    <div class="footer-widget mb-30" data-aos="fade-up" data-aos-duration="1800">
-                        <div class="f-widget-title">
-                            <h2>Latest Post</h2>
-                        </div>
-                        <div class="recent-blog-footer">
-                            <ul>
-                                <li>
-                                    <div class="thum"> <img src="~/insureyou/img/blog/s-blogimg-01.png" alt="img"></div>
-                                    <div class="text">
-                                        <a href="#">Nothing impossble to need hard work</a>
-                                        <span>7 March, 2020</span>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="thum"> <img src="~/insureyou/img/blog/s-blogimg-02.png" alt="img"></div>
-                                    <div class="text">
-                                        <a href="#">Nothing impossble to need hard work</a>
-                                        <span>7 March, 2020</span>
-                                    </div>
-                                </li>
-
-                            </ul>
-
-
-                        </div>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("_UILayoutFooterPostComponent")
 
             </div>
         </div>
@@ -109,7 +82,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <div class="copy-text text-center">
-                        Copyright &copy; Insureyou 2022 . All rights reserved.
+                        © @DateTime.Now.Year InsureYou — Tüm hakları saklıdır. | Merve Arpacıoğlu Türk
                     </div>
                 </div>
             </div>

@@ -1,0 +1,17 @@
+﻿@model List<Category>
+@*
+    _UIBlogCategoryComponent
+*@
+
+
+<section id="categories-1" class="widget widget_categories">
+    <h2 class="widget-title">Kategoriler</h2>
+    @foreach(var item in Model)
+    {
+          <ul>
+        <li class="cat-item cat-item-16"><a href="#">@item.CategoryName</a> (@item.Articles.Count())</li>
+       
+    </ul>
+    }
+  
+</section>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace InsureYouAI.ViewComponents.UIHome
+namespace InsureYouAI.ViewComponents.UIBlog
 {
-    public class _UIHomeNewslaterComponent :ViewComponent
+    public class _UIBlogTagComponent : ViewComponent
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {

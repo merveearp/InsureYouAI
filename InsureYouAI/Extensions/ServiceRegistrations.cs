@@ -4,6 +4,7 @@ using InsureYouAI.Repositories.ArticleRepositories;
 using InsureYouAI.Repositories.CategoryRepositories;
 using InsureYouAI.Repositories.ContactRepositories;
 using InsureYouAI.Repositories.FeatureRepositories;
+using InsureYouAI.Repositories.GaleryRepositories;
 using InsureYouAI.Repositories.MessageRepositories;
 using InsureYouAI.Repositories.PlanRepositories;
 using InsureYouAI.Repositories.PricingPlanItemRepositories;
@@ -36,6 +37,7 @@ namespace InsureYouAI.Extensions
             services.AddScoped<ITestimonialRepository, TestimonialRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<ITrailerVideoRepository, TrailerVideoRepository>();
+            services.AddScoped<IGaleryRepository, GaleryRepository>();
             services.AddScoped<IOpenAIService, OpenAIService>();
             services.AddHttpClient<IGeminiService, GeminiService>();
             services.AddHttpClient<IClaudeService , ClaudeService>();

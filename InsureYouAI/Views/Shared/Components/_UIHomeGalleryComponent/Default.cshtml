@@ -1,80 +1,39 @@
-﻿
+﻿@model List<Gallery>
 @*
     _UIHomeGalleryComponent
 *@
+<style>
 
+    .gallery-image {
+        height: 300px; /* 🔥 burayı ayarlıyorsun */
+        overflow: hidden;
+    }
+
+        .gallery-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 🔥 en kritik satır */
+        }
+</style>
 
 <section class="gallery-area fix" data-aos="fade-up" data-aos-duration="1000">
     <div class="container-fluid">
         <div class="row portfolio-active">
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img01.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img02.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
-
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img03.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img01.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img02.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
-
-            <div class="col-lg-4 col-md-12 mb-30">
-                <a href="projects-detail.html">
-                    <figure class="gallery-image">
-                        <img src="~/insureyou/img/gallery/protfolio-img03.png" alt="img" class="img">
-                        <figcaption>
-                            <h4>Life Protection</h4>
-                            <span>Insurance</span>
-                        </figcaption>
-                    </figure>
-                </a>
-            </div>
+            @foreach(var item in Model)
+            {
+                <div class="col-lg-4 col-md-12 mb-30">
+                    <a href="projects-detail.html">
+                        <figure class="gallery-image">
+                            <img src="@item.ImageUrl" alt="img" class="img">
+                            <figcaption>
+                                <h4>@item.Title</h4>
+                           
+                            </figcaption>
+                        </figure>
+                    </a>
+                </div>
+            }
+           
         </div>
     </div>
 </section>

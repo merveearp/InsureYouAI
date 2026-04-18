@@ -75,6 +75,9 @@ namespace InsureYouAI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -137,6 +140,8 @@ namespace InsureYouAI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppUserId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -155,6 +160,9 @@ namespace InsureYouAI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArticleId"));
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -179,6 +187,8 @@ namespace InsureYouAI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ArticleId");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("CategoryId");
 
@@ -281,6 +291,27 @@ namespace InsureYouAI.Migrations
                     b.HasKey("FeatureId");
 
                     b.ToTable("Features");
+                });
+
+            modelBuilder.Entity("InsureYouAI.Entities.Gallery", b =>
+                {
+                    b.Property<int>("GalleryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GalleryId"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GalleryId");
+
+                    b.ToTable("Galleries");
                 });
 
             modelBuilder.Entity("InsureYouAI.Entities.Message", b =>
@@ -629,13 +660,26 @@ namespace InsureYouAI.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("InsureYouAI.Entities.AppUser", b =>
+                {
+                    b.HasOne("InsureYouAI.Entities.AppUser", null)
+                        .WithMany("AppUsers")
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("InsureYouAI.Entities.Article", b =>
                 {
+                    b.HasOne("InsureYouAI.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId");
+
                     b.HasOne("InsureYouAI.Entities.Category", "Category")
                         .WithMany("Articles")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Category");
                 });
@@ -723,6 +767,8 @@ namespace InsureYouAI.Migrations
 
             modelBuilder.Entity("InsureYouAI.Entities.AppUser", b =>
                 {
+                    b.Navigation("AppUsers");
+
                     b.Navigation("Comments");
                 });
 

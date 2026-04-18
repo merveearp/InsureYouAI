@@ -25,6 +25,26 @@ namespace InsureYouAI.Controllers
             return Json(new { message = result });
         }
 
+        public PartialViewResult SendMessage()
+        {
+            return PartialView();
+        }
 
+        [HttpPost]
+        public IActionResult SendMessage(string message)
+        {
+            return View();
+        }
+
+        public PartialViewResult SubscribeEmail()
+        {
+            return PartialView();
+        }
+
+        [HttpPost]
+        public IActionResult SubscribeEmail(string email)
+        {
+            return View();
+        }
     }
 }

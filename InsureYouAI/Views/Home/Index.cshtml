@@ -58,13 +58,13 @@
 @await Component.InvokeAsync("_UIHomeBlogComponent")
 
             <!-- blog-area-end -->
-            
+
             <!-- contact-area -->
-@await Component.InvokeAsync("_UIHomeContactComponent")
+@await Html.PartialAsync("~/Views/Home/SendMessage.cshtml")
 
             <!-- contact-area-end -->
 
             <!-- newslater-area -->
-@await Component.InvokeAsync("_UIHomeNewslaterComponent")
-          
+@await Html.PartialAsync("~/Views/Home/SubscribeEmail.cshtml")
+   
             <!-- newslater-aread-end -->

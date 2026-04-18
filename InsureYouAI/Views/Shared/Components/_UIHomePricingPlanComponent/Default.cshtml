@@ -1,31 +1,86 @@
 ﻿@model List<PricingPlan>
-@*
-    _UIHomePricingPlanComponent
-*@
+
+    <style>
 
 
-<div class="col-lg-6 col-md-12">
+        .pricing-box-modern {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: 0.3s;
+    height: 100%;
+}
+
+.pricing-box-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.pricing-head h3 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.price-count h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.price-count span {
+    font-size: 14px;
+    color: #777;
+}
+
+.pricing-body ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.pricing-body ul li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pricing-btn {
+    margin-top: 25px;
+}
+    </style>
+
+<div class="container">
     <div class="row">
-        @foreach(var item in Model)
+
+        @foreach (var item in Model)
         {
-            <div class="col-lg-6 col-md-6">
-                <div class="pricing-box pricing-box2 mb-60" data-aos="fade-left" data-aos-duration="1000">
-                    
-                    <div class="pricing-head">
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="pricing-box-modern mb-40">
+
+
+                    <div class="pricing-head text-center">
                         <h3>@item.Title</h3>
+
                         <div class="price-count">
-                            <h2>@item.Price<strong>/Month</strong></h2>
+                            <h2>@item.Price ₺</h2>
+                            <span>/ Aylık</span>
                         </div>
-                        <hr>
                     </div>
 
-                    <div class="pricing-body mt-20 mb-30 text-left">
+   
+                    <div class="pricing-body">
                         <ul>
                             @if (item.PricingPlanItems != null && item.PricingPlanItems.Any())
                             {
                                 foreach (var planItem in item.PricingPlanItems)
                                 {
-                                    <li>@planItem.Title</li>
+                                    <li>
+                                        <i class="bi bi-check-circle-fill text-success"></i>
+                                        @planItem.Title
+                                    </li>
                                 }
                             }
                             else
@@ -34,12 +89,17 @@
                             }
                         </ul>
                     </div>
-                    <div class="pricing-btn">
-                        <a href="contact.html" class="btn ss-btn">Join Now</a>
+
+
+                    <div class="pricing-btn text-center">
+                        <a href="contact.html" class="btn btn-primary w-100">
+                            Teklif Al
+                        </a>
                     </div>
 
                 </div>
             </div>
         }
+
     </div>
 </div>

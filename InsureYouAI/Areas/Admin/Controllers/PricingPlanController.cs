@@ -41,13 +41,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
             return RedirectToAction("PricingPlanList");
         }
 
-        [HttpGet]
-        public IActionResult Update(int id)
-        {
-            var value = _repository.GetByIdAsync(id);
-            return View(value);
-        }
-
+       
         [HttpPost]
         public async Task<IActionResult> Update(PricingPlan plan)
         {
@@ -83,17 +77,19 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UpdateItem(PricingPlanItem planItem,int id)
+        public async Task<IActionResult> UpdateItem(PricingPlanItem item)
         {
-            var item = await _itemRepository.GetByIdAsync(id);
+            var existingItem = await _context.PricingPlanItems
+                .FirstOrDefaultAsync(x => x.PricingPlanItemId == item.PricingPlanItemId);
 
-            var planId = item.PricingPlan.PricingPlanId;
+            if (existingItem == null)
+                return NotFound();
 
-            await _itemRepository.UpdateAsync(planItem);
+            existingItem.Title = item.Title;
 
-            return RedirectToAction("GetPlan", "PricingPlan", new { id = planId });
+            await _context.SaveChangesAsync();
 
-
+            return RedirectToAction("GetPlan", new { id = existingItem.PricingPlanId });
         }
 
         [HttpPost]

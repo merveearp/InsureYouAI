@@ -15,7 +15,7 @@ namespace InsureYouAI.ViewComponents.UIHome
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var values = await _pricingPlanRepository.GetAllAsync();
-            var planList = values.Select(x => x.IsFeature).ToList();
+            var planList = values.Where(x => x.IsFeature).ToList();
             return View(planList);
         }
     }
