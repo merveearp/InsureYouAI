@@ -31,6 +31,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\ViewComponents\AdminUI\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Repositories\CommentRepositories\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\js\" />
