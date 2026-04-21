@@ -1,0 +1,46 @@
+﻿@model Article
+@*
+    _UIBlogDetailContentComponent
+*@
+
+
+<div class="details__content pb-30">
+    <h2>
+        @Model.Title
+    </h2>
+    <div class="meta-info">
+        <ul>
+            <li><i class="fal fa-eye"></i> 100 Views  </li>
+            <li><i class="fal fa-calendar-alt"></i> @Model.CreatedDate.ToString("dd-MMM-yyyy")</li>
+        </ul>
+    </div>
+    <p>@Model.Content</p>
+ 
+    <div class="details__content-img">
+        <img src="@Model.CoverImageUrl" alt="">
+    </div>
+
+    
+    <div class="meta-info">
+        <ul>
+         
+            <li> @Model.Category.CategoryName </li>
+            <li><i class="fal fa-user"></i> @Model.AppUser.Name @Model.AppUser.Surname</li>
+            <li><i class="fal fa-comments"></i> @Model.Comments.Count()</li>
+        </ul>
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-12 col-md-12">
+            <div class="post__tag">
+                <h5>Releted Tags</h5>
+                <ul>
+                    <li><a href="#">organic</a></li>
+                    <li><a href="#">Foods</a></li>
+                    <li><a href="#">tasty</a></li>
+                </ul>
+            </div>
+        </div>
+                                        
+    </div>
+</div>

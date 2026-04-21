@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InsureYouAI.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CommentController : Controller
     {
         private readonly InsureContext _context;

@@ -3,25 +3,46 @@
     _UIBlogListBreadCrumbComponent
 *@
 
-<section class="breadcrumb-area d-flex align-items-center" style="background-image:url(/images/blog.png);background-size: cover;background-repeat: no repeat;height : 400px">
-    <div class="container">
+<section class="breadcrumb-area d-flex align-items-center"
+         style="
+    background-image: url('/images/blog.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 550px;
+    position: relative;
+    ">
+
+
+    <div style="
+        position:absolute;
+        inset:0;
+        background: rgba(0,0,0,0.5);
+        z-index:1;">
+    </div>
+
+    <div class="container" style="position:relative; z-index:2;">
         <div class="row align-items-center">
             <div class="col-xl-12 col-lg-12">
-                <div class="breadcrumb-wrap text-left">
+                <div class="breadcrumb-wrap text-left text-white">
                     <div class="breadcrumb-title">
-                        <h2>Bloglar</h2>
-                        <div class="breadcrumb-wrap">
-                              
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="/Home/Index">Anasayfa</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Blog</li>
-                                </ol>
-                            </nav>
-                        </div>
+                        <h2 class="text-white">Bloglar</h2>
+
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb bg-transparent">
+                                <li class="breadcrumb-item">
+                                    <a href="/Home/Index" class="text-white">Anasayfa</a>
+                                </li>
+                                <li class="breadcrumb-item active text-white">
+                                    Blog
+                                </li>
+                            </ol>
+                        </nav>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </section>

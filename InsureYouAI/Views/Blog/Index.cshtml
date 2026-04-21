@@ -1,21 +1,110 @@
-﻿
+﻿@model List<Article>
 @{
     ViewData["Title"] = "Blog Sayfası";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 <!-- breadcrumb-area -->
 @await Component.InvokeAsync("_UIBlogListBreadCrumbComponent")
 <!-- breadcrumb-area-end -->
 
-<!-- inner-blog -->
+<style>
+
+    .custom-btn {
+        display: inline-block;
+        padding: 10px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        border-radius: 30px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .custom-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            color: #fff;
+        }
+</style>
+
 <section class="inner-blog pt-120 pb-120">
     <div class="container">
         <div class="row">
           
-            @await Component.InvokeAsync("_UIBlogListComponent")
+           
+
+            <div class="col-lg-8">
+
+                @foreach (var item in Model)
+                {
+                    <div class="bsingle__post mb-50">
+                        <div class="bsingle__post-thumb">
+                            <img src="@item.CoverImageUrl" alt="">
+                        </div>
+                        <div class="bsingle__content">
+                            <div class="meta-info">
+                                <ul>
+                                    <li><i class="fal fa-user"></i>@item.AppUser.Name @item.AppUser.Surname</li>
+                                    <li><i class="fal fa-calendar-alt"></i> @item.CreatedDate.ToString("dd-MMM-yyyy")</li>
+                                    <li><i class="fal fa-folder-open"></i> @item.Category.CategoryName</li>
+                                    <li><i class="fal fa-comments"></i> @item.Comments.Count() Yorum</li>
+                                </ul>
+                            </div>
+                            <h2>
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.ArticleId">
+                                    @item.Title
+                                </a>
+                            </h2>
+                            <p>
+                                @(item.Content.Length > 300
+                        ? item.Content.Substring(0, 300) + "..."
+                        : item.Content)
+                            </p>
+                            <div class="blog__btn">
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.ArticleId" class="custom-btn" >Devamını Oku</a>
+                            </div>
+                        </div>
+                    </div>
+  
+
+
+                }
+
+                <div class="pagination-wrap mb-50">
+                    <nav>
+                        <ul class="pagination">
+
+                            @if (ViewBag.CurrentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                            }
+
+                            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                            {
+                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                    <a asp-action="Index" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+
+                            @if (ViewBag.CurrentPage < ViewBag.TotalPage)
+                            {
+                                <li class="page-item">
+                                    <a asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <aside class="sidebar-widget">
@@ -24,7 +113,7 @@
                  
                     @await Component.InvokeAsync("_UIBlogMediaComponent")
                     @await Component.InvokeAsync("_UIBlogCategoryComponent")
-                    @await Component.InvokeAsync("_UIBlogRecentPostComponent")
+                 
                     @await Component.InvokeAsync("_UIBlogRecentPostComponent")
                     @await Component.InvokeAsync("_UIBlogTagComponent")
                    
@@ -34,5 +123,6 @@
         </div>
     </div>
 </section>
+
 
 @await Html.PartialAsync("~/Views/Home/SubscribeEmail.cshtml")

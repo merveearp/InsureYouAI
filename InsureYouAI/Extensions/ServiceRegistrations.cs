@@ -15,6 +15,7 @@ using InsureYouAI.Repositories.TestimonialRepositories;
 using InsureYouAI.Repositories.TrailerVideoRepositories;
 using InsureYouAI.Services.AntropicClaudeServices;
 using InsureYouAI.Services.GeminiServices;
+using InsureYouAI.Services.HuggingFaceServices;
 using InsureYouAI.Services.OpenAIServices;
 
 namespace InsureYouAI.Extensions
@@ -41,6 +42,7 @@ namespace InsureYouAI.Extensions
             services.AddScoped<IOpenAIService, OpenAIService>();
             services.AddHttpClient<IGeminiService, GeminiService>();
             services.AddHttpClient<IClaudeService , ClaudeService>();
+            services.AddHttpClient<IHuggingFaceService, HuggingFaceService>();
         }
     }
 }

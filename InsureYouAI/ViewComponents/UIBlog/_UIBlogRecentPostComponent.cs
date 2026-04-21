@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace InsureYouAI.ViewComponents.UIBlog
 {
 
-
     public class _UIBlogRecentPostComponent :ViewComponent
     {
 
@@ -19,7 +18,7 @@ namespace InsureYouAI.ViewComponents.UIBlog
         {
             var values = await _articleRepository.GetAllAsync();    
             var recentBlogs= values.OrderByDescending(x=>x.ArticleId).Take(3).ToList();
-            return View();
+            return View(recentBlogs);
         }
     }
 }

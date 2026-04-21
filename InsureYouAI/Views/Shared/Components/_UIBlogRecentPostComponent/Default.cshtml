@@ -2,16 +2,78 @@
 @*
     _UIBlogRecentPostComponent
 *@ 
+
+<style>
+
+
+    .recent-post-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .recent-post-item {
+        margin-bottom: 15px;
+    }
+
+    .recent-post-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+        .recent-post-link:hover {
+            background: #f5f7fa;
+        }
+
+    .recent-post-img img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .recent-post-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .recent-post-title {
+        font-weight: 600;
+        color: #222;
+    }
+
+    .post-date {
+        font-size: 12px;
+        color: #888;
+    }
+</style>
 <section id="recent-posts-4" class="widget widget_recent_entries">
 <h2 class="widget-title">Son Eklenenler</h2>
-<ul>
-    @foreach(var item in Model)
-        {
-            <li>
-                <a href="/Blog/Detail/@item.ArticleId">@item.Title</a>
-                <span class="post-date">@item.CreatedDate.ToString("dd-MMM-yyyy")</span>
-            </li>
-        }
-   
+
+<ul class="recent-post-list">
+    @foreach (var item in Model)
+    {
+        <li class="recent-post-item">
+            <a href="/Blog/Detail/@item.ArticleId" class="recent-post-link">
+
+                <div class="recent-post-img">
+                    <img src="@item.MainCoverImageUrl" alt="@item.Title" />
+                </div>
+
+                <div class="recent-post-content">
+                    <span class="recent-post-title">@item.Title</span>
+                    <span class="post-date">
+                        @item.CreatedDate.ToString("dd MMM yyyy")
+                    </span>
+                </div>
+
+            </a>
+        </li>
+    }
 </ul>
 </section>
