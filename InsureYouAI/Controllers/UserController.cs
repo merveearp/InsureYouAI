@@ -63,10 +63,7 @@ namespace InsureYouAI.Controllers
                 
             };
 
-        
-
-
-
+       
             var result = await _userManager.CreateAsync(appUser, registerUser.Password);
 
             if (!result.Succeeded)

@@ -1,0 +1,81 @@
+﻿@model List<AppUser>
+@{
+    ViewData["Title"] = "Kullanıcı Listesi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    int count = 0;
+}
+
+
+<style>
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: 0.2s;
+    }
+
+    .table td, .table th {
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+    .btn-sm {
+        border-radius: 8px;
+        font-weight: 500;
+    }
+</style>
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4 shadow-sm">
+        
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h4 class="mb-0 fw-bold">InsureYou AI Kullanıcı Listesi</h4>
+
+            <div style="max-width: 250px; width: 100%;">
+                <input type="text" class="form-control form-control-sm" placeholder="Search" />
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table align-middle table-borderless">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;">#</th>
+                       
+                        <th>Ad Soyad</th>
+                        <th>Durum</th>
+                        <th>Profil</th>
+                        <th>Yorumlar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        count++;
+                        <tr class="border-bottom">
+                            <td>@count</td>
+
+
+                            <td class="fw-semibold">@item.Name @item.Surname</td>
+
+                            <td>
+                                <a href="/Admin/User/UserStatus/@item.Id" class="btn btn-info btn-sm text-white px-3">
+                                    Durum
+                                </a>
+                            </td>
+
+                            <td>
+                                <a href="/Admin/User/UserProfileWithAI/@item.Id" class="btn btn-warning btn-sm text-dark px-3">
+                                    Profil
+                                </a>
+                            </td>
+
+                            <td>
+                                <a href="/Admin/User/UserComments/@item.Id" class="btn btn-secondary btn-sm text-white px-3">
+                                    Yorumlar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
