@@ -1,5 +1,7 @@
-﻿using InsureYouAI.DTOs;
+﻿using Azure;
+using InsureYouAI.DTOs;
 using InsureYouAI.DTOs.OpenAIDtos;
+using InsureYouAI.Entities;
 using Microsoft.Build.Tasks;
 using System.Net.Http.Headers;
 using System.Text;
@@ -25,6 +27,66 @@ namespace InsureYouAI.Services.OpenAIServices
                 new AuthenticationHeaderValue("Bearer", _apiKey);
             url = "https://api.openai.com/v1/chat/completions";
        }
+
+        public async Task<string> AnalyzeCommentUserAsync(string comments)
+        {
+            var prompt = $@"
+            Sen kullanıcı davranış analizi yapan bir yapay zeka uzmanısın.
+            Analiz Başlıklıkları 
+            1-Genel Duygu Durumu (pozitif/negatif/nötr)
+            2- Toksik içerik var mı ?(örnekleriyle)
+            3-İlgi alanları / konu başlıklarıyla
+            4-İletişim tarzı(samimi ,resmi ,agresif vb)
+            5-Geliştirilmesi gereken iletişim alanları
+            6-5 Maddelik kısa özet
+
+            
+            Yorumlar :
+            {comments}
+                
+               Lütfen çıktıyı profesyonel rapor formatında , madde madde ve en sonda 5 maddelik aksiyon listesi ile ver. ";
+
+            var body = new
+            {
+                model = "gpt-4o-mini",
+                messages = new object[]
+                {
+                    new
+                    {
+                        role="system",
+                        content="Sen kullanıcı yorum analizi yapan bir uzmansın."
+                    },
+                    new
+                    {
+                        role="user",
+                        content=prompt
+                    }
+                },
+                max_tokens = 1000,
+                temperature = 0.2
+
+            };
+            var json = JsonSerializer.Serialize(body);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var httpResponse = await _httpClient.PostAsync(url, content);
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("OpenAI API hatası: " + httpResponse.StatusCode);
+            }
+
+            var responseText = await httpResponse.Content.ReadAsStringAsync();
+
+
+            var jsonString = JsonDocument.Parse(responseText);
+            var AIText = jsonString.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+
+            return AIText;
+        }
 
         public async Task<AIAnalysisDto> AnalyzeDamageAsync(IFormFile image)
         {
@@ -218,6 +280,69 @@ namespace InsureYouAI.Services.OpenAIServices
 
             var result = JsonSerializer.Deserialize<AIPolicyDto>(aiText);
             return result;
+
+        }
+
+        public async Task<string> AnalyzeUserAsync(string articles)
+        {
+            var prompt = $@"Siz bir sigorta sektöründe uzman içerik analistisin.
+                Elinizde bir sigorta şirketinin çalışanının yazdığı tüm makaleler var .Bu makaleler üzerinden çalışanın içerik üretim tarzını analiz et.
+                Analiz Başlıklıkları 
+                1-Konu çeşitliliği ve odak alanları(sağlık,hayat,kasko ,tamamlayıcı ,BES vb.)
+                2- Hedef kitle tahmini (bireysel/kurumsal segment persona)
+                3- Dil ve Anlatım Tarzı(tekniklik seviyesi , okunabilirlik ,ikna gücü)
+                4-Sigorta terimlerini kullanma ve doğruluk düzeyi 
+                5-Müşteri ihtiyaçlarını ve risk yönetimine odaklanma 
+                6-Pazarlama / satış vurgusu CTA netliği
+                7- Geliştirilmesi gereken alanlar ve net aksiyon maddeleri 
+            
+            Makaleler :
+            {articles}
+
+                
+               Lütfen çıktıyı profesyonel rapor formatında , madde madde ve en sonda 5 maddelik aksiyon listesi ile ver. ";
+
+            var body = new
+            {
+                model = "gpt-4o-mini",
+                messages = new object[]
+                {
+                    new
+                    {
+                        role="system",
+                        content="Sen sigorta sektöründe içerik analizi yapan bir uzmansın."
+                    },
+                    new
+                    {
+                        role="user",
+                        content=prompt
+                    }
+                },
+                max_tokens = 1000,
+                temperature = 0.2
+
+            };
+            var json = JsonSerializer.Serialize(body);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var httpResponse = await _httpClient.PostAsync(url, content);
+
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                throw new Exception("OpenAI API hatası: " + httpResponse.StatusCode);
+            }
+
+            var responseText = await httpResponse.Content.ReadAsStringAsync();
+           
+
+            var jsonString = JsonDocument.Parse(responseText);
+            var AIText = jsonString.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+
+            return AIText;
+
 
         }
 

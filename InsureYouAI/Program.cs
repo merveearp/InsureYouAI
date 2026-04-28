@@ -2,6 +2,7 @@ using InsureYouAI.Context;
 using InsureYouAI.Describer;
 using InsureYouAI.Entities;
 using InsureYouAI.Extensions;
+using InsureYouAI.Hubs;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
+builder.Services.AddSignalR();
+builder.Services.AddHttpClient("openai", client =>
+{
+    client.BaseAddress = new Uri("https://api.openai.com/");
+});
 builder.Services.AddRepositoriesExt();
 builder.Services.AddDbContext<InsureContext>(options =>
 {
@@ -48,6 +54,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.MapHub<ChatHub>("/chathub");
 app.UseHttpsRedirection();
 app.UseRouting();
 
