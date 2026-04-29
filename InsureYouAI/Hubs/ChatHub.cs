@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -10,10 +9,7 @@ namespace InsureYouAI.Hubs
 {
     public class ChatHub :Hub
     {
-       
         private const string modelGbt = "gpt-4o-mini";
-
-
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
 

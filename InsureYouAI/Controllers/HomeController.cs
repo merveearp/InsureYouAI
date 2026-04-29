@@ -18,12 +18,12 @@ namespace InsureYouAI.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetConsultation(string message)
-        {
-            var result = await _aiService.GenerateInsuranceConsultationAsync(message);
-            return Json(new { message = result });
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> GetConsultation(string message)
+        //{
+        //    var result = await _aiService.GenerateInsuranceConsultationAsync(message);
+        //    return Json(new { message = result });
+        //}
 
         public PartialViewResult SendMessage()
         {

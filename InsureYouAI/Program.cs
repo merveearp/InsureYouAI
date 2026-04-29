@@ -55,6 +55,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<InsuranceChatHub>("/insuranceChatHub");
 app.UseHttpsRedirection();
 app.UseRouting();
 

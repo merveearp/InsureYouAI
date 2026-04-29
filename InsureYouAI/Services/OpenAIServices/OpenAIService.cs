@@ -418,7 +418,7 @@ namespace InsureYouAI.Services.OpenAIServices
                 - Güven veren ve profesyonel bir üslup kullan
 
                 Kapsam:
-                - Sadece sigorta ile ilgili konularda yardımcı ol (araç, sağlık, konut, seyahat vb.)
+                - Sadece sigorta ile ilgili konularda yardımcı ol (araç, sağlık, konut, seyahat,poliçe vb.)
                 - Sigorta dışı sorular sorulursa kibar ve profesyonel bir şekilde şu şekilde yönlendir:
                   'Bu konuda yardımcı olamıyorum. Size sigorta çözümleri hakkında destek verebilirim.'
 
@@ -433,7 +433,7 @@ namespace InsureYouAI.Services.OpenAIServices
                 content = userMessage
             }
         },
-                temperature = 0.7
+                temperature = 0.4
             };
 
             var json = JsonSerializer.Serialize(requestBody);
