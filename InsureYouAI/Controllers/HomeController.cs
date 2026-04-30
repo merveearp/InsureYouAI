@@ -153,7 +153,21 @@ namespace InsureYouAI.Controllers
 
             #endregion
 
+            #region ClaudeAIMessage_Answer
+           
+            ClaudeAIMessage claudeAIMessage = new ClaudeAIMessage()
+            {
+                MessageDetail = body,
+                MessageSubject = subject,
+                ReceiveEmail=message.Email,
+                ReceiveNameSurname=message.NameSurname,
+                SendDate=DateTime.Now
+            };
+            _context.ClaudeAIMessages.Add(claudeAIMessage);
+            _context.SaveChanges();
 
+            #endregion
+           
             return RedirectToAction("Index");
             
         }

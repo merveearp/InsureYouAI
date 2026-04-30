@@ -28,5 +28,6 @@ namespace InsureYouAI.Context
         public DbSet<TrailerVideo> TrailerVideos { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<Gallery> Galleries { get; set; }
+        public DbSet<ClaudeAIMessage> ClaudeAIMessages { get; set; }
     }
 }
