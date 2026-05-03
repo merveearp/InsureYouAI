@@ -13,6 +13,7 @@ namespace InsureYouAI.Entities
         public string? Title { get; set; }
         public virtual List<Comment> Comments { get; set; }
         public virtual List<AppUser> AppUsers { get; set; }
+        public virtual List<Policy> Policies { get; set; }
 
     }
 }
