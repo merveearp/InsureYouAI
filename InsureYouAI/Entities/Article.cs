@@ -11,7 +11,7 @@
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
         public virtual List<Comment> Comments { get; set; }
-
+     
         public int ViewCount { get; set; }
         public string? AppUserId { get; set; }
         public virtual AppUser AppUser { get; set; }

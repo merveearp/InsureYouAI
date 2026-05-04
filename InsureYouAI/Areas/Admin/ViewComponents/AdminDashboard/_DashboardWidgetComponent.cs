@@ -17,7 +17,7 @@ namespace InsureYouAI.Areas.Admin.ViewComponents.AdminDashboard
             ViewBag.v1 = _context.Categories.Count();
             ViewBag.v2 = _context.Revenues.Count();
             ViewBag.v3 = _context.Articles.Count();
-            ViewBag.v4 = _context.PricingPlans.Count();
+            ViewBag.v4 = _context.Policies.Count();
             return View();
         }
     }

@@ -3,21 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.Areas.Admin.ViewComponents.AdminDashboard
 {
-    public class _DashboardRadialChartComponent :ViewComponent
+    public class _DahsboardCommentListComponent: ViewComponent
     {
         private readonly InsureContext _context;
 
-        public _DashboardRadialChartComponent(InsureContext context)
+        public _DahsboardCommentListComponent(InsureContext context)
         {
             _context = context;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewBag.v1 = _context.Policies.Count();
-            ViewBag.r1 = _context.Policies.Where(x=>x.Status=="Active").Count();
-
-            return View();
+            var values = _context.Comments.OrderByDescending(x => x.CommentDate).Take(7).ToList();
+            return View(values);
         }
     }
 }

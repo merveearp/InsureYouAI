@@ -1,0 +1,146 @@
+﻿
+@*_DashboardMLChartComponent *@
+
+<div class="col-12">
+    <div class="card rounded-4 w-100">
+        <div class="card-body">
+
+            <div class="d-flex align-items-center mb-3">
+                <h6 class="mb-0">ML.Net | Veri Analitiği</h6>
+            </div>
+
+            <div style="width:100%; height:400px;">
+                <canvas id="policyForecastChart"></canvas>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const actualMonths = @Html.Raw(Json.Serialize(ViewBag.ActualMonths));
+    const actualValues = @Html.Raw(Json.Serialize(ViewBag.ActualValues));
+
+    const forecastMonths = @Html.Raw(Json.Serialize(ViewBag.ForecastMonths));
+    const forecastValues = @Html.Raw(Json.Serialize(ViewBag.ForecastValues));
+    const lowerValues = @Html.Raw(Json.Serialize(ViewBag.LowerValues));
+    const upperValues = @Html.Raw(Json.Serialize(ViewBag.UpperValues));
+
+    const labels = [...actualMonths, ...forecastMonths];
+
+    const emptyActual = Array(actualMonths.length).fill(null);
+    const emptyForecast = Array(forecastMonths.length).fill(null);
+
+    const actualData = [
+        ...actualValues,
+        ...emptyForecast
+    ];
+
+    const forecastData = [
+        ...emptyActual,
+        ...forecastValues
+    ];
+
+    const lowerData = [
+        ...emptyActual,
+        ...lowerValues
+    ];
+
+    const upperData = [
+        ...emptyActual,
+        ...upperValues
+    ];
+
+    const ctx = document.getElementById("policyForecastChart").getContext("2d");
+
+    new Chart(ctx, {
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    type: "bar",
+                    label: "Gerçek Poliçe Satışı",
+                    data: actualData,
+                    backgroundColor: "rgba(54, 162, 235, 0.8)",
+                    borderRadius: 8,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.8
+                },
+                {
+                    type: "bar",
+                    label: "Tahmini Satış",
+                    data: forecastData,
+                    backgroundColor: "rgba(255, 99, 132, 0.8)",
+                    borderRadius: 8,
+                    categoryPercentage: 0.7,
+                    barPercentage: 0.8
+                },
+                {
+                    type: "line",
+                    label: "Minimum Tahmin",
+                    data: lowerData,
+                    borderColor: "rgba(255, 193, 7, 1)",
+                    backgroundColor: "rgba(255, 193, 7, 0.15)",
+                    fill: false,
+                    tension: 0.35,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    spanGaps: false
+                },
+                {
+                    type: "line",
+                    label: "Maksimum Tahmin",
+                    data: upperData,
+                    borderColor: "rgba(40, 167, 69, 1)",
+                    backgroundColor: "rgba(40, 167, 69, 0.15)",
+                    fill: false,
+                    tension: 0.35,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    spanGaps: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: "top",
+                    labels: {
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    mode: "index",
+                    intersect: false
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Poliçe Sayısı"
+                    }
+                },
+                x: {
+                    offset: true,
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 35,
+                        minRotation: 35
+                    },
+                    title: {
+                        display: true,
+                        text: "Aylar"
+                    }
+                }
+            }
+        }
+    });
+</script>

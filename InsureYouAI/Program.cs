@@ -3,6 +3,7 @@ using InsureYouAI.Describer;
 using InsureYouAI.Entities;
 using InsureYouAI.Extensions;
 using InsureYouAI.Hubs;
+using InsureYouAI.ML;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

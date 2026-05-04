@@ -10,5 +10,6 @@
         public int ArticleId { get; set; }
         public virtual Article Article { get; set; }
         public string? CommentStatus { get; set; }
+       
     }
 }
