@@ -1,0 +1,87 @@
+﻿@* _DashboardSubCharts3Component *@
+
+@{
+    var policyData = ViewBag.policyData;
+}
+<style>
+
+    .policy-small-card {
+        min-height: 245px;
+    }
+</style>
+
+<div class="col">
+    <div class="card rounded-4 h-100 policy-small-card">
+        <div class="card-body d-flex flex-column">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h6 class="mb-0 fw-semibold">Poliçe Dağılımı</h6>
+                    <p class="mb-0 small text-muted">
+                        Poliçe türlerinin oranları
+                    </p>
+                </div>
+
+                <div class="fs-2 text-primary">
+                    <i class="bi bi-pie-chart-fill"></i>
+                </div>
+            </div>
+
+            <div id="policyPieChart" class="mt-auto"></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+    var policyDataPie = @Html.Raw(policyData);
+
+    var policyTypesPie = policyDataPie.map(x => x.PolicyType);
+    var policyCountsPie = policyDataPie.map(x => x.Count);
+
+    var optionsPolicyPie = {
+        series: policyCountsPie,
+        chart: {
+            type: "donut",
+            height: 140
+        },
+        labels: policyTypesPie,
+
+        legend: {
+            show: false
+        },
+
+        dataLabels: {
+            enabled: false
+        },
+
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: "68%"
+                }
+            }
+        },
+
+        stroke: {
+            width: 2
+        },
+
+        tooltip: {
+            y: {
+                formatter: function (value) {
+                    return value + " poliçe";
+                }
+            }
+        }
+    };
+
+    var policyPieChart = new ApexCharts(
+        document.querySelector("#policyPieChart"),
+        optionsPolicyPie
+    );
+
+    policyPieChart.render();
+</script>

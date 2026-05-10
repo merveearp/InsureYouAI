@@ -1,0 +1,89 @@
+﻿@* _DashboardSubCharts2Component *@
+
+@{
+    var policyData = ViewBag.policyData;
+}
+
+<style>
+    .policy-small-card {
+        min-height: 245px;
+    }
+</style>
+
+<div class="col">
+    <div class="card rounded-4 h-100 policy-small-card">
+        <div class="card-body d-flex flex-column">
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h6 class="mb-0 fw-semibold">Poliçe Türleri</h6>
+                    <p class="mb-0 small text-muted">
+                        Tür bazlı poliçe yoğunluğu
+                    </p>
+                </div>
+
+                <div class="fs-2 text-primary">
+                    <i class="bi bi-bar-chart-fill"></i>
+                </div>
+            </div>
+
+            <div id="policychart2" class="mt-auto"></div>
+
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    var policyDataBar = @Html.Raw(policyData);
+
+    var policyTypesBar = policyDataBar.map(x => x.PolicyType);
+    var policyCountsBar = policyDataBar.map(x => x.Count);
+
+    var optionsPolicyBar = {
+        series: [{
+            name: "Poliçe Sayısı",
+            data: policyCountsBar
+        }],
+        chart: {
+            type: "bar",
+            height: 140,
+            toolbar: {
+                show: false
+            },
+            sparkline: {
+                enabled: true
+            }
+        },
+        plotOptions: {
+            bar: {
+                columnWidth: "45%",
+                borderRadius: 5
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: policyTypesBar
+        },
+        tooltip: {
+            x: {
+                formatter: function (value, opts) {
+                    return policyTypesBar[opts.dataPointIndex];
+                }
+            },
+            y: {
+                formatter: function (value) {
+                    return value + " poliçe";
+                }
+            }
+        }
+    };
+
+    var policyBarChart = new ApexCharts(
+        document.querySelector("#policychart2"),
+        optionsPolicyBar
+    );
+
+    policyBarChart.render();
+</script>
