@@ -1,12 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InsureYouAI.Context;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InsureYouAI.ViewComponents.UIBlogDetail
 {
     public class _UIBlogDetailAuthorAboutComponent :ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        private readonly InsureContext _context;
+
+        public _UIBlogDetailAuthorAboutComponent(InsureContext context)
         {
-            return View();
+            _context = context;
+        }
+
+        public async Task<IViewComponentResult> InvokeAsync(int id)
+        {
+            var value = await _context.Articles.Where(x => x.ArticleId == id).FirstOrDefaultAsync();
+            return View(value);
         }
     }
 }

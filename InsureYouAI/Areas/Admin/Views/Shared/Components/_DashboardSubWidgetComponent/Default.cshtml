@@ -1,0 +1,154 @@
+﻿@*
+    _DashboardSubWidgetComponent
+*@
+
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4 g-4">
+
+    <div class="col">
+        <div class="card rounded-4 border-0 overflow-hidden dashboard-mini-widget bg-purple">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <h3 class="mb-1 text-white fw-bold">
+                            @ViewBag.AIChatCount
+                        </h3>
+
+                        <p class="mb-0 text-white-50">
+                            AI Sohbet
+                        </p>
+                    </div>
+
+                    <div class="ms-auto widget-icon-circle">
+                        <i class="bi bi-robot"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card rounded-4 border-0 overflow-hidden dashboard-mini-widget bg-primary">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <h3 class="mb-1 text-white fw-bold">
+                            @ViewBag.ToxicCommentCount
+                        </h3>
+
+                        <p class="mb-0 text-white-50">
+                            Toksik Yorum
+                        </p>
+                    </div>
+
+                    <div class="ms-auto widget-icon-circle">
+                        <i class="bi bi-exclamation-octagon-fill"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card rounded-4 border-0 overflow-hidden dashboard-mini-widget bg-orange">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <h3 class="mb-1 text-white fw-bold">
+                            @ViewBag.MessageCount
+                        </h3>
+
+                        <p class="mb-0 text-white-50">
+                            Gelen Mesaj
+                        </p>
+                    </div>
+
+                    <div class="ms-auto widget-icon-circle">
+                        <i class="bi bi-envelope-fill"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card rounded-4 border-0 overflow-hidden dashboard-mini-widget bg-success">
+            <div class="card-body">
+
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <h3 class="mb-1 text-white fw-bold">
+                            @ViewBag.ApprovedCommentCount
+                        </h3>
+
+                        <p class="mb-0 text-white-50">
+                            Onaylanan Yorum
+                        </p>
+                    </div>
+
+                    <div class="ms-auto widget-icon-circle">
+                        <i class="bi bi-patch-check-fill"></i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+
+    .dashboard-mini-widget {
+        transition: all .35s ease;
+        cursor: pointer;
+    }
+
+        .dashboard-mini-widget:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 16px 35px rgba(0,0,0,0.12);
+        }
+
+    .widget-icon-circle {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: rgba(255,255,255,0.16);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 26px;
+        backdrop-filter: blur(6px);
+    }
+
+    .bg-purple {
+        background: linear-gradient(135deg,#7b2ff7,#9b4dff);
+    }
+
+    .bg-primary {
+        background: linear-gradient(135deg,#2563eb,#3b82f6);
+    }
+
+    .bg-orange {
+        background: linear-gradient(135deg,#ff6a00,#ff914d);
+    }
+
+    .bg-success {
+        background: linear-gradient(135deg,#11998e,#38ef7d);
+    }
+
+</style>

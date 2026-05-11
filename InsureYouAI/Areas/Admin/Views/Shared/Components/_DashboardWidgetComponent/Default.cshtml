@@ -1,65 +1,153 @@
 ﻿@* _DashboardWidgetComponent *@
 
+<style>
 
-            
-<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+    .dashboard-widget-card {
+        border: none;
+        border-radius: 22px;
+        transition: all 0.35s ease;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .dashboard-widget-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+        }
+
+    .widget-icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+    }
+
+    /* CARD THEMES */
+
+    .widget-primary {
+        background: linear-gradient(135deg,#f3f6ff,#eef4ff);
+    }
+
+        .widget-primary .widget-icon {
+            background: rgba(13,110,253,0.12);
+            color: #0d6efd;
+        }
+
+    .widget-success {
+        background: linear-gradient(135deg,#f1fff5,#ebfff1);
+    }
+
+        .widget-success .widget-icon {
+            background: rgba(25,135,84,0.12);
+            color: #198754;
+        }
+
+    .widget-orange {
+        background: linear-gradient(135deg,#fff7f1,#fff3eb);
+    }
+
+        .widget-orange .widget-icon {
+            background: rgba(253,126,20,0.12);
+            color: #fd7e14;
+        }
+
+    .widget-info {
+        background: linear-gradient(135deg,#f1fbff,#edf8ff);
+    }
+
+        .widget-info .widget-icon {
+            background: rgba(13,202,240,0.12);
+            color: #0dcaf0;
+        }
+
+    .widget-title {
+        color: #6c757d;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .widget-value {
+        font-size: 34px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+</style>
+<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4 g-4">
+
     <div class="col">
-        <div class="card rounded-4">
+        <div class="card dashboard-widget-card widget-primary">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="">
-                        <p class="mb-1">Sigorta Kategori</p>
-                        <h4 class="mb-0">@ViewBag.v1</h4>
+
+                    <div>
+                        <p class="widget-title">Sigorta Kategorisi</p>
+                        <h2 class="widget-value">@ViewBag.CategoryCount</h2>
                     </div>
-                    <div class="ms-auto widget-icon bg-primary text-white">
-                        <i class="bi bi-basket2"></i>
+
+                    <div class="ms-auto widget-icon">
+                        <i class="bi bi-grid-fill"></i>
                     </div>
+
                 </div>
-                     
             </div>
         </div>
     </div>
+
     <div class="col">
-        <div class="card rounded-4">
+        <div class="card dashboard-widget-card widget-success">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="">
-                        <p class="mb-1">Müşteri Sayısı</p>
-                        <h4 class="mb-0">@ViewBag.v2</h4>
+
+                    <div>
+                        <p class="widget-title">Kullanıcı Sayısı</p>
+                        <h2 class="widget-value">@ViewBag.UserCount</h2>
                     </div>
-                    <div class="ms-auto widget-icon bg-success text-white">
-                        <i class="bi bi-currency-dollar"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card rounded-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="">
-                        <p class="mb-1">AI Makale</p>
-                        <h4 class="mb-0">@ViewBag.v3</h4>
-                    </div>
-                    <div class="ms-auto widget-icon bg-orange text-white">
-                        <i class="bi bi-emoji-heart-eyes"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card rounded-4">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="">
-                        <p class="mb-1">Sigorta Poliçe</p>
-                        <h4 class="mb-0">@ViewBag.v4</h4>
-                    </div>
-                    <div class="ms-auto widget-icon bg-info text-white">
+
+                    <div class="ms-auto widget-icon">
                         <i class="bi bi-people-fill"></i>
                     </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card dashboard-widget-card widget-orange">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <p class="widget-title">AI Makale</p>
+                        <h2 class="widget-value">@ViewBag.ArticleCount</h2>
+                    </div>
+
+                    <div class="ms-auto widget-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card dashboard-widget-card widget-info">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+
+                    <div>
+                        <p class="widget-title">Makale Görüntülenme</p>
+                        <h2 class="widget-value">@ViewBag.ArticleViewCount</h2>
+                    </div>
+
+                    <div class="ms-auto widget-icon">
+                        <i class="bi bi-bar-chart-line-fill"></i>
+                    </div>
+
                 </div>
             </div>
         </div>

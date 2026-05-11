@@ -4,6 +4,115 @@
     ViewData["Title"] = "Blog Detay";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+    .comment-section {
+        margin-top: 45px;
+        margin-bottom: 45px;
+    }
+
+    .comment-section-title {
+        margin-bottom: 28px;
+    }
+
+        .comment-section-title h5 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #00235a;
+            margin-bottom: 6px;
+        }
+
+    .comment-card {
+        display: flex;
+        gap: 18px;
+        padding: 24px;
+        margin-bottom: 22px;
+        border-radius: 20px;
+        background: #ffffff;
+        border: 1px solid #eef2f7;
+        box-shadow: 0 10px 30px rgba(0, 35, 90, .05);
+    }
+
+    .comment-avatar {
+        min-width: 56px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e9ffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .comment-content {
+        flex: 1;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .comment-user h6 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 800;
+        color: #00235a;
+    }
+
+    .comment-date {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #4d73ff;
+        font-weight: 600;
+    }
+
+    .comment-message {
+        margin: 0;
+        color: #667085;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .comment-reply-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 14px;
+        padding: 8px 15px;
+        border-radius: 30px;
+        background: #f4f8ff;
+        color: #00235a;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+        .comment-reply-btn:hover {
+            background: #0d6efd;
+            color: #ffffff;
+        }
+
+    .empty-comment-box {
+        padding: 25px;
+        border-radius: 18px;
+        background: #f8fbff;
+        border: 1px dashed #d9e3f0;
+        color: #667085;
+    }
+</style>
+
 <section class="breadcrumb-area d-flex align-items-center"
          style="
     background-image: url(@Model.MainCoverImageUrl);
@@ -70,7 +179,7 @@
                                 <li><i class="fal fa-calendar-alt"></i> @Model.CreatedDate.ToString("dd-MMM-yyyy")</li>
                             </ul>
                         </div>
-                        <p>@Model.Content</p>
+                        <p>@Html.Raw(Model.Content)</p>
  
                         <div class="details__content-img">
                             <img src="@Model.CoverImageUrl" alt="">
@@ -99,42 +208,68 @@
                                         
                         </div>
                     </div>
-                    @await Component.InvokeAsync("_UIBlogDetailNextEndPrevPostComponent", new { id = Model.ArticleId })
-                    @await Component.InvokeAsync("_UIBlogDetailAuthorAboutComponent")
-                   
-                    <div class="comment__wrap pb-45">
-                        <div class="comment__wrap-title">
+                    <div class="clearfix mb-5">
+                        @await Component.InvokeAsync("_UIBlogDetailNextEndPrevPostComponent", new { id = Model.ArticleId })
+                    </div>
+
+                    <div class="mt-5">
+                        @await Component.InvokeAsync("_UIBlogDetailAuthorAboutComponent",new { id = Model.ArticleId })
+                    </div>
+
+                    <div class="comment-section">
+                        <div class="comment-section-title">
                             <h5>Yorumlar</h5>
-                           
+                            <p class="text-muted mb-0">
+                                Bu yazıya yapılan kullanıcı yorumları
+                            </p>
                         </div>
 
                         @if (Model.Comments != null && Model.Comments.Any())
                         {
                             foreach (var item in Model.Comments)
                             {
-                               
-                                <div class="single__comment mb-35">
-                                    <div class="comments-avatar">
-                                        <img src="img/blog/comment/c_01.png" alt="">
+                                <div class="comment-card">
+
+                                    <div class="comment-avatar">
+                                        @if (!string.IsNullOrEmpty(item.AppUser?.ImageUrl))
+                                        {
+                                            <img src="@item.AppUser.ImageUrl" alt="@item.AppUser.Name @item.AppUser.Surname">
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-person-fill"></i>
+                                        }
                                     </div>
-                                    <div class="comment-text">
-                                        <div class="avatar-name mb-15">
-                                            <h6>@item.AppUser.Name @item.AppUser.Surname</h6>
-                                            <span>@item.CommentDate.ToString("dd MMM yyyy")</span>
+
+                                    <div class="comment-content">
+                                        <div class="comment-header">
+                                            <div class="comment-user">
+                                                <h6>@item.AppUser.Name @item.AppUser.Surname</h6>
+                                                <span class="comment-date">
+                                                    @item.CommentDate.ToString("dd MMM yyyy")
+                                                </span>
+                                            </div>
                                         </div>
-                                        <p>@item.CommentDetail</p>
-                                        <a href="#" class="comment-reply mt-15">
-                                            <i class="fas fa-reply"></i> Yanıtla
+
+                                        <p class="comment-message">
+                                            @item.CommentDetail
+                                        </p>
+
+                                        <a href="#" class="comment-reply-btn">
+                                            <i class="fas fa-reply"></i>
+                                            Yanıtla
                                         </a>
                                     </div>
+
                                 </div>
                             }
                         }
                         else
                         {
-                            <p class="text-muted">Henüz yorum yapılmamış.</p>
+                            <div class="empty-comment-box">
+                                Henüz yorum yapılmamış. İlk yorumu sen bırakabilirsin.
+                            </div>
                         }
-
                     </div>
                     
                     @await Html.PartialAsync("/Views/Blog/AddComment.cshtml", new Comment { ArticleId = Model.ArticleId })

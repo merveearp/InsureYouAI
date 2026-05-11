@@ -1,4 +1,5 @@
 ﻿
+using InsureYouAI.Context;
 using InsureYouAI.Entities;
 using InsureYouAI.Repositories.CategoryRepositories;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,27 @@ namespace InsureYouAI.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _repository;
+        private readonly InsureContext _context;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository, InsureContext context)
         {
             _repository = categoryRepository;
+            _context = context;
         }
 
         public async Task<IActionResult> CategoryList()
         {
             var values = await _repository.GetAllAsync();
+            return View(values);
+        }
+        public IActionResult CategoryByArticleList(int id)
+        {
+            var value = _context.Articles.Where(x => x.CategoryId == id).Select(x=>x.Category.CategoryName).FirstOrDefault();
+            ViewBag.CategoryName = value;
+
+            var values = _context.Articles
+            .Where(x => x.CategoryId == id)
+            .ToList();
             return View(values);
         }
 

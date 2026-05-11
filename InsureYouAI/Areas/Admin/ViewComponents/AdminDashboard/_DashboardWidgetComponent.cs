@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.Areas.Admin.ViewComponents.AdminDashboard
 {
-    public class _DashboardWidgetComponent:ViewComponent
+    public class _DashboardWidgetComponent : ViewComponent
     {
         private readonly InsureContext _context;
 
@@ -14,10 +14,15 @@ namespace InsureYouAI.Areas.Admin.ViewComponents.AdminDashboard
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewBag.v1 = _context.Categories.Count();
-            ViewBag.v2 = _context.Revenues.Count();
-            ViewBag.v3 = _context.Articles.Count();
-            ViewBag.v4 = _context.Policies.Count();
+            ViewBag.CategoryCount = _context.Categories.Count();
+
+            ViewBag.UserCount = _context.Users.Count();
+
+            ViewBag.ArticleCount = _context.Articles.Count();
+
+            ViewBag.ArticleViewCount = _context.Articles
+                .Sum(x => x.ViewCount);
+
             return View();
         }
     }

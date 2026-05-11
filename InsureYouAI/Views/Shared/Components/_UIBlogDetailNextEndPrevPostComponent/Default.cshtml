@@ -1,27 +1,134 @@
-﻿@model Article
-@*
-    _UIBlogDetailNextEndPrevPostComponent
-    
-*@
+﻿@using InsureYouAI.Entities
 
+@{
+    var previousArticle = ViewBag.PreviousArticle as Article;
+    var nextArticle = ViewBag.NextArticle as Article;
+}
 
+<style>
+    .blog-post-navigation {
+        margin: 50px 0;
+        padding: 28px;
+        border-radius: 20px;
+        background: #f8fbff;
+        border: 1px solid #eef2f7;
+    }
 
-<div class="posts_navigation pt-35 pb-35">
-    <div class="row align-items-center">
-        <div class="col-xl-4 col-md-5">
-            <div class="prev-link">
-                <span>Önceki Post</span>
-                <h4><a href="/Blog/Detail/"></a></h4>
-            </div>
+    .post-nav-card {
+        height: 100%;
+        padding: 22px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid #edf1f5;
+        transition: all .3s ease;
+    }
+
+        .post-nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 35, 90, .08);
+        }
+
+    .post-nav-label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 12px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #7b8494;
+        font-weight: 600;
+    }
+
+    .post-nav-title {
+        font-size: 19px;
+        line-height: 1.45;
+        font-weight: 700;
+        margin: 0;
+    }
+
+        .post-nav-title a {
+            color: #00235a;
+            text-decoration: none;
+        }
+
+            .post-nav-title a:hover {
+                color: #0d6efd;
+            }
+
+    .post-nav-center {
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #e9ffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .post-nav-center img {
+            max-width: 28px;
+        }
+
+    .empty-post-nav {
+        opacity: .45;
+    }
+</style>
+
+<div class="blog-post-navigation">
+    <div class="row align-items-center g-4">
+
+        <div class="col-lg-5 col-md-5">
+            @if (previousArticle != null)
+            {
+                <div class="post-nav-card">
+                    <span class="post-nav-label">
+                        <i class="bi bi-arrow-left"></i> Önceki Post
+                    </span>
+
+                    <h4 class="post-nav-title">
+                        <a href="/Blog/Detail/@previousArticle.ArticleId">
+                            @previousArticle.Title
+                        </a>
+                    </h4>
+                </div>
+            }
+            else
+            {
+                <div class="post-nav-card empty-post-nav">
+                    <span class="post-nav-label">Önceki Post</span>
+                    <h4 class="post-nav-title">Önceki yazı bulunamadı</h4>
+                </div>
+            }
         </div>
-        <div class="col-xl-4 col-md-2 text-left text-md-center">
-            <a href="blog.html" class="blog-filter"><img src="/insureyou/img/icon/c_d01.png" alt=""></a>
+
+        <div class="col-lg-2 col-md-2 text-center">
+            <a href="/Blog/Index" class="post-nav-center">
+                <img src="/insureyou/img/icon/c_d01.png" alt="">
+            </a>
         </div>
-        <div class="col-xl-4 col-md-5">
-            <div class="next-link text-left text-md-right">
-                <span>Sonraki Post</span>
-                <h4><a href="/Blog/Detail/">Tips Minimalist</a></h4>
-            </div>
+
+        <div class="col-lg-5 col-md-5">
+            @if (nextArticle != null)
+            {
+                <div class="post-nav-card text-md-end">
+                    <span class="post-nav-label">
+                        Sonraki Post <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                    <h4 class="post-nav-title">
+                        <a href="/Blog/Detail/@nextArticle.ArticleId">
+                            @nextArticle.Title
+                        </a>
+                    </h4>
+                </div>
+            }
+            else
+            {
+                <div class="post-nav-card empty-post-nav text-md-end">
+                    <span class="post-nav-label">Sonraki Post</span>
+                    <h4 class="post-nav-title">Sonraki yazı bulunamadı</h4>
+                </div>
+            }
         </div>
+
     </div>
 </div>

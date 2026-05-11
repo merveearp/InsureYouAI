@@ -1,28 +1,74 @@
-﻿
+﻿@model Article
 @*
    _UIBlogDetailAuthorAboutComponent
 *@
+<style>
+    .author-card {
+        padding: 35px 30px;
+        border-radius: 22px;
+        background: #f8fbff;
+        border: 1px solid #eef2f7;
+        box-shadow: 0 12px 35px rgba(0, 35, 90, .06);
+    }
 
-<div class="avatar__wrap text-center mb-45">
-    <div class="avatar-img">
-        <img src="img/blog/comment/avatar.png" alt="">
-    </div>
-    <div class="avatar__info">
-        <h5>Rosalina William</h5>
-        <div class="avatar__info-social">
+    .author-img img {
+        width: 105px;
+        height: 105px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid #e9ffff;
+    }
 
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-behance"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
+    .author-title {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 6px 15px;
+        border-radius: 30px;
+        background: #eef6ff;
+        color: #0d6efd;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .author-content {
+        max-width: 700px;
+        margin: 18px auto 0;
+        color: #6b7280;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+        .author-content p {
+            margin-bottom: 8px;
+        }
+</style>
+
+@if (Model?.AppUser != null)
+{
+    <div class="avatar__wrap text-center mb-45 author-card">
+        <div class="avatar-img author-img">
+            <img src="@Model.AppUser.ImageUrl" alt="@Model.AppUser.Name @Model.AppUser.Surname">
+        </div>
+
+        <div class="avatar__info">
+            <h5>@Model.AppUser.Name @Model.AppUser.Surname</h5>
+
+            @if (!string.IsNullOrEmpty(Model.AppUser.Title))
+            {
+                <span class="author-title">@Model.AppUser.Title</span>
+            }
+        </div>
+
+        <div class="avatar__wrap-content author-content">
+            @if (!string.IsNullOrEmpty(Model.AppUser.Description))
+            {
+                <p>@Model.AppUser.Description</p>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.AppUser.Education))
+            {
+                <p><strong>Eğitim:</strong> @Model.AppUser.Education</p>
+            }
         </div>
     </div>
-    <div class="avatar__wrap-content">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequa aute irure dolor.
-        </p>
-    </div>
-</div>
+}

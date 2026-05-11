@@ -54,6 +54,18 @@ namespace InsureYouAI.Controllers
 
             return View(value);
         }
+        public IActionResult GetBlogByCategory(int id )
+        {
+
+            var categoryName = _context.Categories
+                .Where(x => x.CategoryId == id)
+                .Select(x => x.CategoryName)
+                .FirstOrDefault();
+
+            ViewBag.CategoryName = categoryName;
+            var values = _context.Articles.Where(x => x.CategoryId == id).ToList();
+            return View(values);
+        }
 
         public PartialViewResult GetBlog()
         {

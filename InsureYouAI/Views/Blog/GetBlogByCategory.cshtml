@@ -1,8 +1,9 @@
 ﻿@model List<Article>
 @{
-    ViewData["Title"] = "Blog Sayfası";
+    ViewData["Title"] = "Kategorilere Göre Bloglar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <!-- breadcrumb-area -->
 @await Component.InvokeAsync("_UIBlogListBreadCrumbComponent")
@@ -33,14 +34,27 @@
     <div class="container">
         <div class="row">
           
-           
 
             <div class="col-lg-8">
+
+                <div class="mt-3">
+                    <a asp-controller="Blog"
+                           asp-action="Index"
+                           class="custom-btn">
+                        <i class="fal fa-arrow-left"></i> Tüm Bloglara Dön
+                    </a>
+                </div>
+                <div class="section-title mb-40">
+                    <h3>@ViewBag.CategoryName</h3>
+                    <h6>Bu kategoriye ait blog yazıları</h6>
+
+                   
+                </div>
 
                 @foreach (var item in Model)
                 {
                     <div class="bsingle__post mb-50">
-                        <div class="bsingle__post-thumb">
+                        <div class=bsingle__post-thumb">
                             <img src="@item.CoverImageUrl" alt="">
                         </div>
                         <div class="bsingle__content">
@@ -63,7 +77,7 @@
                         : item.Content)
                             </p>
                             <div class="blog__btn">
-                                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.ArticleId" class="custom-btn" >Devamını Oku</a>
+                                <a asp-controller="Blog" asp-action="Detail" asp-route-id="@item.ArticleId" class="custom-btn">Devamını Oku</a>
                             </div>
                         </div>
                     </div>
@@ -72,38 +86,7 @@
 
                 }
 
-                <div class="pagination-wrap mb-50">
-                    <nav>
-                        <ul class="pagination">
-
-                            @if (ViewBag.CurrentPage > 1)
-                            {
-                                <li class="page-item">
-                                    <a asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">
-                                        <i class="fas fa-angle-double-left"></i>
-                                    </a>
-                                </li>
-                            }
-
-                            @for (int i = 1; i <= ViewBag.TotalPage; i++)
-                            {
-                                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                                    <a asp-action="Index" asp-route-page="@i">@i</a>
-                                </li>
-                            }
-
-                            @if (ViewBag.CurrentPage < ViewBag.TotalPage)
-                            {
-                                <li class="page-item">
-                                    <a asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">
-                                        <i class="fas fa-angle-double-right"></i>
-                                    </a>
-                                </li>
-                            }
-
-                        </ul>
-                    </nav>
-                </div>
+               
             </div>
 
             <div class="col-sm-12 col-md-12 col-lg-4">

@@ -1,21 +1,32 @@
-﻿
-@*
+﻿@*
    _DashboardRadialChartComponent
 *@
 
+@{
+    var totalPolicyCount = ViewBag.TotalPolicyCount;
+    var activePolicyCount = ViewBag.ActivePolicyCount;
+    var passivePolicyCount = ViewBag.PassivePolicyCount;
+    var kaskoPolicyCount = ViewBag.KaskoPolicyCount;
+
+    var totalPolicyRate = ViewBag.TotalPolicyRate;
+    var activePolicyRate = ViewBag.ActivePolicyRate;
+    var passivePolicyRate = ViewBag.PassivePolicyRate;
+    var kaskoPolicyRate = ViewBag.KaskoPolicyRate;
+}
 
 <div class="row row-cols-1 row-cols-lg-4 radial-charts g-4">
+
     <div class="col">
         <div class="card rounded-4">
             <div class="card-body">
                 <div class="text-center">
-                    <p class="mb-1">Siparişler</p>
-                    <h4>9,254</h4>
+                    <p class="mb-1">Toplam Poliçe</p>
+                    <h4>@totalPolicyCount</h4>
                 </div>
-                <div id="chart3"></div>
+                <div id="policyTotalChart"></div>
                 <div class="text-center">
-                    <p class="mb-1">Completed</p>
-                    <h4>5632</h4>
+                    <p class="mb-1">Genel Portföy</p>
+                    <h4>%@totalPolicyRate</h4>
                 </div>
             </div>
         </div>
@@ -25,13 +36,13 @@
         <div class="card rounded-4">
             <div class="card-body">
                 <div class="text-center">
-                    <p class="mb-1">Unique Visitors</p>
-                    <h4>5,2684</h4>
+                    <p class="mb-1">Aktif Poliçe</p>
+                    <h4>@activePolicyCount</h4>
                 </div>
-                <div id="chart4"></div>
+                <div id="activePolicyChart"></div>
                 <div class="text-center">
-                    <p class="mb-1">Increased since Last Week</p>
-                    <h4>25%</h4>
+                    <p class="mb-1">Aktiflik Oranı</p>
+                    <h4>%@activePolicyRate</h4>
                 </div>
             </div>
         </div>
@@ -41,13 +52,13 @@
         <div class="card rounded-4">
             <div class="card-body">
                 <div class="text-center">
-                    <p class="mb-1">Impressions</p>
-                    <h4>7,362</h4>
+                    <p class="mb-1">Pasif Poliçe</p>
+                    <h4>@passivePolicyCount</h4>
                 </div>
-                <div id="chart5"></div>
+                <div id="passivePolicyChart"></div>
                 <div class="text-center">
-                    <p class="mb-1">Increased since Last Week</p>
-                    <h4>45%</h4>
+                    <p class="mb-1">Pasiflik Oranı</p>
+                    <h4>%@passivePolicyRate</h4>
                 </div>
             </div>
         </div>
@@ -57,53 +68,50 @@
         <div class="card rounded-4">
             <div class="card-body">
                 <div class="text-center">
-                    <p class="mb-1">Followers</p>
-                    <h4>4278K</h4>
+                    <p class="mb-1">Kasko Poliçesi</p>
+                    <h4>@kaskoPolicyCount</h4>
                 </div>
-                <div id="chart6"></div>
+                <div id="kaskoPolicyChart"></div>
                 <div class="text-center">
-                    <p class="mb-1">Increased since Last Week</p>
-                    <h4>55%</h4>
+                    <p class="mb-1">Kasko Oranı</p>
+                    <h4>%@kaskoPolicyRate</h4>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        function createRadialChart(selector, value, color) {
-            var options = {
-                chart: {
-                    height: 180,
-                    type: "radialBar",
-                },
-                series: [value],
-                plotOptions: {
-                    radialBar: {
-                        hollow: {
-                            size: "70%",
-                        },
-                        track: {
-                            background: "#f2f2f2"
-                        },
-                        dataLabels: {
-                            show: false
-                        }
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    function createRadialChart(selector, value, color) {
+        var options = {
+            chart: {
+                height: 180,
+                type: "radialBar",
+            },
+            series: [value],
+            plotOptions: {
+                radialBar: {
+                    hollow: {
+                        size: "70%",
+                    },
+                    track: {
+                        background: "#f2f2f2"
+                    },
+                    dataLabels: {
+                        show: false
                     }
-                },
-                colors: [color],
-            };
+                }
+            },
+            colors: [color],
+        };
 
-            var chart = new ApexCharts(document.querySelector(selector), options);
-            chart.render();
-        }
+        var chart = new ApexCharts(document.querySelector(selector), options);
+        chart.render();
+    }
 
-
-        createRadialChart("#chart3", 50, "#20c997"); // Orders
-        createRadialChart("#chart4", 25, "#6f42c1"); // Unique Visitors
-        createRadialChart("#chart5", 45, "#d63384"); // Impressions
-        createRadialChart("#chart6", 55, "#ffc107"); // Followers
-    </script>
-}
+    createRadialChart("#policyTotalChart", @totalPolicyRate, "#20c997");
+    createRadialChart("#activePolicyChart", @activePolicyRate, "#6f42c1");
+    createRadialChart("#passivePolicyChart", @passivePolicyRate, "#d63384");
+    createRadialChart("#kaskoPolicyChart", @kaskoPolicyRate, "#ffc107");
+</script>

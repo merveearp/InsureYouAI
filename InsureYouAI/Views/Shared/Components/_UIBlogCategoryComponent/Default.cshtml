@@ -6,12 +6,18 @@
 
 <section id="categories-1" class="widget widget_categories">
     <h2 class="widget-title">Kategoriler</h2>
-    @foreach(var item in Model)
+    @foreach (var item in Model)
     {
-          <ul>
-        <li class="cat-item cat-item-16"><a href="#">@item.CategoryName</a> (@item.Articles.Count())</li>
-       
-    </ul>
+        <ul>
+            <li class="cat-item cat-item-16">
+                <a asp-controller="Blog"
+                       asp-action="GetBlogByCategory"
+                       asp-route-id="@item.CategoryId">
+                    @item.CategoryName
+                </a>
+                (@item.Articles.Count())
+            </li>
+        </ul>
     }
   
 </section>
