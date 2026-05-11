@@ -48,6 +48,8 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+app.UseExceptionHandler("/Error/500");
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 if (!app.Environment.IsDevelopment())
 {
@@ -67,7 +69,7 @@ app.MapStaticAssets();
 app.MapAreaControllerRoute(
     name: "Admin",
     areaName: "Admin",
-    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
