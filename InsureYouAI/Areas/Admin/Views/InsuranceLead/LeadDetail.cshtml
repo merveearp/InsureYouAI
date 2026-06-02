@@ -1,0 +1,89 @@
+﻿@model InsureYouAI.Areas.Admin.Models.InsuranceLeadViewModel
+
+@{
+    ViewData["Title"] = "Lead Detayı";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">Lead Detayı</h4>
+                <p class="text-muted mb-0">
+                    Zoho CRM senkronizasyon detayları
+                </p>
+            </div>
+
+            <a asp-action="Index"
+                   class="btn btn-outline-secondary rounded-3">
+                <i class="bi bi-arrow-left"></i> Geri Dön
+            </a>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="border rounded-4 p-3 h-100">
+                    <h6 class="fw-bold mb-3">Müşteri Bilgileri</h6>
+
+                    <p><strong>Ad Soyad:</strong> @Model.FullName</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Telefon:</strong> @Model.Phone</p>
+                    <p><strong>Sigorta Türü:</strong> @Model.InsuranceType</p>
+                    <p><strong>Tarih:</strong> @Model.CreatedDate.ToString("dd.MM.yyyy HH:mm")</p>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="border rounded-4 p-3 h-100">
+                    <h6 class="fw-bold mb-3">Zoho CRM Durumu</h6>
+
+                    <p>
+                        <strong>Sync Status:</strong>
+
+                        @if (Model.ZohoSyncStatus == "Success")
+                        {
+                            <span class="badge bg-success">Success</span>
+                        }
+                        else if (Model.ZohoSyncStatus == "Failed")
+                        {
+                            <span class="badge bg-danger">Failed</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                    </p>
+
+                    <p>
+                        <strong>Zoho Lead Id:</strong>
+                        @(Model.ZohoLeadId ?? "Henüz oluşmadı")
+                    </p>
+
+                    @if (!string.IsNullOrEmpty(Model.ZohoErrorMessage))
+                    {
+                        <div class="alert alert-danger mt-3">
+                            <strong>Hata:</strong><br />
+                            @Model.ZohoErrorMessage
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="border rounded-4 p-3">
+                    <h6 class="fw-bold mb-3">Mesaj İçeriği</h6>
+
+                    <p class="mb-0 text-muted">
+                        @(string.IsNullOrEmpty(Model.Message)
+                            ? "Mesaj bulunmuyor."
+                            : Model.Message)
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

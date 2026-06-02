@@ -458,5 +458,113 @@ namespace InsureYouAI.Services.OpenAIServices
            
             return aiText;
         }
+
+        public async Task<string> PredictCategoryAsync(string messageText)
+        {
+           var prompt = $@"
+            Aşağıdaki kullanıcı mesajını sigortacılık alanında kategorize et.
+            Sadece kategori adı döndür.
+
+            Mesaj: {messageText}
+
+            Olası kategoriler:
+            - Kasko
+            - Trafik Sigortası
+            - Sağlık Sigortası
+            - Konut Sigortası
+            - Hasar Bildirimi
+            - Fiyat Teklifi
+            - Poliçe Yenileme
+            - Genel Soru
+            - İletişim Talebi";
+
+            var requestBody = new
+            {
+                model = "gpt-4o-mini",
+                messages = new object[]
+                {
+                    new
+                    {
+                        role = "system",
+                        content = "Sen sigorta mesajlarını kategorize eden bir asistansın."
+                    },
+                    new
+                    {
+                        role ="user",
+                        content = prompt
+                    }
+                },
+                temperature = 0.2
+            };
+
+            var json =JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("OpenAI HATASI: " + response.StatusCode);
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var jsonDoc= JsonDocument.Parse(jsonString);
+
+            var aiText = jsonDoc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+
+            return aiText.Trim();
+        }
+
+        public async Task<string> PredictPriorityAsync(string messageText)
+        {
+            var prompt = $@"
+                Aşağıdaki kullanıcı mesajının aciliyet seviyesini belirle.
+                Sadece 3 seçenekten birini döndür: High, Medium, Low.
+
+                Kurallar:
+                - Kaza, hasar, ödeme sorunları, acil durumlar → High
+                - Fiyat teklifi, yenileme, teminat soruları → Medium
+                - Genel sorular, merak edilen bilgiler → Low
+
+                Mesaj:
+                {messageText}";
+
+            var requestBody = new
+            {
+                model = "gpt-4o-mini",
+                messages = new object[]
+                {
+            new
+            {
+                role = "system",
+                content = "Sen sigorta mesajlarının öncelik seviyesini belirleyen bir asistansın."
+            },
+            new
+            {
+                role = "user",
+                content = prompt
+            }
+                },
+                temperature = 0.2
+            };
+
+            var json = JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(url, content);
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("OpenAI HATASI: " + response.StatusCode);
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var jsonDoc = JsonDocument.Parse(jsonString);
+
+            var aiText = jsonDoc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+
+            return aiText.Trim();
+        }
     }
 }

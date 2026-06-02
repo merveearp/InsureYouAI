@@ -10,6 +10,8 @@ namespace InsureYouAI.Services.OpenAIServices
         Task<AIPolicyDto> AnalyzePolicyAsync(IFormFile file);
         Task<string> AnalyzeUserAsync(string articles);
         Task<string> AnalyzeCommentUserAsync(string comments);
+        Task<string> PredictCategoryAsync(string messageText);
+        Task<string> PredictPriorityAsync(string messageText);
 
     }
 }

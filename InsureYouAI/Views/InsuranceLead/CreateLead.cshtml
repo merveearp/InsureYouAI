@@ -1,0 +1,85 @@
+﻿@model InsureYouAI.DTOs.InsuranceLeadDtos.InsuranceLeadCreateDto
+
+@{
+    ViewData["Title"] = "Sigorta Teklifi Al";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="card border-0 shadow rounded-4">
+                    <div class="card-body p-5">
+
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold">Sigorta Teklifi Al</h2>
+                            <p class="text-muted mb-0">
+                                İhtiyacınıza en uygun sigorta çözümü için bilgilerinizi bırakın.
+                            </p>
+                        </div>
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success rounded-3">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        <form method="post">
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Ad</label>
+                                    <input type="text" asp-for="FirstName" class="form-control" placeholder="Adınız" required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Soyad</label>
+                                    <input type="text" asp-for="LastName" class="form-control" placeholder="Soyadınız" required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" asp-for="Email" class="form-control" placeholder="ornek@mail.com" required />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Telefon</label>
+                                    <input type="text" asp-for="Phone" class="form-control" placeholder="05xx xxx xx xx" required />
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Sigorta Türü</label>
+                                    <select asp-for="InsuranceType" class="form-select" required>
+                                        <option value="">Sigorta türü seçiniz</option>
+                                        <option value="Sağlık Sigortası">Sağlık Sigortası</option>
+                                        <option value="Araç Sigortası">Araç Sigortası</option>
+                                        <option value="Konut Sigortası">Konut Sigortası</option>
+                                        <option value="Seyahat Sigortası">Seyahat Sigortası</option>
+                                        <option value="Hayat Sigortası">Hayat Sigortası</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Mesaj</label>
+                                    <textarea asp-for="Message" class="form-control" rows="4" placeholder="Kısaca ihtiyacınızı yazabilirsiniz."></textarea>
+                                </div>
+
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-primary w-100 rounded-3 py-2">
+                                        Teklif Talebi Gönder
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
