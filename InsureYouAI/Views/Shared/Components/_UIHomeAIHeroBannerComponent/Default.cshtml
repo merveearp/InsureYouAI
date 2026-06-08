@@ -2,6 +2,22 @@
 @* _UIHomeAIHeroBannerComponent *@
 
 <style>
+    .ai-voice-btn {
+    margin-top: 10px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #0d6efd;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.ai-voice-btn:hover {
+    background: #0d6efd;
+    color: white;
+}
     /* ── Hero Banner ── */
     .ai-hero-banner {
         background-image: url('/images/insurekapak.jpeg');
@@ -325,42 +341,56 @@
     </div>
 </section>
 
-
+```html
 <div class="modal fade" id="aiModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content ai-chat-modal">
-
 
             <div class="ai-modal-header">
                 <div class="ai-header-left">
                     <div class="ai-header-avatar">
                         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
                              stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="8" r="4"/>
-                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
                         </svg>
                     </div>
+
                     <div>
-                        <div class="ai-header-title">AI Sigorta Danışmanı</div>
+                        <div class="ai-header-title">
+                            AI Sigorta Danışmanı
+                        </div>
+
                         <div class="ai-header-sub">
                             <span class="ai-online-dot"></span>
                             Çevrimiçi · Hemen yanıt veriyor
                         </div>
                     </div>
                 </div>
-                <button class="ai-modal-close" data-bs-dismiss="modal">✕</button>
-            </div>
 
+                <button type="button"
+                        class="ai-modal-close"
+                        data-bs-dismiss="modal">
+                    ✕
+                </button>
+            </div>
 
             <div class="ai-chat-box" id="chatBox"></div>
 
-
             <div class="ai-input-bar">
-                <input class="ai-msg-input" id="message" type="text" placeholder="Mesajınızı yazın..." />
-                <button class="ai-send-btn" onclick="sendMessage()">
+                <input class="ai-msg-input"
+                       id="message"
+                       type="text"
+                       placeholder="Mesajınızı yazın..." />
+
+                <button type="button"
+                        class="ai-send-btn"
+                        onclick="sendMessage()">
+
                     <svg viewBox="0 0 24 24" fill="white">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
                     </svg>
+
                 </button>
             </div>
 
@@ -369,6 +399,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@8.0.0/dist/browser/signalr.min.js"></script>
+
 <script>
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/insuranceChatHub")
@@ -377,6 +408,8 @@
     connection.start()
         .then(() => console.log("SignalR bağlandı"))
         .catch(err => console.error(err));
+
+    let currentAudio = null;
 
     function now() {
         const d = new Date();
@@ -394,111 +427,300 @@
     }
 
     function botAvatarHtml() {
-        return `<div class="ai-bot-ava">
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="4"/>
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-            </svg>
-        </div>`;
+        return `
+            <div class="ai-bot-ava">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white"
+                     stroke-width="2.2"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+
+                </svg>
+            </div>`;
     }
 
-    function renderMessage(sender, text, chips) {
+    function renderMessage(sender, text, chips, audioUrl) {
+
         const chatBox = document.getElementById("chatBox");
+
         const row = document.createElement("div");
-        row.className = "ai-msg-row" + (sender === "user" ? " ai-user" : "");
+
+        row.className =
+            "ai-msg-row" +
+            (sender === "user" ? " ai-user" : "");
 
         let chipsHtml = "";
+
         if (chips && chips.length) {
-            chipsHtml = `<div class="ai-chips">` +
-                chips.map(c => `<span class="ai-chip" onclick="sendChip(this)">${c}</span>`).join("") +
-                `</div>`;
+
+            chipsHtml =
+                `<div class="ai-chips">` +
+
+                chips.map(c =>
+                    `<span class="ai-chip"
+                           onclick="sendChip(this)">
+                        ${c}
+                    </span>`
+                ).join("")
+
+                + `</div>`;
+        }
+
+        let audioButtonHtml = "";
+
+        if (audioUrl) {
+
+            audioButtonHtml = `
+                <button class="ai-voice-btn"
+                        onclick="playAiVoice('${audioUrl}')">
+
+                    🔊 Sesli Dinle
+
+                </button>`;
         }
 
         if (sender === "user") {
+
             row.innerHTML = `
                 <div class="ai-bubble ai-user-bubble">
+
                     ${text}
-                    <span class="ai-msg-time">${now()}</span>
+
+                    <span class="ai-msg-time">
+                        ${now()}
+                    </span>
+
                 </div>`;
+
         } else {
+
             row.innerHTML = `
+
                 ${botAvatarHtml()}
+
                 <div class="ai-bubble ai-bot-bubble">
+
                     ${markdownToHtml(text)}
+
                     ${chipsHtml}
-                    <span class="ai-msg-time">${now()}</span>
+
+                    ${audioButtonHtml}
+
+                    <span class="ai-msg-time">
+                        ${now()}
+                    </span>
+
                 </div>`;
         }
 
         chatBox.appendChild(row);
-        chatBox.scrollTop = chatBox.scrollHeight;
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+    }
+
+    function playAiVoice(audioUrl) {
+
+        if (currentAudio) {
+
+            currentAudio.pause();
+
+            currentAudio.currentTime = 0;
+        }
+
+        currentAudio = new Audio(audioUrl);
+
+        currentAudio.play()
+            .catch(err =>
+                console.error(
+                    "Ses çalma hatası:",
+                    err));
     }
 
     function addTypingIndicator() {
-        const chatBox = document.getElementById("chatBox");
-        const row = document.createElement("div");
+
+        const chatBox =
+            document.getElementById("chatBox");
+
+        const row =
+            document.createElement("div");
+
         row.className = "ai-msg-row";
+
         row.id = "aiTypingIndicator";
+
         row.innerHTML = `
+
             ${botAvatarHtml()}
+
             <div class="ai-typing-bubble">
+
                 <div class="ai-dot"></div>
                 <div class="ai-dot"></div>
                 <div class="ai-dot"></div>
+
             </div>`;
+
         chatBox.appendChild(row);
-        chatBox.scrollTop = chatBox.scrollHeight;
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
     }
 
     function removeTypingIndicator() {
-        const el = document.getElementById("aiTypingIndicator");
+
+        const el =
+            document.getElementById(
+                "aiTypingIndicator");
+
         if (el) el.remove();
     }
 
     function sendMessage() {
-        const input = document.getElementById("message");
-        const msg = input.value.trim();
+
+        const input =
+            document.getElementById(
+                "message");
+
+        const msg =
+            input.value.trim();
+
         if (!msg) return;
-        renderMessage("user", msg);
+
+        renderMessage(
+            "user",
+            msg);
+
         input.value = "";
-        connection.invoke("SendMessage", msg).catch(err => console.error(err));
+
+        connection.invoke(
+            "SendMessage",
+            msg)
+
+            .catch(err =>
+                console.error(err));
     }
 
     function sendChip(el) {
-        const text = el.textContent;
-        el.closest(".ai-chips").remove();
-        renderMessage("user", text);
-        connection.invoke("SendMessage", text).catch(err => console.error(err));
+
+        const text =
+            el.textContent;
+
+        el.closest(
+            ".ai-chips")
+            .remove();
+
+        renderMessage(
+            "user",
+            text);
+
+        connection.invoke(
+            "SendMessage",
+            text)
+
+            .catch(err =>
+                console.error(err));
     }
 
-    connection.on("Typing", function () {
-        removeTypingIndicator();
-        addTypingIndicator();
-    });
+    connection.on(
+        "Typing",
 
-    connection.on("ReceiveAIMessage", function (msg) {
-        removeTypingIndicator();
-        renderMessage("ai", msg);
-    });
+        function () {
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("message").addEventListener("keypress", function (e) {
-            if (e.key === "Enter") sendMessage();
-        });
-
-        document.getElementById("aiModal").addEventListener("shown.bs.modal", function () {
-            if (document.getElementById("chatBox").innerHTML.trim() === "") {
-                renderMessage("ai",
-                    "Merhaba! 👋 Size en uygun sigorta poliçesini bulmak için buradayım. Nasıl yardımcı olabilirim?",
-                    ["Konut sigortası", "Kasko & trafik", "Sağlık sigortası"]
-                );
-            }
-        });
-
-        document.getElementById("aiModal").addEventListener("hidden.bs.modal", function () {
-            document.getElementById("chatBox").innerHTML = "";
             removeTypingIndicator();
+
+            addTypingIndicator();
         });
-    });
+
+    connection.on(
+        "ReceiveAIMessage",
+
+        function (msg, audioUrl) {
+
+            removeTypingIndicator();
+
+            renderMessage(
+                "ai",
+                msg,
+                null,
+                audioUrl);
+        });
+
+    document.addEventListener(
+        "DOMContentLoaded",
+
+        function () {
+
+            document.getElementById(
+                "message")
+
+                .addEventListener(
+                    "keypress",
+
+                    function (e) {
+
+                        if (e.key === "Enter") {
+
+                            e.preventDefault();
+
+                            sendMessage();
+                        }
+                    });
+
+            document.getElementById(
+                "aiModal")
+
+                .addEventListener(
+                    "shown.bs.modal",
+
+                    function () {
+
+                        if (
+                            document.getElementById(
+                                "chatBox")
+
+                                .innerHTML
+                                .trim() === ""
+                        ) {
+
+                            renderMessage(
+                                "ai",
+
+                                "Merhaba! 👋 Size en uygun sigorta poliçesini bulmak için buradayım. Nasıl yardımcı olabilirim?",
+
+                                [
+                                    "Konut sigortası",
+                                    "Kasko & trafik",
+                                    "Sağlık sigortası"
+                                ]);
+                        }
+                    });
+
+            document.getElementById(
+                "aiModal")
+
+                .addEventListener(
+                    "hidden.bs.modal",
+
+                    function () {
+
+                        document.getElementById(
+                            "chatBox")
+                            .innerHTML = "";
+
+                        removeTypingIndicator();
+
+                        if (currentAudio) {
+
+                            currentAudio.pause();
+
+                            currentAudio.currentTime = 0;
+
+                            currentAudio = null;
+                        }
+                    });
+        });
 </script>
+```

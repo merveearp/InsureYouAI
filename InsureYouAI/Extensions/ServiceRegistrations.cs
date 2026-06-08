@@ -15,6 +15,7 @@ using InsureYouAI.Repositories.TestimonialRepositories;
 using InsureYouAI.Repositories.TrailerVideoRepositories;
 using InsureYouAI.Services;
 using InsureYouAI.Services.AntropicClaudeServices;
+using InsureYouAI.Services.ElevenLabsServices;
 using InsureYouAI.Services.GeminiServices;
 using InsureYouAI.Services.HuggingFaceServices;
 using InsureYouAI.Services.OpenAIServices;
@@ -46,6 +47,7 @@ namespace InsureYouAI.Extensions
             services.AddHttpClient<IClaudeService , ClaudeService>();
             services.AddHttpClient<IHuggingFaceService, HuggingFaceService>();
             services.AddHttpClient<IZohoService, ZohoService>();
+            services.AddHttpClient<IElevenLabsService, ElevenLabsService>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using InsureYouAI.Services.OpenAIServices;
+﻿using InsureYouAI.Services.ElevenLabsServices;
+using InsureYouAI.Services.OpenAIServices;
 using Microsoft.AspNetCore.SignalR;
 
 namespace InsureYouAI.Hubs
@@ -6,10 +7,12 @@ namespace InsureYouAI.Hubs
     public class InsuranceChatHub : Hub
     {
         private readonly IOpenAIService _openAIService;
+        private readonly IElevenLabsService _elevenLabsService;
 
-        public InsuranceChatHub(IOpenAIService openAIService)
+        public InsuranceChatHub(IOpenAIService openAIService, IElevenLabsService elevenLabsService)
         {
             _openAIService = openAIService;
+            _elevenLabsService = elevenLabsService;
         }
 
         public async Task SendMessage(string userMessage)
@@ -18,9 +21,16 @@ namespace InsureYouAI.Hubs
 
             await Clients.Caller.SendAsync("Typing");
 
-            var aiResponse = await _openAIService.GenerateInsuranceConsultationAsync(userMessage);
+            var aiResponse = await _openAIService
+                .GenerateInsuranceConsultationAsync(userMessage);
 
-            await Clients.Caller.SendAsync("ReceiveAIMessage", aiResponse);
+            var audioUrl = await _elevenLabsService
+                .GenerateSpeechAsync(aiResponse);
+
+            await Clients.Caller.SendAsync(
+                "ReceiveAIMessage",
+                aiResponse,
+                audioUrl);
         }
     }
 }
