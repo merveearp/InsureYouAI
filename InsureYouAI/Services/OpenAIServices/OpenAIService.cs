@@ -2,6 +2,7 @@
 using InsureYouAI.DTOs;
 using InsureYouAI.DTOs.OpenAIDtos;
 using InsureYouAI.Entities;
+using InsureYouAI.Models;
 using Microsoft.Build.Tasks;
 using System.Net.Http.Headers;
 using System.Text;
@@ -393,6 +394,139 @@ namespace InsureYouAI.Services.OpenAIServices
             return result.choices[0].message.content;
 
 
+        }
+
+        public async Task<AIInsuranceRecommendationViewModel>
+        CreateInsuranceRecommendationAsync(
+        AIInsuranceRecommendationViewModel model)
+        {
+            var prompt = $@"
+            Aşağıdaki müşteri bilgilerini analiz et ve kullanıcı için en uygun sigorta paketini öner.
+
+            Müşteri Bilgileri:
+
+            - Yaş: {model.Age}
+            - Şehir: {model.City}
+            - Meslek: {model.Occupation}
+            - Medeni Durum: {model.MaritalStatus}
+            - Çocuk Sayısı: {model.ChildrenCount}
+            - Seyahat Sıklığı: {model.TravelFrequency}
+            - Aylık Bütçe: {model.MonthlyBudget} TL
+            - Kronik Hastalık Var mı: {(model.HasChronicDisease ? "Evet" : "Hayır")}
+            - Kronik Hastalık Detayı: {model.ChronicDiseaseDetails}
+            - Teminat Önceliği: {model.CoveragePriority}
+
+            Kullanıcı için:
+
+            1. En uygun sigorta paketini belirle.
+            2. İkinci en uygun alternatifi belirle.
+            3. Seçim nedenlerini kullanıcı dostu şekilde açıkla.
+
+           Önerilebilecek paketler sadece şunlardır:
+
+            1. Temel Paket (Basic)
+            - Fiyat: 599,00 TL / Aylık
+            - Hizmetler:
+              Acil Durum Sağlık Sigortası,
+              Kaza Sonrası Tıbbi Destek,
+              7/24 Müşteri Hizmetleri,
+              Online Poliçe Yönetimi,
+              Temel Yol Yardım Hizmeti
+
+            2. Standart Paket (Standard)
+            - Fiyat: 899,00 TL / Aylık
+            - Hizmetler:
+              Tüm Temel Paket Hizmetleri,
+              Genişletilmiş Sağlık Sigortası,
+              Yatarak Tedavi Teminatı,
+              Mini Hasar Güvencesi,
+              Çekici & Yol Yardım,
+              Araç İkame Hizmeti
+
+            3. Premium Paket (Premium)
+            - Fiyat: 1499,00 TL / Aylık
+            - Hizmetler:
+              Tüm Standart Paket Hizmetleri,
+              Tam Kapsamlı Sağlık Sigortası,
+              Ayakta + Yatarak Tedavi,
+              Yüksek Limitli Hasar Karşılama,
+              Araç İkame Hizmeti,
+              Hukuki Danışmanlık Hizmeti,
+              Öncelikli Hasar Süreci
+
+           Cevabı SADECE JSON formatında ver:
+
+            {{
+                ""RecommendedPackage"": ""Temel Paket (Basic) / Standart Paket (Standard) / Premium Paket (Premium) seçeneklerinden yalnızca biri"",
+                ""SecondBestPackage"": ""Temel Paket (Basic) / Standart Paket (Standard) / Premium Paket (Premium) seçeneklerinden yalnızca biri"",
+                ""AnalysisText"": ""Kullanıcının yaşı, bütçesi, teminat önceliği ve ihtiyaçlarına göre neden bu paketin önerildiğini 4-5 cümleyle açıkla.""
+            }}
+            ";
+
+            var requestBody = new
+            {
+                model = "gpt-4o-mini",
+                messages = new object[]
+    {
+            new
+            {
+                role = "system",
+                content = @"Sen deneyimli bir sigorta danışmanısın.
+            Kullanıcı ihtiyaçlarını analiz ederek en uygun sigorta ürünlerini önerirsin.
+            Açıklamaların profesyonel, anlaşılır ve güven verici olmalıdır."
+            },
+            new
+            {
+                role = "user",
+                content = prompt
+            }
+    },
+                temperature = 0.2
+            };
+
+            var json = JsonSerializer.Serialize(requestBody);
+
+            var content = new StringContent(
+                json,
+                Encoding.UTF8,
+                "application/json");
+
+            var response = await _httpClient.PostAsync(url, content);
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception(
+                    "OpenAI Hatası: " + response.StatusCode);
+
+            var responseString =
+    await response.Content.ReadAsStringAsync();
+
+            var jsonDoc = JsonDocument.Parse(responseString);
+
+            var aiText = jsonDoc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+            aiText = aiText
+     .Replace("```json", "")
+     .Replace("```", "")
+     .Trim();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var recommendation =
+                JsonSerializer.Deserialize<AIInsuranceRecommendationViewModel>(
+                    aiText,
+                    options);
+
+            model.RecommendedPackage = recommendation?.RecommendedPackage;
+            model.SecondBestPackage = recommendation?.SecondBestPackage;
+            model.AnalysisText = recommendation?.AnalysisText;
+
+            return model;
         }
 
         public async Task<string> GenerateInsuranceConsultationAsync(string userMessage)

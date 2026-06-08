@@ -41,10 +41,17 @@ namespace InsureYouAI.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(Message message)
         {
+            var combinedText = $"{message.Subject} - {message.MessageContent}";
+            var predictedCategory = await _aiService.PredictCategoryAsync(combinedText);
+
+            var priority =await _aiService.PredictPriorityAsync(combinedText);
+
+            message.AICategory = predictedCategory;
+            message.Priority = priority;
             message.SendDate=DateTime.Now;
             message.IsRead = false;
             _context.Messages.Add(message);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             TempData["Success"] = "Mailiniz sistemimize iletilmiştir.En kısa zamanda tarafınıza dönüş sağlanacaktır.";
 

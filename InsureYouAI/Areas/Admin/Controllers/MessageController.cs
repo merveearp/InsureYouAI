@@ -1,5 +1,6 @@
 ﻿using InsureYouAI.Entities;
 using InsureYouAI.Repositories.MessageRepositories;
+using InsureYouAI.Services.OpenAIServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsureYouAI.Areas.Admin.Controllers
@@ -9,16 +10,24 @@ namespace InsureYouAI.Areas.Admin.Controllers
     public class MessageController : Controller
     {
         private readonly IMessageRepository _repository;
+        private readonly IOpenAIService _openAIService;
 
-        public MessageController(IMessageRepository repository)
+        public MessageController(IMessageRepository repository, IOpenAIService openAIService)
         {
             _repository = repository;
+            _openAIService = openAIService;
         }
         public async Task<IActionResult> MessageList()
         {
             var values = await _repository.GetAllAsync();
-            ViewBag.ReadMessage = values.Count(x =>x.IsRead ==true);
-            ViewBag.UnReadMessage = values.Count(x =>x.IsRead == false);
+
+            values = values
+                .OrderByDescending(x => x.SendDate)
+                .ToList();
+
+            ViewBag.ReadMessage = values.Count(x => x.IsRead);
+            ViewBag.UnReadMessage = values.Count(x => !x.IsRead);
+
             return View(values);
         }
 
@@ -45,9 +54,15 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Message message)
         {
-            await _repository.CreateAsync(message);
+            var combinedText = $"{message.Subject} - {message.MessageContent}";
+            var predictedCategory = await _openAIService.PredictCategoryAsync(combinedText);
+
+            message.AICategory= predictedCategory;
+
             message.IsRead = false;
             message.SendDate = DateTime.Now;
+
+            await _repository.CreateAsync(message);
             return RedirectToAction("MessageList");
         }
 

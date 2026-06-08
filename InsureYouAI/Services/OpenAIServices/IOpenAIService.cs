@@ -1,4 +1,5 @@
 ﻿using InsureYouAI.DTOs.OpenAIDtos;
+using InsureYouAI.Models;
 
 namespace InsureYouAI.Services.OpenAIServices
 {
@@ -12,6 +13,8 @@ namespace InsureYouAI.Services.OpenAIServices
         Task<string> AnalyzeCommentUserAsync(string comments);
         Task<string> PredictCategoryAsync(string messageText);
         Task<string> PredictPriorityAsync(string messageText);
+        Task<AIInsuranceRecommendationViewModel> CreateInsuranceRecommendationAsync(
+            AIInsuranceRecommendationViewModel model);
 
     }
 }

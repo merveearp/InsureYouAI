@@ -47,6 +47,8 @@
                         <th>Email</th>
                         <th>Telefon</th>
                         <th>Konu</th>
+                        <th>AI Kategori</th>
+                        <th>AI Öncelik</th>
                         <th>İçerik</th>
                         <th>Tarih</th>
                         <th>Durum</th>
@@ -82,6 +84,42 @@
 
                                 <td>
                                     @item.Subject
+                                </td>
+                                <td>
+                                    @item.AICategory
+                                </td>
+                                <td>
+                                    @if (item.Priority == "High")
+                                    {
+                                        <span class="d-flex align-items-center">
+                                            <span class="rounded-circle bg-danger me-2"
+                                                  style="width:12px;height:12px;display:inline-block;">
+                                            </span>
+                                            Yüksek
+                                        </span>
+                                    }
+                                    else if (item.Priority == "Medium")
+                                    {
+                                        <span class="d-flex align-items-center">
+                                            <span class="rounded-circle bg-warning me-2"
+                                                  style="width:12px;height:12px;display:inline-block;">
+                                            </span>
+                                            Orta
+                                        </span>
+                                    }
+                                    else if (item.Priority == "Low")
+                                    {
+                                        <span class="d-flex align-items-center">
+                                            <span class="rounded-circle bg-success me-2"
+                                                  style="width:12px;height:12px;display:inline-block;">
+                                            </span>
+                                            Düşük
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
                                 </td>
 
                                 <td>
