@@ -20,6 +20,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> ServiceList()
         {
+            ViewBag.ControllerName = "Hizmetler";
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -27,6 +28,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Hizmetler";
             return View();
         }
 
@@ -40,6 +42,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            ViewBag.ControllerName = "Hizmetler";
             var value = _repository.GetByIdAsync(id);
             return View(value);
         }

@@ -17,6 +17,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> FeatureList()
         {
+            ViewBag.ControllerName = "Öne Çıkan Alan";
             var values = await _featureRepository.GetAllAsync();
             return View(values);
         }
@@ -24,6 +25,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Öne Çıkan Alan";
             return View();
         }
 
@@ -38,6 +40,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Öne Çıkan Alan";
             var value = await _featureRepository.GetByIdAsync(id);
             return View(value);
         }

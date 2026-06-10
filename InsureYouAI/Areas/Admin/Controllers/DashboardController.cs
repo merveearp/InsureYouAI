@@ -7,6 +7,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.ControllerName = "Kontrol Paneli";
+
             return View();
         }
     }

@@ -49,7 +49,10 @@ namespace InsureYouAI.Services.ElevenLabsServices
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception("ElevenLabs Hatası: " + response.StatusCode);
+                var errorContent = await response.Content.ReadAsStringAsync();
+
+                throw new Exception(
+                    $"ElevenLabs Hatası: {response.StatusCode}\n{errorContent}");
             }
 
             var audioBytes = await response.Content.ReadAsByteArrayAsync();

@@ -24,6 +24,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> PricingPlanList()
         {
+            ViewBag.ControllerName = "Fiyatlandırma Planları";
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -31,6 +32,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Fiyatlandırma Planları";
             return View();
         }
 
@@ -59,6 +61,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlan(int id)
         {
+            ViewBag.ControllerName = "Fiyatlandırma Planları";
             var plan = await _context.PricingPlans
                 .Include(x => x.PricingPlanItems)
                 .FirstOrDefaultAsync(x => x.PricingPlanId == id);

@@ -1,6 +1,4 @@
-﻿using InsureYouAI.Context;
-using InsureYouAI.Entities;
-
+﻿using InsureYouAI.Entities;
 using InsureYouAI.Repositories.AboutRepositories;
 using InsureYouAI.Services.GeminiServices;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace InsureYouAI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-
     public class AboutController : Controller
     {
-
         private readonly IAboutRepository _repository;
         private readonly IGeminiService _geminiService;
 
@@ -23,6 +19,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> AboutList()
         {
+            ViewBag.ControllerName = "Hakkımda";
+
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -30,6 +28,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Hakkımda";
+
             return View();
         }
 
@@ -43,6 +43,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Hakkımda";
+
             var value = await _repository.GetByIdAsync(id);
             return View(value);
         }
@@ -50,11 +52,10 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(About about)
         {
-
             await _repository.UpdateAsync(about);
             return RedirectToAction("AboutList");
-
         }
+
         public async Task<IActionResult> Delete(int id)
         {
             await _repository.DeleteAsync(id);
@@ -64,13 +65,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> GenerateAbout()
         {
-            
             var result = await _geminiService.CreateAboutText();
             return Json(result);
-            
         }
-
-
     }
 }
-

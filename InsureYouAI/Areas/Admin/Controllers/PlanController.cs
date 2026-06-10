@@ -19,6 +19,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> PlanList()
         {
+            ViewBag.ControllerName = "Sigorta Planları";
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -26,6 +27,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Sigorta Planları";
             return View();
         }
 
@@ -39,6 +41,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            ViewBag.ControllerName = "Sigorta Planları";
             var value = _repository.GetByIdAsync(id);
             return View(value);
         }

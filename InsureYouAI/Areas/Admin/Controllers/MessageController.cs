@@ -19,6 +19,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         }
         public async Task<IActionResult> MessageList()
         {
+            ViewBag.ControllerName = "Mesajlar";
             var values = await _repository.GetAllAsync();
 
             values = values
@@ -33,6 +34,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> IsReadList()
         {
+            ViewBag.ControllerName = "Okunan Mesajlar";
             var values = await _repository.GetAllAsync();
             var readMessages = values.Where(x => x.IsRead).ToList();
             return View("MessageList", readMessages);
@@ -40,6 +42,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> UnReadList()
         {
+            ViewBag.ControllerName = "Okunmayan Mesajlar";
             var values = await _repository.GetAllAsync();
             var unreadMessages = values.Where(x => !x.IsRead).ToList();
             return View("MessageList", unreadMessages);
@@ -54,6 +57,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Message message)
         {
+            ViewBag.ControllerName = "Mesajlar";
             var combinedText = $"{message.Subject} - {message.MessageContent}";
             var predictedCategory = await _openAIService.PredictCategoryAsync(combinedText);
 
@@ -69,6 +73,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
+            ViewBag.ControllerName = "Mesajlar";
+
             var value =await _repository.GetByIdAsync(id);
             return View(value);
         }

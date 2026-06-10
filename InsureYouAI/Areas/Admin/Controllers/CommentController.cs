@@ -16,7 +16,13 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> CommentList()
         {
-            var values = _context.Comments.Include(x=>x.Article).Include(x=>x.AppUser).ToList();
+            ViewBag.ControllerName = "Yorumlar";
+
+            var values = await _context.Comments
+                .Include(x => x.Article)
+                .Include(x => x.AppUser)
+                .ToListAsync();
+
             return View(values);
         }
     }

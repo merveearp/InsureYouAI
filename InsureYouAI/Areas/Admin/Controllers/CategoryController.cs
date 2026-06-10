@@ -20,23 +20,34 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> CategoryList()
         {
+            ViewBag.ControllerName = "Kategoriler";
+
             var values = await _repository.GetAllAsync();
             return View(values);
         }
+
         public IActionResult CategoryByArticleList(int id)
         {
-            var value = _context.Articles.Where(x => x.CategoryId == id).Select(x=>x.Category.CategoryName).FirstOrDefault();
+            var value = _context.Articles
+                .Where(x => x.CategoryId == id)
+                .Select(x => x.Category.CategoryName)
+                .FirstOrDefault();
+
             ViewBag.CategoryName = value;
+            ViewBag.ControllerName = "Kategori Makaleleri";
 
             var values = _context.Articles
-            .Where(x => x.CategoryId == id)
-            .ToList();
+                .Where(x => x.CategoryId == id)
+                .ToList();
+
             return View(values);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Kategoriler";
+
             return View();
         }
 
@@ -44,27 +55,32 @@ namespace InsureYouAI.Areas.Admin.Controllers
         public async Task<IActionResult> Create(Category category)
         {
             await _repository.CreateAsync(category);
+
             return RedirectToAction("CategoryList");
         }
 
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Kategoriler";
+
             var value = await _repository.GetByIdAsync(id);
+
             return View(value);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(Category category)
         {
-           
             await _repository.UpdateAsync(category);
-            return RedirectToAction("CategoryList");
 
+            return RedirectToAction("CategoryList");
         }
+
         public async Task<IActionResult> Delete(int id)
         {
-            await _repository.DeleteAsync(id); 
+            await _repository.DeleteAsync(id);
+
             return RedirectToAction("CategoryList");
         }
     }

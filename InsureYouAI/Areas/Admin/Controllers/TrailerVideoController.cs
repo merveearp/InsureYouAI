@@ -17,6 +17,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> TrailerVideoList()
         {
+            ViewBag.ControllerName = "Tanıtım Videoları";
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -24,6 +25,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.ControllerName = "Tanıtım Videoları";
             return View();
         }
 
@@ -37,6 +39,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Tanıtım Videoları";
             var value = await _repository.GetByIdAsync(id);
             return View(value);
         }

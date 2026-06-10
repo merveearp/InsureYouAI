@@ -2,11 +2,13 @@
 
 namespace InsureYouAI.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ChatController : Controller
     {
-        [Area("Admin")]
         public IActionResult SendChatWithAI()
         {
+            ViewBag.ControllerName = "AI Sohbet";
+
             return View();
         }
     }

@@ -37,6 +37,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> ArticleList()
         {
+            ViewBag.ControllerName = "Makaleler";
             var values = await _repository.GetAllAsync();
             return View(values);
         }
@@ -44,6 +45,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ViewBag.ControllerName = "Makaleler";
             await GetCategories();
             return View();
         }
@@ -60,6 +62,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Makaleler";
             await GetCategories();
             var value = await _repository.GetByIdAsync(id);
             return View(value);
@@ -94,6 +97,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult CreateArticleWithOpenAI()
         {
+            ViewBag.ControllerName = "Makaleler";
             return View();
         }
 

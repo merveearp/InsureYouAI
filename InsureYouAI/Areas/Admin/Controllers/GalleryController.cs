@@ -16,6 +16,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
         public async Task<IActionResult> GalleryList()
         {
+            ViewBag.ControllerName = "Galeri";
             var values = await _galeryRepository.GetAllAsync();
             return View(values);
         }
@@ -23,6 +24,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            ViewBag.ControllerName = "Galeri";
             return View();
         }
 
@@ -36,6 +38,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
+            ViewBag.ControllerName = "Galeri";
             var value = await _galeryRepository.GetByIdAsync(id);
             return View(value);
         }
