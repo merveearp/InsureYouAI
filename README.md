@@ -27,6 +27,21 @@ Bu platform sayesinde sigorta şirketleri müşteri adaylarını yönetebilir, s
 
 # 🚀 Proje Özellikleri
 
+## 📨 AI Destekli Müşteri İletişim ve Mail Yönetimi
+
+İletişim formu üzerinden gelen müşteri mesajları otomatik olarak sisteme kaydedilir ve yapay zeka tarafından analiz edilir. Bu sayede müşteri talepleri daha hızlı değerlendirilerek iletişim süreçleri optimize edilir.
+
+Yapay zeka desteği ile her mesaj için:
+
+* Mesaj kategorisi otomatik olarak belirlenir.
+* Öncelik seviyesi (Düşük, Orta, Yüksek) tahmin edilir.
+* Mesaj içeriğine uygun e-posta konusu oluşturulur.
+* Profesyonel ve müşteri odaklı yanıt taslağı hazırlanır.
+* MailKit entegrasyonu sayesinde hazırlanan e-postalar müşterilere doğrudan gönderilebilir.
+* Tüm müşteri iletişim süreçleri yönetici paneli üzerinden takip edilebilir.
+
+Bu modül sayesinde müşteri talepleri daha etkin yönetilir, yanıt süreleri azaltılır ve müşteri memnuniyetinin artırılması hedeflenir.
+
 ## 🤖 AI Sigorta Danışmanı
 
 * SignalR destekli gerçek zamanlı sohbet sistemi
