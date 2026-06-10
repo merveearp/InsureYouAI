@@ -1,3 +1,10 @@
+![.NET](https://img.shields.io/badge/.NET-8.0-purple)
+![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET_Core-MVC-blue)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT-green)
+![Zoho CRM](https://img.shields.io/badge/Zoho-CRM-red)
+![ML.NET](https://img.shields.io/badge/ML.NET-Forecasting-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 # 🛡️ InsureYouAI – Yapay Zeka Destekli Sigorta Yönetim Platformu
 
 InsureYouAI, **ASP.NET Core MVC** kullanılarak geliştirilmiş, sigorta sektörüne yönelik **yapay zeka destekli bir yönetim platformudur**. Proje; müşteri yönetimi, CRM entegrasyonu, sigorta süreçlerinin dijitalleştirilmesi ve veri analitiği gibi birçok modern teknolojiyi bir araya getirmektedir.
