@@ -5,6 +5,18 @@
 ![ML.NET](https://img.shields.io/badge/ML.NET-Forecasting-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+## 🏗️ Proje Mimarisi
+
+Proje, katmanlı mimari prensiplerine uygun olarak geliştirilmiştir.
+
+- Entities Layer
+- Data Access Layer
+- Service Layer
+- MVC Presentation Layer
+- AI Services Layer
+- CRM Integration Layer
+
+Ayrıca Dependency Injection ve Repository Pattern kullanılarak sürdürülebilir ve test edilebilir bir yapı oluşturulmuştur.
 # 🛡️ InsureYouAI – Yapay Zeka Destekli Sigorta Yönetim Platformu
 
 InsureYouAI, **ASP.NET Core MVC** kullanılarak geliştirilmiş, sigorta sektörüne yönelik **yapay zeka destekli bir yönetim platformudur**. Proje; müşteri yönetimi, CRM entegrasyonu, sigorta süreçlerinin dijitalleştirilmesi ve veri analitiği gibi birçok modern teknolojiyi bir araya getirmektedir.
