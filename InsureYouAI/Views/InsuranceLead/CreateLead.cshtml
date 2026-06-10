@@ -5,19 +5,119 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="py-5 bg-light">
+<style>
+    .offer-section {
+        min-height: 100vh;
+        padding: 120px 0;
+        background: linear-gradient(rgba(13,47,90,.75), rgba(13,47,90,.75)), url('/images/insurance-offer.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+    }
+
+    .offer-card {
+        border: none;
+        border-radius: 25px;
+        overflow: hidden;
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 15px 40px rgba(0,0,0,.15);
+    }
+
+    .offer-title {
+        color: #0D2F5A;
+        font-weight: 700;
+    }
+
+    .offer-subtitle {
+        color: #6c757d;
+    }
+
+    .offer-btn {
+        background: #0D2F5A;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        padding: 15px;
+        font-weight: 600;
+        transition: all .3s;
+    }
+
+        .offer-btn:hover {
+            background: #16467d;
+            transform: translateY(-2px);
+        }
+
+    .insurance-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 30px;
+        background: rgba(13,47,90,.08);
+        color: #0D2F5A;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 5px;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 12px;
+        padding: 14px;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0D2F5A;
+            box-shadow: 0 0 0 .25rem rgba(13,47,90,.15);
+        }
+</style>
+
+<section class="offer-section">
+
     <div class="container">
+
         <div class="row justify-content-center">
+
             <div class="col-lg-8">
 
-                <div class="card border-0 shadow rounded-4">
+                <div class="card offer-card">
+
                     <div class="card-body p-5">
 
-                        <div class="text-center mb-4">
-                            <h2 class="fw-bold">Sigorta Teklifi Al</h2>
-                            <p class="text-muted mb-0">
-                                İhtiyacınıza en uygun sigorta çözümü için bilgilerinizi bırakın.
+                        <div class="text-center mb-5">
+
+                            <h2 class="offer-title mb-3">
+                                Sigorta Teklifi Al
+                            </h2>
+
+                            <p class="offer-subtitle mb-4">
+                                Bilgilerinizi bırakın, size özel sigorta teklifinizi hazırlayalım.
                             </p>
+
+                            <div>
+
+                                <span class="insurance-badge">
+                                    🩺 Sağlık
+                                </span>
+
+                                <span class="insurance-badge">
+                                    🚗 Araç
+                                </span>
+
+                                <span class="insurance-badge">
+                                    🏠 Konut
+                                </span>
+
+                                <span class="insurance-badge">
+                                    ✈️ Seyahat
+                                </span>
+
+                            </div>
+
                         </div>
 
                         @if (TempData["SuccessMessage"] != null)
@@ -28,58 +128,133 @@
                         }
 
                         <form method="post">
-                            <div class="row g-3">
+
+                            <div class="row g-4">
 
                                 <div class="col-md-6">
                                     <label class="form-label">Ad</label>
-                                    <input type="text" asp-for="FirstName" class="form-control" placeholder="Adınız" required />
+
+                                    <input asp-for="FirstName"
+                                           class="form-control"
+                                           placeholder="Adınız"
+                                           required />
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">Soyad</label>
-                                    <input type="text" asp-for="LastName" class="form-control" placeholder="Soyadınız" required />
+
+                                    <input asp-for="LastName"
+                                           class="form-control"
+                                           placeholder="Soyadınız"
+                                           required />
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">Email</label>
-                                    <input type="email" asp-for="Email" class="form-control" placeholder="ornek@mail.com" required />
+
+                                    <input asp-for="Email"
+                                           type="email"
+                                           class="form-control"
+                                           placeholder="ornek@mail.com"
+                                           required />
                                 </div>
 
                                 <div class="col-md-6">
                                     <label class="form-label">Telefon</label>
-                                    <input type="text" asp-for="Phone" class="form-control" placeholder="05xx xxx xx xx" required />
+
+                                    <input asp-for="Phone"
+                                           class="form-control"
+                                           placeholder="05XX XXX XX XX"
+                                           required />
                                 </div>
 
-                                <div class="col-md-12">
-                                    <label class="form-label">Sigorta Türü</label>
-                                    <select asp-for="InsuranceType" class="form-select" required>
-                                        <option value="">Sigorta türü seçiniz</option>
-                                        <option value="Sağlık Sigortası">Sağlık Sigortası</option>
-                                        <option value="Araç Sigortası">Araç Sigortası</option>
-                                        <option value="Konut Sigortası">Konut Sigortası</option>
-                                        <option value="Seyahat Sigortası">Seyahat Sigortası</option>
-                                        <option value="Hayat Sigortası">Hayat Sigortası</option>
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Sigorta Türü
+                                    </label>
+
+                                    <select asp-for="InsuranceType"
+                                            class="form-select"
+                                            required>
+
+                                        <option value="">
+                                            Sigorta Türü Seçiniz
+                                        </option>
+
+                                        <option value="Sağlık Sigortası">
+                                            Sağlık Sigortası
+                                        </option>
+
+                                        <option value="Araç Sigortası">
+                                            Araç Sigortası
+                                        </option>
+
+                                        <option value="Konut Sigortası">
+                                            Konut Sigortası
+                                        </option>
+
+                                        <option value="Seyahat Sigortası">
+                                            Seyahat Sigortası
+                                        </option>
+
+                                        <option value="Hayat Sigortası">
+                                            Hayat Sigortası
+                                        </option>
+
+                                        <option value="DASK Sigortası">
+                                            DASK Sigortası
+                                        </option>
+
+                                        <option value="Trafik Sigortası">
+                                            Trafik Sigortası
+                                        </option>
+
+                                        <option value="İşyeri Sigortası">
+                                            İşyeri Sigortası
+                                        </option>
+
                                     </select>
+
                                 </div>
 
-                                <div class="col-md-12">
-                                    <label class="form-label">Mesaj</label>
-                                    <textarea asp-for="Message" class="form-control" rows="4" placeholder="Kısaca ihtiyacınızı yazabilirsiniz."></textarea>
+                                <div class="col-12">
+
+                                    <label class="form-label">
+                                        Mesaj
+                                    </label>
+
+                                    <textarea asp-for="Message"
+                                              class="form-control"
+                                              rows="4"
+                                                  placeholder="İhtiyacınızı kısaca açıklayabilirsiniz.">
+                                    </textarea>
+
+                                    </div>
+
+                                    <div class="col-12">
+
+                                        <button type="submit"
+                                                class="btn offer-btn w-100">
+
+                                            Teklif Talebi Gönder
+
+                                        </button>
+
+                                    </div>
+
                                 </div>
 
-                                <div class="col-12 mt-4">
-                                    <button type="submit" class="btn btn-primary w-100 rounded-3 py-2">
-                                        Teklif Talebi Gönder
-                                    </button>
-                                </div>
+                            </form>
 
-                            </div>
-                        </form>
+                        </div>
 
                     </div>
+
                 </div>
 
             </div>
+
         </div>
-    </div>
-</section>
+
+    </section>

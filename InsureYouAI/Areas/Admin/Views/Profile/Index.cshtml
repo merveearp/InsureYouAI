@@ -1,0 +1,131 @@
+﻿@model InsureYouAI.Entities.AppUser
+
+@{
+    ViewData["Title"] = "Profilim";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-lg-4">
+
+        <div class="card">
+            <div class="card-body text-center">
+
+                <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
+                                                              ? "/images/default-user.png"
+                                                              : Model.ImageUrl)"
+                     class="rounded-circle p-1 bg-primary"
+                     width="130"
+                     height="130"
+                     style="object-fit:cover" />
+
+                <div class="mt-4">
+                    <h4>@Model.Name @Model.Surname</h4>
+
+                    <p class="text-secondary mb-1">
+                        @(string.IsNullOrEmpty(Model.Description)
+                            ? "Henüz açıklama eklenmemiş."
+                            : Model.Description)
+                    </p>
+
+                    <p class="text-muted font-size-sm">
+                        Yönetici
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-8">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Ad</h6>
+                    </div>
+
+                    <div class="col-sm-9 text-secondary">
+                        @Model.Name
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Soyad</h6>
+                    </div>
+
+                    <div class="col-sm-9 text-secondary">
+                        @Model.Surname
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">E-Posta</h6>
+                    </div>
+
+                    <div class="col-sm-9 text-secondary">
+                        @Model.Email
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Kullanıcı Adı</h6>
+                    </div>
+
+                    <div class="col-sm-9 text-secondary">
+                        @Model.UserName
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Hakkımda</h6>
+                    </div>
+
+                    <div class="col-sm-9 text-secondary">
+                        @(string.IsNullOrEmpty(Model.Description)
+                            ? "Henüz açıklama eklenmemiş."
+                            : Model.Description)
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-sm-3"></div>
+
+                    <div class="col-sm-9 text-secondary">
+
+                        <a asp-area="Admin"
+                               asp-controller="Profile"
+                               asp-action="ChangePassword"
+                               class="btn btn-primary px-4">
+                            <i class="bi bi-key-fill me-1"></i>
+                            Şifre Değiştir
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

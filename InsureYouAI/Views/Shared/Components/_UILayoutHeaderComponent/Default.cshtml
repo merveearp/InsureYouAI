@@ -1,26 +1,66 @@
-﻿
-@*
+﻿@*
     _UILayoutHeaderComponent
 *@
+
+<style>
+    .header-top-menu {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 22px;
+        margin: 0;
+        padding: 0;
+    }
+
+        .header-top-menu li {
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+            .header-top-menu li a {
+                display: flex;
+                align-items: center;
+            }
+
+    .header-user-icon a {
+        width: 54px;
+        height: 54px;
+        border: 1px solid #4f7cff;
+        border-radius: 50%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        color: #4f7cff;
+        font-size: 22px;
+        transition: .3s;
+    }
+
+        .header-user-icon a:hover {
+            background: #4f7cff;
+            color: #fff;
+        }
+</style>
 
 <header class="header-area header-three">
     <div class="header-top second-header d-none d-md-block">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 d-none  d-md-block">
+
+                <div class="col-lg-5 col-md-5 d-none d-md-block">
                     <div class="header-social">
                         <span>
                             <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" title="LinkedIn"><i class="fab fa-instagram"></i></a>
+                            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
                             <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
                             <a href="#" title="Youtube"><i class="fab fa-youtube"></i></a>
                         </span>
-                        <!--  /social media icon redux -->
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 text-right d-none d-md-block">
+
+                <div class="col-lg-7 col-md-7 text-right d-none d-md-block">
                     <div class="header-cta">
-                        <ul>
+                        <ul class="header-top-menu">
                             <li>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#aiModal">
                                     Çözüm Merkezi
@@ -29,7 +69,19 @@
 
                             <li><a href="#pricing">Tekliflerimiz</a></li>
                             <li><a href="#feature">Neden Biz</a></li>
-                            <li><a href="#contact">7/27 Destek</a></li>
+                            <li><a href="#contact">7/24 Destek</a></li>
+
+                            <li class="header-user-icon">
+                                <a asp-controller="User" asp-action="Register" title="Kayıt Ol">
+                                    <i class="fal fa-user-plus"></i>
+                                </a>
+                            </li>
+
+                            <li class="header-user-icon">
+                                <a asp-controller="User" asp-action="Login" title="Giriş Yap">
+                                    <i class="fal fa-sign-in-alt"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -13,5 +13,9 @@
         public bool IsSentToZoho { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Message { get; set; }
+
+
+        // Zoho CRM Müşteri Adayı Durumu
+        public string? LeadStatus { get; set; }
     }
 }

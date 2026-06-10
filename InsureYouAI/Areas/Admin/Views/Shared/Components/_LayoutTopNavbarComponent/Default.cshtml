@@ -1,85 +1,79 @@
-﻿
-@*
-   _LayoutTopNavbarComponent
-*@
-
+﻿@model InsureYouAI.Entities.AppUser
 
 <div class="top-navbar-right ms-auto">
     <ul class="navbar-nav align-items-center">
-        <li class="nav-item search-toggle-icon">
-            <a class="nav-link" href="#">
-                <div class="">
-                    <i class="bi bi-search"></i>
-                </div>
-            </a>
-        </li>
 
-        <li class="nav-item dropdown dropdown-large">
-            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
-                <div class="projects">
-                    <i class="bi bi-grid-3x3-gap-fill"></i>
-                </div>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end">
-                <div class="row row-cols-3 gx-2">
-                    <div class="col">
-                        <a href="ecommerce-orders.html">
-                            <div class="apps p-2 radius-10 text-center">
-                                <div class="apps-icon-box mb-1 text-white bg-gradient-purple">
-                                    <i class="bi bi-basket2-fill"></i>
-                                </div>
-                                <p class="mb-0 apps-name">Talepler</p>
-                            </div>
-                        </a>
-                    </div>
-                   
-                    <div class="col">
-                        <a href="ecommerce-products-grid.html">
-                            <div class="apps p-2 radius-10 text-center">
-                                <div class="apps-icon-box mb-1 text-white bg-gradient-success">
-                                    <i class="bi bi-trophy-fill"></i>
-                                </div>
-                                <p class="mb-0 apps-name">Sigortalar</p>
-                            </div>
-                        </a>
-                    </div>
-                 
 
-                </div><!--end row-->
-            </div>
-        </li>
-        <li class="nav-item dropdown dropdown-large">
-           
-            <div class="dropdown-menu dropdown-menu-end p-0">
-                <div class="p-2 border-bottom m-2">
-                    <h5 class="h5 mb-0">Mesajlar</h5>
-                </div>
-              
-              
-            </div>
-        </li>
-       
-        <li class="nav-item dropdown dropdown-user-setting">
-            <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">
+        <li class="nav-item dropdown dropdown-user-setting position-relative">
+            <a class="nav-link dropdown-toggle-nocaret"
+                   href="javascript:void(0)"
+                   onclick="toggleAdminMenu(event, 'profileDropdown')">
+
                 <div class="user-setting d-flex align-items-center">
-                    <img src="~/snacked/ltr/assets/images/avatars/avatar-1.png" class="user-img" alt="">
+                    <img src="@(string.IsNullOrEmpty(Model?.ImageUrl) ? "/images/default-user.png" : Model.ImageUrl)"
+                         class="user-img"
+                         alt="Profil">
+
+                    <span class="ms-2 fw-semibold text-nowrap">
+                        @Model?.Name @Model?.Surname
+                    </span>
                 </div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end">
+
+            <ul id="profileDropdown" class="dropdown-menu dropdown-menu-end">
                 <li>
-                    <a class="dropdown-item" href="#">
-                        <div class="d-flex align-items-center">
-                            <img src="~/snacked/ltr/assets/images/avatars/avatar-1.png" alt="" class="rounded-circle" width="54" height="54">
-                            <div class="ms-3">
-                                <h6 class="mb-0 dropdown-user-name">Merve Türk</h6>
-                                <small class="mb-0 dropdown-user-designation text-secondary">Yönetici</small>
-                            </div>
-                        </div>
+                    <a class="dropdown-item"
+                           asp-area="Admin"
+                           asp-controller="Profile"
+                           asp-action="Index">
+                        <i class="bi bi-person-circle me-2"></i>
+                        Profilim
                     </a>
                 </li>
 
-              
+                <li>
+                    <a class="dropdown-item"
+                           asp-area="Admin"
+                           asp-controller="Profile"
+                           asp-action="ChangePassword">
+                        <i class="bi bi-key-fill me-2"></i>
+                        Şifre Değiştir
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item"
+                           asp-area=""
+                           asp-controller="User"
+                           asp-action="Logout">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        Çıkış Yap
+                    </a>
+                </li>
             </ul>
         </li>
+
     </ul>
 </div>
+
+<script>
+    function toggleAdminMenu(event, menuId) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        document.querySelectorAll('.top-navbar-right .dropdown-menu').forEach(function (menu) {
+            if (menu.id !== menuId) {
+                menu.classList.remove('show');
+            }
+        });
+
+        const menu = document.getElementById(menuId);
+        menu.classList.toggle('show');
+    }
+
+    document.addEventListener('click', function () {
+        document.querySelectorAll('.top-navbar-right .dropdown-menu').forEach(function (menu) {
+            menu.classList.remove('show');
+        });
+    });
+</script>

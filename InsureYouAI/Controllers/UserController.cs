@@ -110,7 +110,15 @@ namespace InsureYouAI.Controllers
 
             await _signInManager.SignInAsync(appUser, false);
 
-            return RedirectToAction("Index", "Home", new { area = "Admin" });
+            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "User");
         }
 
 

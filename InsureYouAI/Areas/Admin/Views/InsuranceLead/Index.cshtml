@@ -7,15 +7,23 @@
 
 <div class="card rounded-4 border-0 shadow-sm">
     <div class="card-body">
+
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
-                <h5 class="fw-bold mb-1">Sigorta Lead Listesi</h5>
-                <p class="text-muted mb-0">Zoho CRM entegrasyonu için gelen müşteri adayları</p>
+                <h5 class="fw-bold mb-1">
+                    Sigorta Lead Listesi
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Zoho CRM entegrasyonu için gelen müşteri adayları
+                </p>
             </div>
         </div>
 
         <div class="table-responsive">
+
             <table class="table align-middle table-hover">
+
                 <thead>
                     <tr>
                         <th>Ad Soyad</th>
@@ -23,29 +31,49 @@
                         <th>Telefon</th>
                         <th>Sigorta Türü</th>
                         <th>Zoho Durumu</th>
+                        <th>Lead Durumu</th>
                         <th>Tarih</th>
                         <th>İşlem</th>
                     </tr>
                 </thead>
+
                 <tbody>
+
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td class="fw-semibold">@item.FullName</td>
-                            <td>@item.Email</td>
-                            <td>@item.Phone</td>
-                            <td>@item.InsuranceType</td>
+
+                            <td class="fw-semibold">
+                                @item.FullName
+                            </td>
+
                             <td>
+                                @item.Email
+                            </td>
+
+                            <td>
+                                @item.Phone
+                            </td>
+
+                            <td>
+                                @item.InsuranceType
+                            </td>
+
+                            <!-- Zoho Senkronizasyon Durumu -->
+                            <td>
+
                                 @if (item.ZohoSyncStatus == "Success")
                                 {
                                     <span class="badge bg-success rounded-pill px-3 py-2">
-                                        <i class="bi bi-check-circle-fill"></i> Success
+                                        <i class="bi bi-check-circle-fill"></i>
+                                        Success
                                     </span>
                                 }
                                 else if (item.ZohoSyncStatus == "Failed")
                                 {
                                     <span class="badge bg-danger rounded-pill px-3 py-2">
-                                        <i class="bi bi-x-circle-fill"></i> Failed
+                                        <i class="bi bi-x-circle-fill"></i>
+                                        Failed
                                     </span>
 
                                     @if (!string.IsNullOrEmpty(item.ZohoErrorMessage))
@@ -58,19 +86,109 @@
                                 else
                                 {
                                     <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
-                                        <i class="bi bi-clock-history"></i> Pending
+                                        <i class="bi bi-clock-history"></i>
+                                        Pending
                                     </span>
                                 }
+
                             </td>
-                            <td>@item.CreatedDate.ToString("dd.MM.yyyy HH:mm")</td>
+
+                            <!-- Lead Durumu -->
                             <td>
+
+                                @switch (item.LeadStatus)
+                                {
+                                    case "İletişim Denendi":
+
+                                        <span class="badge bg-primary rounded-pill px-3 py-2">
+                                            İletişim Denendi
+                                        </span>
+
+                                        break;
+
+                                    case "İleride İletişim Kurulacak":
+
+                                        <span class="badge bg-info rounded-pill px-3 py-2">
+                                            İleride İletişim Kurulacak
+                                        </span>
+
+                                        break;
+
+                                    case "İrtibata Geçildi":
+
+                                        <span class="badge bg-success rounded-pill px-3 py-2">
+                                            İrtibata Geçildi
+                                        </span>
+
+                                        break;
+
+                                    case "Geçersiz Müşteri Adayı":
+
+                                        <span class="badge bg-danger rounded-pill px-3 py-2">
+                                            Geçersiz
+                                        </span>
+
+                                        break;
+
+                                    case "Kayıp Müşteri Adayı":
+
+                                        <span class="badge bg-dark rounded-pill px-3 py-2">
+                                            Kayıp
+                                        </span>
+
+                                        break;
+
+                                    case "İletişim Kurulmadı":
+
+                                        <span class="badge bg-warning text-dark rounded-pill px-3 py-2">
+                                            İletişim Kurulmadı
+                                        </span>
+
+                                        break;
+
+                                    case "Önceden İzin Verilmiş":
+
+                                        <span class="badge bg-secondary rounded-pill px-3 py-2">
+                                            Önceden İzin Verilmiş
+                                        </span>
+
+                                        break;
+
+                                    case "Nitelikli Değil":
+
+                                        <span class="badge bg-danger rounded-pill px-3 py-2">
+                                            Nitelikli Değil
+                                        </span>
+
+                                        break;
+
+                                    default:
+
+                                        <span class="badge bg-light text-dark rounded-pill px-3 py-2">
+                                            Belirtilmedi
+                                        </span>
+
+                                        break;
+                                }
+
+                            </td>
+
+                            <td>
+                                @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
+                            </td>
+
+                            <td>
+
                                 <div class="d-flex align-items-center gap-2">
+
                                     <a asp-area="Admin"
                                            asp-controller="InsuranceLead"
                                            asp-action="LeadDetail"
                                            asp-route-id="@item.InsuranceLeadId"
                                            class="btn btn-sm btn-outline-dark rounded-3">
+
                                         <i class="bi bi-eye"></i>
+
                                     </a>
 
                                     @if (!item.IsSentToZoho)
@@ -81,24 +199,41 @@
                                               asp-route-id="@item.InsuranceLeadId"
                                               method="post"
                                               class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-outline-primary rounded-3">
-                                                <i class="bi bi-arrow-repeat"></i> Tekrar Gönder
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-primary rounded-3">
+
+                                                <i class="bi bi-arrow-repeat"></i>
+
+                                                Tekrar Gönder
+
                                             </button>
+
                                         </form>
                                     }
                                     else
                                     {
                                         <span class="text-success small">
-                                            <i class="bi bi-check-circle"></i> Senkronize
+
+                                            <i class="bi bi-check-circle"></i>
+
+                                            Senkronize
+
                                         </span>
                                     }
-                                </div>
-                            </td>
-                        </tr>
 
+                                </div>
+
+                            </td>
+
+                        </tr>
                     }
+
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
 </div>

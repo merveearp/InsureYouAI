@@ -2,22 +2,57 @@
 @*
    _LayoutNavbarComponent
 *@
+@*
+   _LayoutNavbarComponent
+*@
 
 <header class="top-header">
     <nav class="navbar navbar-expand gap-3">
+
         <div class="mobile-toggle-icon fs-3">
             <i class="bi bi-list"></i>
         </div>
+
         <form class="searchbar">
-            <div class="position-absolute top-50 translate-middle-y search-icon ms-3"><i class="bi bi-search"></i></div>
-            <input class="form-control" type="text" placeholder="Aranacak Kelimeyi Giriniz ... ">
-            <div class="position-absolute top-50 translate-middle-y search-close-icon"><i class="bi bi-x-lg"></i></div>
+            <div class="position-absolute top-50 translate-middle-y search-icon ms-3">
+                <i class="bi bi-search"></i>
+            </div>
+
+            <input class="form-control"
+                   type="text"
+                   placeholder="Aranacak Kelimeyi Giriniz ... ">
+
+            <div class="position-absolute top-50 translate-middle-y search-close-icon">
+                <i class="bi bi-x-lg"></i>
+            </div>
         </form>
 
-        @await Component.InvokeAsync("_LayoutTopNavbarComponent")
-    
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            <a href="https://crm.zoho.eu/crm/org20114758620/tab/Leads/custom-view/992507000000030939/list?page=1"
+                   target="_blank"
+                   class="nav-link d-flex align-items-center gap-1"
+                   title="Zoho CRM">
+
+                <i class="bi bi-diagram-3-fill fs-5"></i>
+                <span class="d-none d-xl-inline">Zoho CRM</span>
+
+            </a>
+
+            <a asp-area="Admin"
+                   asp-controller="InsuranceLead"
+                   asp-action="Index"
+                   class="nav-link d-flex align-items-center gap-1"
+                   title="CRM Müşteri Kayıtları">
+
+                <i class="bi bi-person-lines-fill fs-5"></i>
+                <span class="d-none d-xl-inline">CRM Müşteri Kayıtları</span>
+
+            </a>
+
+            @await Component.InvokeAsync("_LayoutTopNavbarComponent")
+
+        </div>
+
     </nav>
-
-
-
 </header>

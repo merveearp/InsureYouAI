@@ -58,6 +58,67 @@
                     </p>
 
                     <p>
+                        <strong>Lead Durumu:</strong>
+
+                        @switch (Model.LeadStatus)
+                        {
+                            case "İletişim Denendi":
+                                <span class="badge bg-primary">
+                                    İletişim Denendi
+                                </span>
+                                break;
+
+                            case "İleride İletişim Kurulacak":
+                                <span class="badge bg-info">
+                                    İleride İletişim Kurulacak
+                                </span>
+                                break;
+
+                            case "İrtibata Geçildi":
+                                <span class="badge bg-success">
+                                    İrtibata Geçildi
+                                </span>
+                                break;
+
+                            case "Geçersiz Müşteri Adayı":
+                                <span class="badge bg-danger">
+                                    Geçersiz Müşteri Adayı
+                                </span>
+                                break;
+
+                            case "Kayıp Müşteri Adayı":
+                                <span class="badge bg-dark">
+                                    Kayıp Müşteri Adayı
+                                </span>
+                                break;
+
+                            case "İletişim Kurulmadı":
+                                <span class="badge bg-warning text-dark">
+                                    İletişim Kurulmadı
+                                </span>
+                                break;
+
+                            case "Önceden İzin Verilmiş":
+                                <span class="badge bg-secondary">
+                                    Önceden İzin Verilmiş
+                                </span>
+                                break;
+
+                            case "Nitelikli Değil":
+                                <span class="badge bg-danger">
+                                    Nitelikli Değil
+                                </span>
+                                break;
+
+                            default:
+                                <span class="badge bg-light text-dark">
+                                    Belirtilmedi
+                                </span>
+                                break;
+                        }
+                    </p>
+
+                    <p>
                         <strong>Zoho Lead Id:</strong>
                         @(Model.ZohoLeadId ?? "Henüz oluşmadı")
                     </p>

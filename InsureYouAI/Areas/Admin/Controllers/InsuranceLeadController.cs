@@ -20,6 +20,7 @@ namespace InsureYouAI.Areas.Admin.Controllers
         public IActionResult Index()
         {
             ViewBag.ControllerName = "Müşteri Adayları";
+
             var values = _context.InsuranceLeads
                 .OrderByDescending(x => x.CreatedDate)
                 .Select(x => new InsuranceLeadViewModel
@@ -33,7 +34,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
                     IsSentToZoho = x.IsSentToZoho,
                     CreatedDate = x.CreatedDate,
                     ZohoLeadId = x.ZohoLeadId,
-                    ZohoErrorMessage = x.ZohoErrorMessage
+                    ZohoErrorMessage = x.ZohoErrorMessage,
+                    LeadStatus = x.LeadStatus
                 })
                 .ToList();
 
@@ -71,9 +73,11 @@ namespace InsureYouAI.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
         public IActionResult LeadDetail(int id)
         {
             ViewBag.ControllerName = "Müşteri Adayları";
+
             var value = _context.InsuranceLeads
                 .Where(x => x.InsuranceLeadId == id)
                 .Select(x => new InsuranceLeadViewModel
@@ -88,7 +92,8 @@ namespace InsureYouAI.Areas.Admin.Controllers
                     CreatedDate = x.CreatedDate,
                     ZohoLeadId = x.ZohoLeadId,
                     ZohoErrorMessage = x.ZohoErrorMessage,
-                    Message = x.Message
+                    Message = x.Message,
+                    LeadStatus = x.LeadStatus
                 })
                 .FirstOrDefault();
 
