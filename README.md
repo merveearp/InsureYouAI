@@ -1,3 +1,22 @@
+![.NET](https://img.shields.io/badge/.NET-8.0-purple)
+![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET_Core-MVC-blue)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT-green)
+![Zoho CRM](https://img.shields.io/badge/Zoho-CRM-red)
+![ML.NET](https://img.shields.io/badge/ML.NET-Forecasting-orange)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+## 🏗️ Proje Mimarisi
+
+Proje, katmanlı mimari prensiplerine uygun olarak geliştirilmiştir.
+
+- Entities Layer
+- Data Access Layer
+- Service Layer
+- MVC Presentation Layer
+- AI Services Layer
+- CRM Integration Layer
+
+Ayrıca Dependency Injection ve Repository Pattern kullanılarak sürdürülebilir ve test edilebilir bir yapı oluşturulmuştur.
 # 🛡️ InsureYouAI – Yapay Zeka Destekli Sigorta Yönetim Platformu
 
 InsureYouAI, **ASP.NET Core MVC** kullanılarak geliştirilmiş, sigorta sektörüne yönelik **yapay zeka destekli bir yönetim platformudur**. Proje; müşteri yönetimi, CRM entegrasyonu, sigorta süreçlerinin dijitalleştirilmesi ve veri analitiği gibi birçok modern teknolojiyi bir araya getirmektedir.
@@ -7,6 +26,21 @@ Bu platform sayesinde sigorta şirketleri müşteri adaylarını yönetebilir, s
 ---
 
 # 🚀 Proje Özellikleri
+
+## 📨 AI Destekli Müşteri İletişim ve Mail Yönetimi
+
+İletişim formu üzerinden gelen müşteri mesajları otomatik olarak sisteme kaydedilir ve yapay zeka tarafından analiz edilir. Bu sayede müşteri talepleri daha hızlı değerlendirilerek iletişim süreçleri optimize edilir.
+
+Yapay zeka desteği ile her mesaj için:
+
+* Mesaj kategorisi otomatik olarak belirlenir.
+* Öncelik seviyesi (Düşük, Orta, Yüksek) tahmin edilir.
+* Mesaj içeriğine uygun e-posta konusu oluşturulur.
+* Profesyonel ve müşteri odaklı yanıt taslağı hazırlanır.
+* MailKit entegrasyonu sayesinde hazırlanan e-postalar müşterilere doğrudan gönderilebilir.
+* Tüm müşteri iletişim süreçleri yönetici paneli üzerinden takip edilebilir.
+
+Bu modül sayesinde müşteri talepleri daha etkin yönetilir, yanıt süreleri azaltılır ve müşteri memnuniyetinin artırılması hedeflenir.
 
 ## 🤖 AI Sigorta Danışmanı
 
