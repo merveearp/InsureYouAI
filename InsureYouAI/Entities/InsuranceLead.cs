@@ -23,5 +23,8 @@
 
         // Zoho CRM Müşteri Adayı Durumu
         public string? LeadStatus { get; set; }
+
+        // Zoho CRM Müşteri Adayı Not 
+        public string? AdminNote { get; set; }
     }
 }

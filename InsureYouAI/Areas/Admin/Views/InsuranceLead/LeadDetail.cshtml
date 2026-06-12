@@ -16,8 +16,7 @@
                 </p>
             </div>
 
-            <a asp-action="Index"
-                   class="btn btn-outline-secondary rounded-3">
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-3">
                 <i class="bi bi-arrow-left"></i> Geri Dön
             </a>
         </div>
@@ -63,62 +62,105 @@
                         @switch (Model.LeadStatus)
                         {
                             case "İletişim Denendi":
-                                <span class="badge bg-primary">
-                                    İletişim Denendi
-                                </span>
+                                <span class="badge bg-primary">İletişim Denendi</span>
                                 break;
 
                             case "İleride İletişim Kurulacak":
-                                <span class="badge bg-info">
-                                    İleride İletişim Kurulacak
-                                </span>
+                                <span class="badge bg-info">İleride İletişim Kurulacak</span>
                                 break;
 
                             case "İrtibata Geçildi":
-                                <span class="badge bg-success">
-                                    İrtibata Geçildi
-                                </span>
+                                <span class="badge bg-success">İrtibata Geçildi</span>
                                 break;
 
                             case "Geçersiz Müşteri Adayı":
-                                <span class="badge bg-danger">
-                                    Geçersiz Müşteri Adayı
-                                </span>
+                                <span class="badge bg-danger">Geçersiz Müşteri Adayı</span>
                                 break;
 
                             case "Kayıp Müşteri Adayı":
-                                <span class="badge bg-dark">
-                                    Kayıp Müşteri Adayı
-                                </span>
+                                <span class="badge bg-dark">Kayıp Müşteri Adayı</span>
                                 break;
 
                             case "İletişim Kurulmadı":
-                                <span class="badge bg-warning text-dark">
-                                    İletişim Kurulmadı
-                                </span>
+                                <span class="badge bg-warning text-dark">İletişim Kurulmadı</span>
                                 break;
 
                             case "Önceden İzin Verilmiş":
-                                <span class="badge bg-secondary">
-                                    Önceden İzin Verilmiş
-                                </span>
+                                <span class="badge bg-secondary">Önceden İzin Verilmiş</span>
                                 break;
 
                             case "Nitelikli Değil":
-                                <span class="badge bg-danger">
-                                    Nitelikli Değil
-                                </span>
+                                <span class="badge bg-danger">Nitelikli Değil</span>
                                 break;
 
                             default:
-                                <span class="badge bg-light text-dark">
-                                    Belirtilmedi
-                                </span>
+                                <span class="badge bg-light text-dark">Belirtilmedi</span>
                                 break;
                         }
                     </p>
 
-                    <p>
+                    <hr />
+
+                    <form asp-action="UpdateLeadStatus"
+                          asp-controller="InsuranceLead"
+                          asp-area="Admin"
+                          method="post"
+                          class="mt-3">
+
+                        <input type="hidden" name="id" value="@Model.InsuranceLeadId" />
+
+                        <label class="form-label fw-bold">
+                            Lead Durumunu Güncelle
+                        </label>
+
+                        <div class="d-flex gap-2">
+                            <select name="status" class="form-select rounded-3">
+
+                                <option value="Belirtilmedi" selected="@(Model.LeadStatus == "Belirtilmedi")">
+                                    Belirtilmedi
+                                </option>
+
+                                <option value="İletişim Denendi" selected="@(Model.LeadStatus == "İletişim Denendi")">
+                                    İletişim Denendi
+                                </option>
+
+                                <option value="İleride İletişim Kurulacak" selected="@(Model.LeadStatus == "İleride İletişim Kurulacak")">
+                                    İleride İletişim Kurulacak
+                                </option>
+
+                                <option value="İrtibata Geçildi" selected="@(Model.LeadStatus == "İrtibata Geçildi")">
+                                    İrtibata Geçildi
+                                </option>
+
+                                <option value="Geçersiz Müşteri Adayı" selected="@(Model.LeadStatus == "Geçersiz Müşteri Adayı")">
+                                    Geçersiz Müşteri Adayı
+                                </option>
+
+                                <option value="Kayıp Müşteri Adayı" selected="@(Model.LeadStatus == "Kayıp Müşteri Adayı")">
+                                    Kayıp Müşteri Adayı
+                                </option>
+
+                                <option value="İletişim Kurulmadı" selected="@(Model.LeadStatus == "İletişim Kurulmadı")">
+                                    İletişim Kurulmadı
+                                </option>
+
+                                <option value="Önceden İzin Verilmiş" selected="@(Model.LeadStatus == "Önceden İzin Verilmiş")">
+                                    Önceden İzin Verilmiş
+                                </option>
+
+                                <option value="Nitelikli Değil" selected="@(Model.LeadStatus == "Nitelikli Değil")">
+                                    Nitelikli Değil
+                                </option>
+
+                            </select>
+
+                            <button type="submit" class="btn btn-success rounded-3">
+                                <i class="bi bi-check-circle"></i> Güncelle
+                            </button>
+                        </div>
+                    </form>
+
+                    <p class="mt-3">
                         <strong>Zoho Lead Id:</strong>
                         @(Model.ZohoLeadId ?? "Henüz oluşmadı")
                     </p>
@@ -145,6 +187,45 @@
                 </div>
             </div>
 
+            <div class="col-12">
+                <div class="border rounded-4 p-3">
+                    <h6 class="fw-bold mb-3">Admin Notu</h6>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.AdminNote))
+                    {
+                        <div class="alert alert-info border-0 rounded-3 mb-3">
+                            <h6 class="fw-bold mb-2">
+                                <i class="bi bi-sticky-fill"></i> Mevcut Admin Notu
+                            </h6>
+
+                            <p class="mb-0">
+                                @Model.AdminNote
+                            </p>
+                        </div>
+                    }
+
+                    <form asp-action="UpdateLeadNote"
+                          asp-controller="InsuranceLead"
+                          asp-area="Admin"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@Model.InsuranceLeadId" />
+
+                        <textarea name="adminNote"
+                                  class="form-control rounded-3"
+                                  rows="4"
+                                  placeholder="Bu lead için admin notu giriniz...">@Model.AdminNote</textarea>
+
+                        <button type="submit"
+                                class="btn btn-primary rounded-3 mt-3">
+                            <i class="bi bi-save"></i>
+                            Notu Kaydet ve Zoho'ya Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

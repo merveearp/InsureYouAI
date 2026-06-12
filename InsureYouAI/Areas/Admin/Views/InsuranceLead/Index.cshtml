@@ -18,6 +18,18 @@
                     Zoho CRM entegrasyonu için gelen müşteri adayları
                 </p>
             </div>
+
+            <form asp-area="Admin"
+                  asp-controller="InsuranceLead"
+                  asp-action="SyncStatusesFromZoho"
+                  method="post">
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-arrow-repeat"></i>
+                    Zoho Durumlarını Güncelle
+                </button>
+
+            </form>
         </div>
 
         <div class="table-responsive">

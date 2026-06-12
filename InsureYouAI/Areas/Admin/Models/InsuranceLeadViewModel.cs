@@ -17,5 +17,6 @@
 
         // Zoho CRM Müşteri Adayı Durumu
         public string? LeadStatus { get; set; }
+        public string? AdminNote { get; set; }
     }
 }
